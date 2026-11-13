@@ -1,5 +1,41 @@
 # Dockhand-Test auf 192.168.5.6:2601
 
+## Direkt auf dem Testserver bauen (ohne GHCR)
+
+Den vorhandenen Git-Stack in Dockhand bearbeiten:
+
+- Repository: `https://github.com/Titanyus/NWBAbrechnung.git`
+- Branch: `main`
+- Compose-Datei: `compose.build.yaml`
+- Vollständiger Git-Checkout erforderlich: Build-Kontext ist das Repository mit
+  Dockerfile, Gemfile.lock und Anwendung. Nur die YAML einzufügen genügt nicht.
+
+Git-Stand aktualisieren und den Stack neu bereitstellen. Die Compose-Datei setzt
+`pull_policy: build`: Compose baut das Anwendungsimage lokal und startet es ohne
+Quellcode-Mount. Dafür ist weder der GitHub-Image-Workflow noch ein GHCR-Zugang
+nötig. Der Server benötigt Docker Compose V2/BuildKit und Zugang zu Docker Hub,
+Debian-Paketquellen und RubyGems. GHCR-Zugangsdaten werden nicht verwendet.
+
+Die bereits hinterlegten Umgebungsvariablen weiterverwenden. `NWB_IMAGE` wird bei
+lokalem Build nicht benötigt und kann entfallen. Bei einem bestehenden Stack
+insbesondere POSTGRES_PASSWORD, SECRET_KEY_BASE, SESSION_COOKIE_KEY, Stackname
+und NWB_DATA_DIR beibehalten. Nicht gleichzeitig einen zweiten Stack mit demselben
+PostgreSQL-Datenpfad starten und keine Datenverzeichnisse löschen.
+
+Alternativ im Git-Checkout auf dem Testserver, mit der bestehenden privaten .env:
+
+```sh
+git pull --ff-only
+docker compose -p nwbabrechnung -f compose.build.yaml up -d --build --wait
+```
+
+`-p nwbabrechnung` muss dem tatsächlich verwendeten Stacknamen entsprechen.
+Anschließend wie unten unter `http://192.168.5.6:2601` anmelden. Das lokale Image
+wird nicht in eine Registry hochgeladen. Ein tatsächlicher Dockhand-Deploy wurde
+hier nicht ausgeführt; der Build und Start werden in der Cloud lokal geprüft.
+
+## Alternative: fertiges GHCR-Image verwenden
+
 Compose: `compose.image.yaml`, ohne Quellcode-Mount und ohne Build auf Dockhand.
 Image: `ghcr.io/titanyus/nwbabrechnung:main` nach erfolgreichem manuellem Workflow
 **Docker image to GitHub** auf Branch main. Der Workflow prüft erst vollständig

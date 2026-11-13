@@ -52,3 +52,13 @@ sind spätere Module und nicht implementiert. Keine Excel-Referenzabrechnungen,
 Produktivhärtung, MFA, Passwort-Reset, Backup-/Restore- oder Datenschutzabnahme.
 ARM64 wurde nicht getestet. Diese Grenzen entsprechen dem begrenzten ersten
 Auftrag; offene Fachregeln stehen in OPEN_QUESTIONS.md.
+
+## Ergänzung: Build direkt auf dem Testserver
+
+`compose.build.yaml` lokal mit Compose V2.40.3 validiert, gebaut und als eigener
+synthetischer Stack ohne Quellcode-Mount gestartet (Cloud-CA nur per optionalem
+Override). Healthchecks und HTTP-Smoke einschließlich DB, CSRF-Ablehnung, Login,
+CSS, no-store und Logout bestanden. Ein struktureller Vergleich bestätigt dieselbe
+Laufzeitkonfiguration wie compose.image.yaml; nur GHCR-Imagebezug wurde durch
+lokalen Build ersetzt. Anwendungscode und Datenmodell unverändert. Kein Zugriff
+auf den externen Testserver und kein tatsächlicher Dockhand-Deploy ausgeführt.

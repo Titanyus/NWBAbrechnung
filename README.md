@@ -162,3 +162,6 @@ Dieser Stand wurde aus einem Chat-Export rekonstruiert. Ergänzte Programmfragme
 fehlende Originaldateien und die erneute Dependency-Auflösung sind in
 [RECOVERY.md](docs/RECOVERY.md) dokumentiert. Nur die neuen Ergebnisse in
 [TEST_RESULTS.md](docs/TEST_RESULTS.md) gelten als Prüfbeleg dieser Arbeitskopie.
+
+Direkter Build auf dem Testserver ohne GHCR: Im Dockhand-Git-Stack
+`compose.build.yaml` auswählen; Details in [DOCKHAND.md](docs/DOCKHAND.md).

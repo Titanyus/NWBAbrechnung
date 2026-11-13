@@ -91,6 +91,17 @@ Webcontainers, Protokolle gehen an stdout. Jede lokale Konfigurationsdatei enth�
 einen eigenen Cookie-Namen, damit zwei Ports auf demselben Host keine Sitzungen
 überschreiben. Datenbanken und Volumes bleiben je Compose-Projekt getrennt.
 
+## Lokaler Image-Build auf dem Testserver
+
+Zusatzauftrag: Dockhand soll das Image direkt aus dem Git-Checkout bauen können.
+`compose.build.yaml` verwendet dafür den vorhandenen Dockerfile und erzwingt den
+Build beim Start. Laufzeit, Ports, Demo-Opt-in und Datenpfad entsprechen der
+Image-Variante; es wird kein Quellcode in den Webcontainer gemountet. Es gibt
+keinen GHCR-Pull oder Registry-Upload für das Anwendungsimage. Öffentliche
+Basisimages und Paketquellen bleiben Build-Voraussetzungen. Beim Wechsel eines
+bestehenden Stacks müssen Projektname, Datenpfad und private Konfiguration erhalten
+bleiben; kein zweiter PostgreSQL-Server darf denselben Datenpfad öffnen.
+
 ## Sicherheits-Patchstand
 
 Der aktuelle ruby-advisory-db-Audit (Commit

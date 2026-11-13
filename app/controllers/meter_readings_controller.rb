@@ -11,7 +11,7 @@ class MeterReadingsController < PlantScopedController
     @supersedes = @meter.meter_readings.effective.find(params.require(:meter_reading)[:supersedes_id]) if params.require(:meter_reading)[:supersedes_id].present?
     attrs[:kind] = "correction" if @supersedes
     MasterData::Readings.record!(meter: @meter, attributes: attrs.to_h, user: current_user, supersedes: @supersedes)
-    redirect_to plant_heat_meter_path(@plant, @meter), status: :see_other, notice: "Ablesung nachvollziehbar gespeichert."
+    finish_edit(plant_heat_meter_path(@plant, @meter), notice: "Ablesung nachvollziehbar gespeichert.")
   rescue ActiveRecord::RecordInvalid => error
     @reading = error.record
     render :new, status: :unprocessable_entity
@@ -21,5 +21,6 @@ class MeterReadingsController < PlantScopedController
 
   def load_meter
     @meter = meter_scope.find(params[:heat_meter_id])
+    verify_contract_resource!(connection: @meter.connection)
   end
 end

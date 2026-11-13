@@ -1,0 +1,56 @@
+<% contract = @workspace_contract; context = {contract_id: contract.id} %>
+<% focus_section = local_assigns[:message].present? ? {"customers" => "contract_customer", "connections" => "contract_connection", "supply_contracts" => "contract_terms", "heat_meters" => "contract_meter", "meter_readings" => "contract_meter"}[controller_name] : "" %>
+<div id="contract_workspace" data-contract-id="<%= contract.id %>" data-contract-name="<%= @workspace_customer.display_name %>" data-contract-number="<%= contract.number %>" data-contract-status="<%= contract.status %>" data-contract-status-label="<%= SupplyContract::STATUSES.key(contract.status) %>" data-contract-meta="<%= contract.number %> · <%= @workspace_connection.address.lines.first.to_s.strip %>" data-controller="workspace" data-workspace-focus-section-value="<%= focus_section %>">
+  <div class="record-heading"><h2>Vertragsakte <%= contract.number %></h2><%= ui_status(SupplyContract::STATUSES.key(contract.status), tone: contract.status == "active" ? :active : :neutral) %></div>
+  <nav class="record-tabs" aria-label="Vertragsakte">
+    <%= link_to "Übersicht", plant_supply_contract_path(@plant, contract), data: {turbo_frame: "contract_detail", turbo_action: "replace"}, aria: {current: (@detail_tab != "history" ? "page" : nil)} %>
+    <%= link_to "Historie", plant_supply_contract_path(@plant, contract, tab: "history"), data: {turbo_frame: "contract_detail", turbo_action: "replace"}, aria: {current: (@detail_tab == "history" ? "page" : nil)} %>
+  </nav>
+  <% if local_assigns[:message].present? %><p class="flash" role="status"><%= message %></p><% end %>
+  <% if @detail_tab == "history" %><%= render "history", history: @workspace_history %><% else %>
+  <div class="workspace-grid">
+    <section class="workspace-panel"><%= turbo_frame_tag "contract_customer", tabindex: -1, aria: {label: "Kundenbereich"} do %>
+      <div class="section-heading"><h2>Kunde</h2><%= link_to "Kundendaten bearbeiten", edit_plant_customer_path(@plant, @workspace_customer, **context), class: "action-link" %></div>
+      <dl class="detail-grid">
+        <div><dt>Name / Firma</dt><dd><%= @workspace_customer.display_name %></dd></div>
+        <div><dt>Kundennummer</dt><dd><%= @workspace_membership.customer_number.presence || "nicht vergeben" %></dd></div>
+        <div><dt>Anschrift</dt><dd class="address"><%= @workspace_customer.address %></dd></div>
+        <div><dt>Telefon</dt><dd><%= @workspace_customer.phone.presence || "–" %></dd></div>
+        <div><dt>E-Mail</dt><dd><%= @workspace_customer.email.presence || "–" %></dd></div>
+      </dl>
+    <% end %></section>
+    <section class="workspace-panel"><%= turbo_frame_tag "contract_connection", tabindex: -1, aria: {label: "Anschlussbereich"} do %>
+      <div class="section-heading"><h2>Hausanschluss</h2><%= link_to "Anschlussdaten bearbeiten", edit_plant_connection_path(@plant, @workspace_connection, **context), class: "action-link" %></div>
+      <dl class="detail-grid">
+        <div><dt>Anschlussnummer</dt><dd><%= @workspace_connection.number %></dd></div>
+        <div><dt>Anschlussadresse</dt><dd class="address"><%= @workspace_connection.address %></dd></div>
+        <div><dt>Trasse</dt><dd><%= @workspace_connection.route_section&.name || "nicht zugeordnet" %></dd></div>
+        <div><dt>Inbetriebnahme</dt><dd><%= ui_date(@workspace_connection.commissioned_on, empty: "nicht erfasst") %></dd></div>
+        <div><dt>Technischer Status</dt><dd><%= Connection::STATUSES.key(@workspace_connection.technical_status) %></dd></div>
+      </dl>
+    <% end %></section>
+    <section class="workspace-panel"><%= turbo_frame_tag "contract_terms", tabindex: -1, aria: {label: "Vertragsdatenbereich"} do %>
+      <div class="section-heading"><h2>Vertragsdaten</h2><%= link_to "Vertragsdaten bearbeiten", edit_plant_supply_contract_path(@plant, contract, **context), class: "action-link" %></div>
+      <dl class="detail-grid">
+        <div><dt>Status</dt><dd><%= ui_status(SupplyContract::STATUSES.key(contract.status), tone: contract.status == "active" ? :active : :neutral) %></dd></div>
+        <div><dt>Vertragsbeginn</dt><dd><%= ui_date(contract.starts_on) %> (einschließlich)</dd></div>
+        <div><dt>Vertragsende</dt><dd><%= ui_date(contract.ends_on, empty: "offen") %><%= " (einschließlich)" if contract.ends_on %></dd></div>
+        <div><dt>Bemerkungen</dt><dd class="address"><%= contract.notes.presence || "–" %></dd></div>
+      </dl>
+    <% end %></section>
+    <section class="workspace-panel workspace-panel--meter"><%= turbo_frame_tag "contract_meter", tabindex: -1, aria: {label: "Zählerbereich"} do %>
+      <div class="section-heading"><h2>Wärmezähler</h2>
+        <% if @workspace_meter %><%= link_to "Neue Ablesung", new_plant_heat_meter_meter_reading_path(@plant, @workspace_meter, **context), class: "button" %>
+        <% else %><%= link_to "Zähler einbauen", new_plant_heat_meter_path(@plant, connection_id: @workspace_connection.id, **context), class: "button", data: {turbo_frame: "contract_detail"} %><% end %>
+      </div>
+      <% if @workspace_meter %><dl class="detail-grid">
+        <div><dt>Aktueller Zähler</dt><dd><%= @workspace_meter.serial_number %></dd></div><div><dt>Einbaudatum</dt><dd><%= ui_date(@workspace_meter.installed_on) %></dd></div>
+        <div><dt>Letzter Zählerstand</dt><dd class="number"><strong><%= @workspace_reading ? ui_decimal(@workspace_reading.value) : "–" %></strong> <%= @workspace_meter.unit %></dd></div>
+        <div><dt>Ablesedatum</dt><dd><%= ui_date(@workspace_reading&.read_on) %></dd></div>
+      </dl><p><%= link_to "Zählerhistorie und Wechsel", plant_heat_meter_path(@plant, @workspace_meter, **context), class: "action-link", data: {turbo_frame: "contract_detail"} %></p>
+      <% else %><p>Kein aktuell eingebauter Wärmezähler an diesem Anschluss.</p><% end %>
+    <% end %></section>
+  </div>
+  <details><summary>Weitere Vertragsinformationen</summary><dl class="detail-grid"><div><dt>Stabile Vertrags-ID</dt><dd><code><%= contract.id %></code></dd></div><div><dt>Kunden-ID</dt><dd><code><%= @workspace_customer.id %></code></dd></div></dl></details>
+  <% end %>
+</div>

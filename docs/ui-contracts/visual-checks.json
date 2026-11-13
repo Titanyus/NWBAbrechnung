@@ -1,0 +1,17 @@
+[
+  "Delayed earlier selection cannot overwrite latest contract",
+  "1280x800: independent scrolling, no page overflow",
+  "1440x900: independent scrolling, no page overflow",
+  "1920x1080: independent scrolling, no page overflow",
+  "2560x1440: independent scrolling, no page overflow",
+  "960x540: independent scrolling, no page overflow",
+  "Long synthetic customer name wraps without hiding actions or overflowing page",
+  "billenhausen/light: contract workspace visible without overflow",
+  "billenhausen/dark: contract workspace visible without overflow",
+  "emerald/light: contract workspace visible without overflow",
+  "emerald/dark: contract workspace visible without overflow",
+  "ocean/light: contract workspace visible without overflow",
+  "ocean/dark: contract workspace visible without overflow",
+  "slate/light: contract workspace visible without overflow",
+  "slate/dark: contract workspace visible without overflow"
+]

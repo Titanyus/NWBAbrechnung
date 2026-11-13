@@ -1,3 +1,6 @@
+<% if @contract_context %><%= turbo_frame_tag "contract_detail" do %><div id="contract_workspace" data-contract-id="<%= @contract_context.id %>"><p><%= link_to "Zur Vertragsakte", plant_supply_contract_path(@plant, @contract_context) %></p>
+<%= render "context_show" %>
+</div><% end %><% else %>
 <%= render "master_data/navigation" %><h1>Wärmezähler <%= @heat_meter.serial_number %></h1><%= link_to "Zähler bearbeiten", edit_plant_heat_meter_path(@plant, @heat_meter), class: "button" %>
 <section class="panel"><h2>Einbaugeschichte</h2><p><%= link_to "Anschluss #{@heat_meter.connection.number}", plant_connection_path(@plant, @heat_meter.connection) %></p><p><%= @heat_meter.installed_on %> bis <%= @heat_meter.removed_on || "eingebaut" %> · <%= @heat_meter.unit %></p><p class="address"><%= @heat_meter.notes %></p><code><%= @heat_meter.id %></code></section>
 <section class="panel"><h2>Ablesungen – kumulative Zählerstände</h2><p>Die Werte sind Zählerstände, keine errechneten Verbräuche.</p><%= link_to "Ablesung erfassen", new_plant_heat_meter_meter_reading_path(@plant, @heat_meter), class: "button" %>
@@ -6,3 +9,5 @@
 <% unless @heat_meter.removed_on %><section class="panel form-panel"><h2>Zählerwechsel oder Ausbau</h2><%= link_to "Zähler wechseln", replacement_plant_heat_meter_path(@plant, @heat_meter), class: "button" %>
 <%= form_with url: retire_plant_heat_meter_path(@plant, @heat_meter) do |form| %><%= form.label :removed_on, "Ausbaudatum (ohne Nachfolgezähler)" %><%= form.date_field :removed_on, required: true %><%= form.label :closing_value, "Schlusszählerstand" %><%= form.number_field :closing_value, required: true, min: 0, step: "0.000001" %><%= form.submit "Ausbau mit Schlusswert speichern" %><% end %></section><% end %>
 <%= render "master_data/history", history: @history %>
+
+<% end %>

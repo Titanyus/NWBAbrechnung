@@ -1,0 +1,3 @@
+<h3>Vertragsänderungen</h3>
+<%= render layout: "shared/data_table", locals: {table_id: "contract-history", caption: "Änderungsverlauf dieses Vertrags", headers: ["Zeitpunkt", "Benutzer", "Änderungen"]} do %>
+<% history.each do |event| %><tr><td class="date"><%= ui_timestamp(event.occurred_at) %></td><td><%= event.user.email_address %></td><td><details><summary>Änderungen anzeigen</summary><pre class="history"><%= JSON.pretty_generate(event.changeset) %></pre></details></td></tr><% end %><% end %>

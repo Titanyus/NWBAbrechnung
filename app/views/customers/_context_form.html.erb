@@ -1,0 +1,8 @@
+<%= render "shared/context_errors", record: @customer %>
+<%= form_with url: (@customer.persisted? ? plant_customer_path(@plant, @customer) : plant_customers_path(@plant)), method: (@customer.persisted? ? :patch : :post), class: "customer-form" do |form| %>
+<%= render "shared/context_fields" %>
+<fieldset <%= "disabled" unless @can_edit_customer %>><legend>Gemeinsame Kundenstammdaten</legend>
+<% unless @can_edit_customer %><p class="field-hint">Gemeinsame Daten können nur Mitarbeiter mit Zugriff auf alle Kundenzuordnungen ändern. Angaben für diese Anlage bleiben bearbeitbar.</p><% end %>
+<%= render "fields" %></fieldset>
+<fieldset><legend>Angaben für diese Anlage</legend><%= render "membership_fields" %><p class="field-hint">Inaktiv markieren beendet keine bestehenden Verträge.</p></fieldset>
+<div class="form-actions"><%= form.submit "Kunde speichern" %><%= link_to "Abbrechen", @contract_context ? plant_supply_contract_path(@plant, @contract_context) : (@customer.persisted? ? plant_customer_path(@plant, @customer) : plant_customers_path(@plant)) %></div><% end %>

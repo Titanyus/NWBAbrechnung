@@ -1,0 +1,11 @@
+<%= fields_for :customer, @customer do |c| %>
+  <div class="field-grid">
+    <%= ui_field(full: true) do %><%= c.label :company_name, "Firmenname (bei Unternehmen)" %><%= c.text_field :company_name, maxlength: 200 %><p class="field-hint">Firmenname oder Vor- und Nachname ausfüllen.</p><% end %>
+    <%= ui_field do %><%= c.label :first_name, "Vorname" %><%= c.text_field :first_name, maxlength: 200 %><% end %>
+    <%= ui_field do %><%= c.label :last_name, "Nachname" %><%= c.text_field :last_name, maxlength: 200 %><% end %>
+    <%= ui_field(full: true, required: true) do %><%= c.label :address, "Anschrift" %><%= c.text_area :address, required: true, maxlength: 1000, rows: 2 %><% end %>
+    <%= ui_field do %><%= c.label :phone, "Telefon" %><%= c.telephone_field :phone, maxlength: 200 %><% end %>
+    <%= ui_field do %><%= c.label :email, "E-Mail-Adresse des Kunden" %><%= c.email_field :email, maxlength: 200 %><% end %>
+    <%= ui_field(full: true) do %><%= c.label :notes, "Interne Kundenbemerkungen" %><%= c.text_area :notes, maxlength: 4000, rows: 2 %><% end %>
+  </div>
+<% end %>

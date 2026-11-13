@@ -1,6 +1,7 @@
 class PlantScopedController < ApplicationController
   before_action :load_plant
-  helper_method :plant_navigation
+  before_action :load_contract_context
+  helper_method :plant_navigation, :contextual_path
   rescue_from ActiveRecord::RecordNotUnique, with: :conflicting_change
   rescue_from ActiveRecord::StatementInvalid, with: :database_conflict
 
@@ -8,6 +9,41 @@ class PlantScopedController < ApplicationController
 
   def load_plant
     @plant = current_user.plants.find(params[:plant_id])
+  end
+
+  def load_contract_context
+    @contract_context = @plant.supply_contracts.find(params[:contract_id]) if params[:contract_id].present?
+  end
+
+  def verify_contract_resource!(customer: nil, connection: nil)
+    return unless @contract_context
+    if (customer && @contract_context.customer.id != customer.id) || (connection && @contract_context.connection_id != connection.id)
+      raise ActiveRecord::RecordNotFound
+    end
+  end
+
+  def contextual_path(fallback)
+    @contract_context ? plant_supply_contract_path(@plant, @contract_context) : fallback
+  end
+
+  def prepare_contract_workspace(contract)
+    @contract_context = contract
+    @workspace_contract = contract.reload
+    @workspace_connection = @workspace_contract.connection
+    @workspace_customer = @workspace_contract.customer
+    @workspace_membership = @workspace_contract.customer_membership
+    @workspace_meter = @workspace_connection.heat_meters.where("installed_on <= ? AND (removed_on IS NULL OR removed_on > ?)", Date.current, Date.current).order(installed_on: :desc).first
+    @workspace_reading = @workspace_meter&.meter_readings&.effective&.order(read_on: :desc)&.first
+    @workspace_history = AuditEvent.where(plant: @plant, subject_type: "SupplyContract", subject_id: contract.id).includes(:user).order(:occurred_at)
+  end
+
+  def finish_edit(fallback, notice:)
+    if @contract_context && turbo_frame_request? && request.format.turbo_stream?
+      prepare_contract_workspace(@contract_context)
+      render turbo_stream: turbo_stream.replace("contract_workspace", partial: "supply_contracts/workspace", locals: { message: notice })
+    else
+      redirect_to contextual_path(fallback), status: :see_other, notice: notice
+    end
   end
 
   def page(scope)

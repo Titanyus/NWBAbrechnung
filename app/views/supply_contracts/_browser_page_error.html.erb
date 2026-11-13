@@ -1,0 +1,1 @@
+<%= turbo_frame_tag frame_id do %><p class="flash alert" role="alert">Die Trefferliste hat sich geändert oder die Sitzung ist abgelaufen. <%= link_to "Liste neu laden", plant_supply_contracts_path(@plant), data: {turbo_frame: "_top"} %></p><% end %>

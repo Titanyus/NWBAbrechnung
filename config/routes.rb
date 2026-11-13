@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get "up", to: "health#show"
   resource :session, only: [ :new, :create, :destroy ]
+  resource :plant_selection, only: :update
   resource :appearance, only: :show
   resources :plants, only: [ :index, :show, :new, :create ] do
     resources :customers, except: :destroy do

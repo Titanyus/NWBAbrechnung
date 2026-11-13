@@ -1,6 +1,11 @@
+<% if @contract_context %><%= turbo_frame_tag "contract_detail" do %><div id="contract_workspace" data-contract-id="<%= @contract_context.id %>"><p><%= link_to "Zur Vertragsakte", plant_supply_contract_path(@plant, @contract_context) %></p>
+<%= render "context_replacement" %>
+</div><% end %><% else %>
 <%= render "master_data/navigation" %><h1>Zählerwechsel für <%= @heat_meter.serial_number %></h1><section class="panel form-panel"><%= render "master_data/errors", record: @heat_meter %>
 <%= form_with url: exchange_plant_heat_meter_path(@plant, @heat_meter) do |form| %>
 <%= form.label :exchange_on, "Wechseldatum" %><%= form.date_field :exchange_on, required: true %>
 <%= form.label :closing_value, "Schlusszählerstand des alten Zählers" %><%= form.number_field :closing_value, required: true, min: 0, step: "0.000001" %>
 <%= fields_for :heat_meter, HeatMeter.new(unit: @heat_meter.unit) do |m| %><%= m.label :serial_number, "Zählernummer des neuen Zählers" %><%= m.text_field :serial_number, required: true, maxlength: 100 %><%= m.label :unit, "Einheit des neuen Zählers" %><%= m.select :unit, %w[kWh MWh] %><%= m.label :notes, "Kommentar zum neuen Zähler" %><%= m.text_area :notes, maxlength: 4000 %><% end %>
 <%= form.label :initial_value, "Anfangszählerstand des neuen Zählers" %><%= form.number_field :initial_value, required: true, min: 0, step: "0.000001" %><%= form.submit "Zählerwechsel vollständig speichern" %><% end %></section>
+
+<% end %>

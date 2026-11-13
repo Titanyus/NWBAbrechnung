@@ -1,0 +1,11 @@
+<%= render "shared/context_errors", record: @supply_contract %>
+<%= form_with model: [@plant, @supply_contract] do |form| %><%= render "shared/context_fields" %>
+<% if @supply_contract.new_record? %>
+<%= form.label :customer_membership_id, "Kunde / Rechnungsempfänger" %><%= form.select :customer_membership_id, @plant.customer_memberships.includes(:customer).map { |m| [m.customer.display_name, m.id] }, {include_blank: "Bitte wählen"}, required: true %>
+<%= form.label :connection_id, "Verbrauchsstelle / Anschluss" %><%= form.collection_select :connection_id, @plant.connections.order(:number), :id, :number, {include_blank: "Bitte wählen"}, required: true %>
+<% else %><p>Kunde und Anschluss bleiben historisch erhalten. Einen Kundenwechsel als neuen Vertrag erfassen.</p><% end %>
+<%= form.label :number, "Vertragsnummer" %><%= form.text_field :number, required: true, maxlength: 100 %>
+<%= form.label :starts_on, "Vertragsbeginn (einschließlich)" %><%= form.date_field :starts_on, required: true %>
+<%= form.label :ends_on, "Vertragsende (einschließlich, optional)" %><%= form.date_field :ends_on %>
+<%= form.label :status, "Vertragsstatus" %><%= form.select :status, SupplyContract::STATUSES.to_a %>
+<%= form.label :notes, "Vertragsbemerkungen" %><%= form.text_area :notes, maxlength: 4000 %><%= form.submit "Vertrag speichern" %><% end %>

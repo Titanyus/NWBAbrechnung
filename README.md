@@ -202,3 +202,11 @@ Es braucht weder einen GHCR-Upload noch neue Geheimnisse. Kein Datenreset und
 keine manuelle Ausführung der Seeds zum Aktualisieren erforderlich.
 
 Aktuelle Umsetzung, Dateibereiche und Prüfergebnisse: [Auftrag 02](docs/STEP_02_RESULTS.md).
+
+## Vertragsverwaltung als Desktop-Pilot
+
+Die Vertragsverwaltung verwendet eine unabhängig scrollbare Vertragsliste und
+rechts eine per Turbo aktualisierte Akte. Suche/Filter gelten serverseitig für
+alle berechtigten Verträge; nachgeladen wird in begrenzten 30er-Schritten.
+Prüfergebnisse, Screenshots und bewusste Abgrenzungen: [Pilot-Review](docs/ui-contracts/REVIEW.md).
+Andere Fachseiten und die bestehende Vertragserstellung bleiben vorerst erhalten.

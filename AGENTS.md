@@ -15,3 +15,20 @@ NWBKunden ist nur lesende API-Referenz; tatsächlichen Vertrag prüfen, keine ne
 Kleine Schritte, Tests tatsächlich ausführen; Fehler und ungetestete Teile benennen.
 Docker-, Rails-, RuboCop-, Brakeman- und Dependency-Prüfungen nach README ausführen.
 Vorhandenen Checkout nutzen: jede Cloud-Aufgabe ist bereits isoliert, keine zusätzlichen Worktrees ohne Auftrag.
+
+## Verbindlicher Desktop-UI-Standard
+
+Bei jeder UI-Entwicklung und jedem UI-Review zusätzlich `docs/UI_GUIDELINES.md`
+und `.agents/skills/admin-ui/SKILL.md` lesen und anwenden. Gilt insbesondere für
+neue/geänderte Verwaltungsseiten, Tabellen und Formulare. Zielplattform ist
+Desktop **1280–2560 px**; vier Pflichtgrößen gemäß UI_GUIDELINES.md, keine Smartphone-Navigation. Kompakte semantische
+Tabellen, zentrale Design-Tokens, logisch gruppierte Desktopformulare, sichtbare
+Anlage, Tastaturbedienung und echte Vorher-/Nachher-Prüfungen sind verbindlich.
+Die bestehenden fachlichen, Sicherheits- und Architekturregeln bleiben bestehen.
+
+Jede neue UI-Funktion muss den zentralen UX-Styleguide berücksichtigen und sich
+logisch in bestehende Arbeitsabläufe integrieren. Vor Implementierung den konkreten
+kaufmännischen Ablauf kurz erläutern. Anlagen und Verträge sind Hauptbereiche;
+Trassen gehören zur Anlage, tägliche Kunden-/Anschluss-/Zählerarbeit in die Akte.
+Der neueste UI_REBUILD_BRIEF.md und UI_REBUILD_PLAN.md haben Vorrang vor älteren
+Layoutvorgaben. Berechtigungs- und Datenintegritätsregeln bleiben verbindlich.

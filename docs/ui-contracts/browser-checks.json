@@ -1,0 +1,20 @@
+{
+  "checks": [
+    "Initial DOM contains 30 contracts, no numbered pagination or customer main navigation",
+    "Explicit scrolling loads all synthetic results in bounded batches without duplicates",
+    "Selection replaces the detail frame only, preserving DOM, scroll position, filter and URL state",
+    "Overview shows customer, connection, terms and meter together; History is a real optional detail",
+    "Arrow keys and Enter select contracts using native keyboard focus",
+    "Search finds an uninitially loaded contract via the complete server dataset",
+    "Customer edit saves in place and returns to the same contract without a customer-menu detour",
+    "Duplicate reading reports inline errors and retains inputs; valid reading refreshes exact current value in the same workspace",
+    "Complex meter details stay in the right pane and return without replacing the list",
+    "No JavaScript page errors"
+  ],
+  "page_batches": [
+    30,
+    30,
+    30,
+    30
+  ]
+}

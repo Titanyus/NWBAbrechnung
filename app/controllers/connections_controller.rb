@@ -32,6 +32,7 @@ class ConnectionsController < PlantScopedController
 
   def load_record
     @connection = @plant.connections.find(params[:id])
+    verify_contract_resource!(connection: @connection)
   end
 
   def save
@@ -39,7 +40,7 @@ class ConnectionsController < PlantScopedController
     route_id = params.require(:connection)[:route_section_id]
     attrs[:route_section] = route_id.present? ? @plant.route_sections.find(route_id) : nil
     MasterData::Change.save!(@connection, attributes: attrs, user: current_user)
-    redirect_to plant_connection_path(@plant, @connection), status: :see_other, notice: "Anschluss gespeichert."
+    finish_edit(plant_connection_path(@plant, @connection), notice: "Anschluss gespeichert.")
   rescue ActiveRecord::RecordInvalid
     render(@connection.persisted? ? :edit : :new, status: :unprocessable_entity)
   end

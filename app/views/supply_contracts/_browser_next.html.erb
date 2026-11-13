@@ -1,0 +1,4 @@
+<% if @browser.next_cursor %>
+<%= turbo_frame_tag "contracts_page_#{@browser.offset + ContractBrowser::PAGE_SIZE}", src: plant_supply_contracts_path(@plant, **@browser.filters, cursor: @browser.next_cursor), loading: :lazy, class: "contract-page" do %>
+<%= link_to "Weitere Verträge laden", plant_supply_contracts_path(@plant, **@browser.filters, cursor: @browser.next_cursor), class: "load-more", data: {turbo_frame: "contracts_page_#{@browser.offset + ContractBrowser::PAGE_SIZE}"} %>
+<% end %><% end %>

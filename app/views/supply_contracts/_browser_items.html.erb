@@ -1,0 +1,6 @@
+<ul class="contract-results">
+<% @contracts.each do |contract| %><li class="contract-item" data-contract-item="<%= contract.id %>">
+<%= link_to plant_supply_contract_path(@plant, contract, **@browser.filters), data: {turbo_frame: "contract_detail", turbo_action: "replace", contract_id: contract.id}, aria: {current: ("page" if @workspace_contract&.id == contract.id)} do %>
+<span class="contract-item-name" data-row-name><%= contract.customer.display_name %></span><span data-row-status><%= ui_status(SupplyContract::STATUSES.key(contract.status), tone: contract.status == "active" ? :active : :neutral) %></span>
+<span class="contract-item-meta" data-row-meta><%= contract.number %> · <%= contract.connection.address.lines.first.to_s.strip %></span>
+<% end %></li><% end %></ul>

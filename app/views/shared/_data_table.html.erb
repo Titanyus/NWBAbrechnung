@@ -1,0 +1,8 @@
+<div class="table-region" role="region" aria-label="<%= caption %>" tabindex="0">
+  <table class="data-table" id="<%= table_id %>" data-collection="<%= table_id %>">
+    <caption class="sr-only"><%= caption %></caption>
+    <thead><tr><% headers.each do |header| %>
+      <th scope="col"><%= header %></th>
+    <% end %></tr></thead><tbody><%= yield %></tbody>
+  </table>
+</div>

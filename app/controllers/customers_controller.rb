@@ -64,7 +64,7 @@ class CustomersController < PlantScopedController
       @membership.update!(membership_params)
       MasterData::Change.audit!(@membership, user: current_user)
     end
-    redirect_to plant_customer_path(@plant, @customer), status: :see_other, notice: "Kunde wurde gespeichert."
+    finish_edit(plant_customer_path(@plant, @customer), notice: "Kunde wurde gespeichert.")
   rescue ActiveRecord::RecordInvalid => error
     @customer.errors.add(:base, error.record.errors.full_messages.join("; ")) unless error.record == @customer
     render :edit, status: :unprocessable_entity
@@ -92,6 +92,7 @@ class CustomersController < PlantScopedController
   def load_customer
     @membership = @plant.customer_memberships.includes(:customer).find_by!(customer_id: params[:id])
     @customer = @membership.customer
+    verify_contract_resource!(customer: @customer)
     @can_edit_customer = editable_customer?
   end
 

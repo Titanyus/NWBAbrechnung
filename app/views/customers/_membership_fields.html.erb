@@ -1,0 +1,6 @@
+<%= fields_for :customer_membership, @membership do |m| %><div class="field-grid">
+<%= ui_field do %><%= m.label :customer_number, "Kundennummer (optional)" %><%= m.text_field :customer_number, maxlength: 100 %><% end %>
+<%= ui_field do %><%= m.label :payment_method, "Zahlungsart" %><%= m.select :payment_method, CustomerMembership::PAYMENT_METHODS.to_a %><% end %>
+<div class="field field--full checkbox-field"><%= m.label :direct_debit_agreement do %><%= m.check_box :direct_debit_agreement %> Lastschriftvereinbarung liegt vor<% end %></div>
+<div class="field field--full checkbox-field"><%= m.label :active do %><%= m.check_box :active %> Kunde in dieser Anlage aktiv<% end %></div>
+</div><% end %>

@@ -1,0 +1,13 @@
+<%= form_with url: plant_supply_contracts_path(@plant), method: :get, data: {turbo_frame: "contract_browser"}, class: "browser-filter-form" do |form| %>
+<div class="toolbar contract-filters">
+<div class="field"><%= form.label :q, "Suche" %><%= form.search_field :q, value: @browser.filters["q"], placeholder: "Kunde, Nr., Adresse …", maxlength: 200 %></div>
+<div class="field"><%= form.label :status, "Status" %><%= form.select :status, SupplyContract::STATUSES.to_a, selected: @browser.filters["status"], include_blank: "Alle" %></div>
+<div class="field"><%= form.label :route_section_id, "Trasse" %><%= form.select :route_section_id, @plant.route_sections.order(:name).map { |route| [route.name, route.id] }, selected: @browser.filters["route_section_id"], include_blank: "Alle" %></div>
+<div class="field"><%= form.label :customer_number, "Kundennummer" %><%= form.search_field :customer_number, value: @browser.filters["customer_number"], maxlength: 100 %></div>
+<div class="field"><%= form.label :connection_number, "Anschluss" %><%= form.search_field :connection_number, value: @browser.filters["connection_number"], maxlength: 100 %></div>
+<%= form.submit "Suchen" %></div>
+<details class="filter-secondary" <%= "open" if @browser.filters["starts_after"].present? || @browser.filters["ends_before"].present? %>><summary>Zeitraum und weitere Filter</summary><div class="toolbar">
+<div class="field"><%= form.label :starts_after, "Vertragsbeginn ab" %><%= form.date_field :starts_after, value: @browser.filters["starts_after"] %></div>
+<div class="field"><%= form.label :ends_before, "Vertragsbeginn bis" %><%= form.date_field :ends_before, value: @browser.filters["ends_before"] %></div><%= form.submit "Zeitraum anwenden" %><%= link_to "Alle Filter zurücksetzen", plant_supply_contracts_path(@plant), data: {turbo_frame: "contract_browser"} %></div></details>
+<%= hidden_field_tag :sort, @browser.sort %><%= hidden_field_tag :direction, @browser.direction %><%= hidden_field_tag :selected_contract_id, @workspace_contract&.id %>
+<% if @browser.error %><p class="flash alert" role="alert"><%= @browser.error %></p><% end %><% end %>

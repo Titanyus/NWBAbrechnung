@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title>NWB Verwaltung · Nahwärme</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+<body data-controller="theme">
+  <a class="skip" href="#content">Zum Inhalt</a>
+  <header><div class="brand">NWB <span>Verwaltung</span></div><nav aria-label="Hauptnavigation">
+    <% if current_user %>
+      <%= link_to "Anlagen", plants_path %>
+      <%= link_to "Darstellung", appearance_path %>
+      <span><%= current_user.email_address %></span>
+      <%= button_to "Abmelden", session_path, method: :delete %>
+    <% end %>
+  </nav></header>
+  <main id="content">
+    <% flash.each do |kind, message| %><p class="flash <%= kind %>" role="status"><%= message %></p><% end %>
+    <%= yield %>
+  </main>
+  <footer>Entwicklungsstand · ausschließlich synthetische Daten</footer>
+</body>
+</html>

@@ -1,0 +1,15 @@
+de:
+  errors:
+    messages:
+      blank: "muss ausgefüllt werden"
+      taken: "ist bereits vergeben"
+      invalid: "ist ungültig"
+      too_short: "ist zu kurz (mindestens %{count} Zeichen)"
+      too_long: "ist zu lang (höchstens %{count} Zeichen)"
+      confirmation: "stimmt nicht überein"
+  activerecord:
+    attributes:
+      plant:
+        name: Name
+        address: Anschrift
+        technical_notes: Technische Hinweise

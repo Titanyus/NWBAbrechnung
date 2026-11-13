@@ -1,0 +1,24 @@
+name: Foundation
+on:
+  push:
+  pull_request:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bin/dev-env
+      - run: docker compose build
+      - run: docker compose up -d --wait
+      - run: docker compose exec -T -e NWB_LOAD_DEMO=1 web bin/rails db:seed
+      - run: docker compose exec -T -e RAILS_ENV=test web bin/rails db:prepare
+      - run: docker compose exec -T -e RAILS_ENV=test web bin/rails test
+      - run: docker compose exec -T web bundle exec rubocop
+      - run: docker compose exec -T web bundle exec brakeman --no-pager
+      - run: docker compose exec -T web bundle exec bundler-audit check --update
+      - run: python3 scripts/smoke.py
+      - if: failure()
+        run: docker compose logs --tail 100

@@ -1,0 +1,9 @@
+.git
+.env
+.env.*
+log
+tmp
+storage
+vendor/bundle
+
+**/__pycache__

@@ -1,0 +1,6 @@
+<%= link_to "← Anlagen wechseln", plants_path %>
+<p class="eyebrow">Ausgewählte Nahwärmeanlage</p><h1><%= @plant.name %></h1>
+<section class="panel"><h2>Stammdaten</h2><dl><dt>Anschrift</dt><dd class="address"><%= @plant.address %></dd>
+<dt>Technische Hinweise</dt><dd class="address"><%= @plant.technical_notes.presence || "Noch keine Angaben" %></dd>
+<dt>Stabile Anlagen-ID</dt><dd><code><%= @plant.id %></code></dd></dl></section>
+<section class="panel"><h2>Weitere Verwaltung</h2><p>Kunden, Anschlüsse, Tarife und Abrechnung folgen in den nächsten Entwicklungsschritten.</p></section>

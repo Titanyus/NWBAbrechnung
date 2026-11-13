@@ -1,0 +1,46 @@
+# Image-only synthetic test installation. No source checkout mount.
+services:
+  db:
+    image: postgres:17-alpine@sha256:266d3c257594e195b309ae9d1805e54c788f1d7b375f56bf6c367aac6c917e7b
+    environment:
+      POSTGRES_USER: nwb
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
+      POSTGRES_DB: nwb_development
+    volumes:
+      - ${NWB_DATA_DIR:-/opt/nwbabrechnung}/postgres:/var/lib/postgresql/data
+    networks: [database]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U nwb -d nwb_development']
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  web:
+    image: ${NWB_IMAGE:?set the GHCR image reference from the successful GitHub Actions run}
+    environment:
+      RAILS_ENV: development
+      PIDFILE: /tmp/nwb-server.pid
+      RAILS_LOG_TO_STDOUT: "1"
+      SESSION_COOKIE_KEY: ${SESSION_COOKIE_KEY:-_nwb_session}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:?set in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: db
+      RAILS_ALLOWED_HOSTS: localhost,127.0.0.1,${NWB_HOST:-localhost}
+      NWB_LOAD_DEMO: ${NWB_LOAD_DEMO:-0}
+      DEMO_SIZE: ${DEMO_SIZE:-small}
+      DEMO_PASSWORD: ${DEMO_PASSWORD:?set in .env}
+    ports:
+      - '${NWB_BIND_ADDRESS:-127.0.0.1}:${NWB_PORT:-2601}:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [database, web]
+    command: [sh, -c, 'set -e; bin/rails db:prepare; if [ "$$NWB_LOAD_DEMO" = "1" ]; then bin/rails db:seed; fi; exec bin/rails server -b 0.0.0.0 -p 3000']
+    healthcheck:
+      test: [CMD, ruby, -rnet/http, -e, 'exit(Net::HTTP.get_response(URI("http://127.0.0.1:3000/up")).code == "200" ? 0 : 1)']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+networks:
+  database:
+    internal: true
+  web: {}

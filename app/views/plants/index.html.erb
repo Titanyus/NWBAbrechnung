@@ -1,0 +1,8 @@
+<div class="page-heading"><div><p class="eyebrow">NWB Verwaltung</p><h1>Ihre Nahwärmeanlagen</h1>
+<p>Wählen Sie eine Anlage, um deren Stammdaten einzusehen.</p></div>
+<%= link_to "Anlage anlegen", new_plant_path, class: "button" if current_user.administrator? %></div>
+<p><strong><%= @plants.size %></strong> berechtigte Anlagen</p>
+<% if @plants.empty? %><section class="panel"><h2>Noch keine Anlagen zugeordnet</h2><p>Bitten Sie die Administration um eine ausdrückliche Anlagenfreigabe.</p></section><% end %>
+<div class="plant-grid"><% @plants.each do |plant| %><article class="panel">
+<p class="eyebrow">Nahwärmeanlage</p><h2><%= link_to plant.name, plant %></h2><p class="address"><%= plant.address %></p>
+<%= link_to "Anlage auswählen →", plant, class: "text-link" %></article><% end %></div>

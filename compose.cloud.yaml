@@ -1,0 +1,8 @@
+# Optional combined CA bundle for verified dependency installation behind a proxy.
+services:
+  web:
+    build:
+      secrets: [proxy_ca]
+secrets:
+  proxy_ca:
+    file: ${NWB_BUILD_CA_BUNDLE:-/etc/ssl/certs/ca-certificates.crt}

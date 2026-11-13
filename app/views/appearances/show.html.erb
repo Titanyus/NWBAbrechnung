@@ -1,0 +1,28 @@
+<p class="eyebrow">Persönliche Darstellung</p>
+<h1>Farben nach Ihrem Geschmack</h1>
+<p>Wählen Sie eine Farbvorlage und einen hellen oder dunklen Modus. Die Auswahl wird nur in diesem Browser gespeichert.</p>
+<section class="panel form-panel">
+  <h2>Farben und Modus</h2>
+  <label for="theme-preset">Farbvorlage</label>
+  <select id="theme-preset" data-theme-target="preset" data-action="change->theme#changePreset">
+    <option value="billenhausen">NWB Billenhausen · Dunkelgrün und Gold</option>
+    <option value="emerald">Smaragd · ruhig und natürlich</option>
+    <option value="ocean">Ozean · klares Blau</option>
+    <option value="slate">Schiefer · neutral und zurückhaltend</option>
+  </select>
+  <label for="theme-mode">Darstellungsmodus</label>
+  <select id="theme-mode" data-theme-target="mode" data-action="change->theme#changeMode">
+    <option value="light">Hell</option>
+    <option value="dark">Dunkel</option>
+  </select>
+  <label for="theme-accent">Eigene Akzentfarbe</label>
+  <input type="color" id="theme-accent" data-theme-target="accent" data-action="input->theme#changeAccent" aria-describedby="accent-help">
+  <p id="accent-help">Schaltflächen verwenden Ihre Farbe. Text- und Linkfarben werden für lesbare Kontraste angepasst.</p>
+  <button type="button" data-action="theme#reset">Auf NWB und Hell zurücksetzen</button>
+  <p role="status" aria-live="polite" data-theme-target="status"></p>
+</section>
+<section class="panel form-panel">
+  <h2>Vorschau</h2>
+  <p>Die Darstellung gilt sofort für die gesamte Oberfläche.</p>
+  <%= link_to "Zur Anlagenübersicht", plants_path, class: "button" %>
+</section>

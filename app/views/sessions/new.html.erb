@@ -1,0 +1,12 @@
+<section class="login panel">
+  <p class="eyebrow">Nahwärme gemeinsam verwalten</p>
+  <h1>Willkommen bei NWB</h1>
+  <p>Melden Sie sich mit Ihrem Verwaltungskonto an.</p>
+  <%= form_with url: session_path do |form| %>
+    <%= form.label :email_address, "E-Mail-Adresse" %>
+    <%= form.email_field :email_address, required: true, autocomplete: "username", autofocus: true %>
+    <%= form.label :password, "Passwort" %>
+    <%= form.password_field :password, required: true, autocomplete: "current-password", maxlength: 72 %>
+    <%= form.submit "Anmelden" %>
+  <% end %>
+</section>

@@ -1,0 +1,12 @@
+/.env
+/.env.*
+!/.env.example
+/log/*
+/tmp/*
+/storage/*
+/vendor/bundle
+/.bundle
+/public/assets
+/coverage
+
+__pycache__/

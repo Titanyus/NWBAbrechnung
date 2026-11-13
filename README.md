@@ -117,6 +117,8 @@ sie verändern. Keine Behauptung manipulationssicherer Archivierung oder DSGVO-A
 - [Joomla-API und Referenzbelege](docs/API_REFERENCE.md)
 - [Nächste Schritte](docs/ROADMAP.md)
 - [Prüfergebnisse](docs/TEST_RESULTS.md)
+- [Abgleich mit dem Originalauftrag](docs/REQUIREMENTS_CHECK.md)
+- [Ursprünglicher Projektauftrag](docs/PROJECT_BRIEF.md)
 - [Entwicklungsregeln](AGENTS.md)
 
 ## Farbthemes
@@ -153,3 +155,10 @@ Die [Image-Compose-Datei](compose.image.yaml) verwendet standardmäßig
 Der manuelle Actions-Workflow lädt erst nach erfolgreichen Prüfungen nach GHCR.
 
 Konkrete Dockhand-Einstellungen: [192.168.5.6:2601 und /opt/nwbabrechnung](docs/DOCKHAND.md).
+
+## Herkunft dieser Arbeitskopie
+
+Dieser Stand wurde aus einem Chat-Export rekonstruiert. Ergänzte Programmfragmente,
+fehlende Originaldateien und die erneute Dependency-Auflösung sind in
+[RECOVERY.md](docs/RECOVERY.md) dokumentiert. Nur die neuen Ergebnisse in
+[TEST_RESULTS.md](docs/TEST_RESULTS.md) gelten als Prüfbeleg dieser Arbeitskopie.

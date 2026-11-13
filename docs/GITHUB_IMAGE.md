@@ -1,7 +1,9 @@
 # Testen über GitHub
 
-Die Dateien müssen zunächst im GitHub-Repository vorliegen. Von der lokalen
-Implementierung wurde kein Push, Actions-Lauf oder Upload ausgelöst.
+Der rekonstruierte Code wird in `Titanyus/NWBAbrechnung` gesichert. Ein Git-Push
+startet die Foundation-CI, veröffentlicht aber kein Containerimage. Der
+Image-Workflow wird ausschließlich manuell gestartet; er wurde im Rahmen der
+Wiederherstellung nicht ausgeführt.
 
 1. Unter Actions den Workflow **Docker image to GitHub** manuell starten.
 2. Er führt den wiederverwendbaren Foundation-Workflow aus: Docker-Build/Start,

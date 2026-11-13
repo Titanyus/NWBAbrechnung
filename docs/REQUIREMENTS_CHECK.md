@@ -1,5 +1,11 @@
 # Abgleich mit dem ursprünglichen Projektauftrag
 
+> Dieser Abgleich beschreibt den Grundaufbau vor Entwicklungsauftrag 02
+> (b95aea4). Die danach implementierten Stammdaten und aktuellen Prüfungen stehen
+> in [STEP_02_RESULTS.md](STEP_02_RESULTS.md). Die damalige Liste offener Module
+> ist keine Behauptung über den heutigen Implementierungsstand.
+
+
 Stand: 13.11.2026. Grundlage ist das nachgereichte Original in PROJECT_BRIEF.md.
 Dieser Abgleich bewertet den rekonstruierten Code, nicht die frühere Arbeitskopie.
 Laufzeitergebnisse stehen ausschließlich in TEST_RESULTS.md.

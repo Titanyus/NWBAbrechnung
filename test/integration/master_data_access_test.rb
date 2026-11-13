@@ -201,4 +201,15 @@ class MasterDataAccessTest < ActionDispatch::IntegrationTest
     assert_equal "FOREIGN", foreign_contract.reload.number
     assert_equal "Fremde Testfirma", @foreign_customer.reload.company_name
   end
+  test "customer search matches a full personal name and respects the active filter" do
+    sign_in
+    get plant_customers_path(@plant), params: { q: "Synthetische Kundin", state: "active" }
+    assert_response :success
+    assert_select "a[href=?]", plant_customer_path(@plant, @customer), text: "Synthetische Kundin", count: 1
+    @membership.update!(active: false)
+    get plant_customers_path(@plant), params: { q: "Synthetische Kundin", state: "active" }
+    assert_select "a[href=?]", plant_customer_path(@plant, @customer), count: 0
+    get plant_customers_path(@plant), params: { q: "Synthetische Kundin", state: "inactive" }
+    assert_select "a[href=?]", plant_customer_path(@plant, @customer), text: "Synthetische Kundin", count: 1
+  end
 end

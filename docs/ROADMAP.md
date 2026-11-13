@@ -8,3 +8,14 @@
 6. **Joomla-Outbox:** n:m Portalziele, verschlüsselte Secrets, SSRF-geschützter Client, unveränderliche Pakete/Revisionen und je Ziel persistierte Belege. Frühen echten Vertragstest zu PDF-/Replay-/Race-Abnahme erweitern; nur freigegebene Originale senden.
 
 Empfohlener nächster Auftrag: Kundenstamm und Anschlüsse mit datierter Vertragszuordnung in einer Anlage; keine Berechnungen. Vorher die Grundaufbau-Prüfergebnisse abnehmen.
+
+## Stand nach Entwicklungsauftrag 02
+
+Kunden, Anschlüsse, zeitliche Verträge, Trassen, Zähler und Ablesungen einschließlich
+Korrektur-/Wechselhistorie sind implementiert. Als nächster kleiner Auftrag wird
+**versionierte Tarifverwaltung mit datierten Vertragszuordnungen** empfohlen.
+Arbeitspreis, Grundpreis, Sonderkonditionen und Intervalle zunächst erfassen und
+validieren, noch keine vollständige Jahresabrechnung. Die vorhandenen Ablesungen
+bilden die spätere Stichtagsbasis. Vor jeder Geldberechnung bleiben Excel-Beispiele,
+Steuer-/Rundungsregeln und Referenztests erforderlich. Keine Outbox oder ZUGFeRD
+vorziehen.

@@ -111,3 +111,11 @@ versionsgleichen Rails-Unterkomponenten. Kein Übernehmen bekannter Lücken nur
 wegen Referenztreue. Die Änderung ist ein kompatibles Patchupdate ohne neue
 Fachfunktionen oder Schemaänderung; Tests und Sicherheitsprüfungen werden erneut
 ausgeführt. Der Lockfile hält die tatsächlich verwendeten Versionen fest.
+
+## Stammdaten (Entwicklungsauftrag 02)
+
+Kunden, Anlagenzuordnungen, Trassen, Anschlüsse, Wärmelieferverträge, Wärmezähler
+und versionierte Ablesungen sind jetzt implementiert. Die Beziehungen, Datumsgrenzen,
+Berechtigungen, DB-Constraints und offenen Sonderfälle stehen verbindlich in
+[MASTER_DATA_DESIGN.md](MASTER_DATA_DESIGN.md). Finanz-, Tarif- und Versandmodule
+bleiben künftige Schritte. Bestehende Grundaufbau-Tabellen werden nicht ersetzt.

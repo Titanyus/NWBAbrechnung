@@ -1,5 +1,9 @@
 # Neue Prüfungen der Rekonstruktion – 13.11.2026
 
+> Historischer Prüfbericht des wiederhergestellten Grundaufbaus. Den aktuellen
+> Stand nach Auftrag 02 dokumentiert [STEP_02_RESULTS.md](STEP_02_RESULTS.md).
+
+
 Alle folgenden Ergebnisse wurden an der rekonstruierten Arbeitskopie erneut
 ermittelt. Historische Testergebnisse aus dem Export sind kein Nachweis.
 Nur synthetische Daten, lokale Docker-Stacks, linux/amd64.

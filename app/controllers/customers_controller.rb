@@ -5,7 +5,7 @@ class CustomersController < PlantScopedController
     scope = @plant.customer_memberships.includes(:customer).joins(:customer)
     if params[:q].present?
       query = "%#{Customer.sanitize_sql_like(params[:q].to_s.first(200))}%"
-      scope = scope.where("customers.first_name ILIKE :q OR customers.last_name ILIKE :q OR customers.company_name ILIKE :q OR customer_memberships.customer_number ILIKE :q", q: query)
+      scope = scope.where("concat_ws(' ', customers.first_name, customers.last_name) ILIKE :q OR customers.first_name ILIKE :q OR customers.last_name ILIKE :q OR customers.company_name ILIKE :q OR customer_memberships.customer_number ILIKE :q", q: query)
     end
     scope = scope.where(active: params[:state] == "active") if %w[active inactive].include?(params[:state])
     @memberships = page(scope.order("customers.company_name", "customers.last_name", "customers.first_name", "customer_memberships.id"))
@@ -76,7 +76,7 @@ class CustomersController < PlantScopedController
     scope = visible_customers.where.not(id: @plant.customers.select(:id))
     if params[:q].present?
       query = "%#{Customer.sanitize_sql_like(params[:q].to_s.first(200))}%"
-      scope = scope.where("first_name ILIKE :q OR last_name ILIKE :q OR company_name ILIKE :q", q: query)
+      scope = scope.where("concat_ws(' ', first_name, last_name) ILIKE :q OR first_name ILIKE :q OR last_name ILIKE :q OR company_name ILIKE :q", q: query)
     end
     scope.order(:last_name, :company_name, :id).limit(100)
   end

@@ -73,3 +73,14 @@ Für Updates kann statt main eine konkrete Digest-Referenz aus der Actions-
 Zusammenfassung als NWB_IMAGE verwendet werden. Das ist reproduzierbar; main ist
 bewusst ein beweglicher Test-Tag. Der Stack dient der synthetischen Erprobung,
 noch keinem freigegebenen Produktivbetrieb.
+
+## Aktualisierung auf Stammdatenverwaltung (Auftrag 02)
+
+Branch `main` im bestehenden Git-Stack aktualisieren, `compose.build.yaml`
+beibehalten und neu bauen/ausspielen. `db:prepare` legt beim Start die neuen
+Tabellen, Fremdschlüssel und Intervall-Constraints additiv an. Die vorhandenen
+Benutzer, Anlagen, Berechtigungen und IDs bleiben erhalten. Dieselbe private
+Konfiguration und denselben Datenpfad verwenden; keine Volumes/Datenbanken
+löschen und kein neues Passwort für eine bestehende Datenbank einsetzen.
+Danach eine Anlage auswählen: Kunden, Anschlüsse, Zähler, Verträge und Trassen
+stehen dort bereit. Kein Image-Publish und keine zusätzlichen Secrets nötig.

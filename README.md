@@ -165,3 +165,40 @@ fehlende Originaldateien und die erneute Dependency-Auflösung sind in
 
 Direkter Build auf dem Testserver ohne GHCR: Im Dockhand-Git-Stack
 `compose.build.yaml` auswählen; Details in [DOCKHAND.md](docs/DOCKHAND.md).
+
+## Stammdatenverwaltung (Entwicklungsauftrag 02)
+
+Nach Auswahl einer berechtigten Anlage führen **Kunden**, **Anschlüsse**,
+**Zähler**, **Verträge** und **Trassen** zu den neuen Bereichen. Kunden lassen sich
+suchen, nach Aktivstatus filtern und bearbeiten. Bereits sichtbare Kunden können
+weiteren berechtigten Anlagen zugeordnet werden, ohne ihre Kontaktstammdaten zu
+kopieren. Kundennummer und Zahlungsangaben gelten für die jeweilige Anlage.
+
+Verträge bilden die Kundenzuordnung im Zeitverlauf ab. Zähler werden mit Anfangswert
+angelegt. Für einen Wechsel auf der Zählerdetailseite **Zähler wechseln** wählen:
+Schluss- und Anfangswert werden gemeinsam gespeichert. **Ablesung korrigieren**
+erhält den alten Wert und verlangt eine Begründung. Keine Löschfunktionen,
+Tarifberechnung oder Jahresabrechnung.
+
+Entscheidungen und Grenzen: [Stammdatenarchitektur](docs/MASTER_DATA_DESIGN.md).
+Originalauftrag: [BRIEF_02.md](docs/BRIEF_02.md).
+Neue automatisierte Browserprüfung (legt nur neue, eindeutig benannte synthetische
+Datensätze an; bestehende Testdatensätze werden nicht gelöscht):
+
+```sh
+python3 scripts/master_data_smoke.py
+python3 scripts/master_data_smoke.py --env-file /workspace/nwb-large.env --port 3001
+```
+
+### Dockhand aktualisieren
+
+Im bestehenden Git-Stack Branch `main` aktualisieren und `compose.build.yaml`
+neu ausspielen/bauen. Stackname, Datenpfad und bestehende `.env`-Werte beibehalten.
+Der vorhandene Startbefehl `db:prepare` führt die additive Stammdatenmigration aus.
+Die Standardextension `btree_gist` wird für konkurrierungssichere Zeitintervalle
+benötigt und ist im verwendeten PostgreSQL-17-Image verfügbar. Nicht gleichzeitig
+einen zweiten Datenbankcontainer am selben PostgreSQL-Verzeichnis starten.
+Es braucht weder einen GHCR-Upload noch neue Geheimnisse. Kein Datenreset und
+keine manuelle Ausführung der Seeds zum Aktualisieren erforderlich.
+
+Aktuelle Umsetzung, Dateibereiche und Prüfergebnisse: [Auftrag 02](docs/STEP_02_RESULTS.md).

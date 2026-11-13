@@ -14,3 +14,14 @@ Vor Abrechnungsimplementierung erforderlich:
 Vor Produktivbetrieb: Hosting/TLS, E-Mail/Passwortwiederherstellung/MFA, sichere initiale Benutzeranlage, Secret-Rotation, Backup-/Restore-Abnahme, Protokollzugriff und rechtlich abgestimmte Aufbewahrungs-/Löschregeln. Kein Rückschluss auf Datenschutzkonformität aus dem Grundaufbau.
 
 Später: externe Banksoftware und Exportformat; konkretes ZUGFeRD-Profil und Version, Validator-Versionen und Referenzkorpus. Ruby-Bibliotheken werden erst im Rechnungsmodul anhand Pflegezustand und Validatornachweisen ausgewählt.
+
+## Ergänzung nach Stammdatenverwaltung (Auftrag 02)
+
+- Reichen Datum und ein effektiver Tageswert langfristig, oder braucht es Uhrzeiten
+  für mehrere Zählerwechsel beziehungsweise Messungen am selben Tag?
+- Welche Zahlungsarten und technischen Statuswerte sollen fachlich abschließend
+  angeboten werden? Der Grundkatalog steht im Stammdatenentwurf.
+- Zählerüberlauf und Gerätefehler brauchen freigegebene Regeln. Bisher werden
+  Rückgänge nur begründet dokumentiert, nicht als berechneter Verbrauch behandelt.
+- Gemeinsame Kundenstammdaten werden einmal geführt; eine feinere fachliche
+  Delegation für deren Bearbeitung benötigt einen eigenen Berechtigungsauftrag.

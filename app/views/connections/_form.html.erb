@@ -1,0 +1,8 @@
+<%= render "master_data/errors", record: @connection %>
+<%= form_with model: [@plant, @connection] do |form| %>
+<%= form.label :number, "Anschlussnummer" %><%= form.text_field :number, required: true, maxlength: 100 %>
+<%= form.label :address, "Anschlussadresse" %><%= form.text_area :address, required: true, maxlength: 1000 %>
+<%= form.label :route_section_id, "Trasse" %><%= form.collection_select :route_section_id, @plant.route_sections.order(:name), :id, :name, include_blank: "Keine Trasse zugeordnet" %>
+<%= form.label :commissioned_on, "Inbetriebnahme" %><%= form.date_field :commissioned_on %>
+<%= form.label :technical_status, "Technischer Status" %><%= form.select :technical_status, Connection::STATUSES.to_a %>
+<%= form.label :notes, "Bemerkungen zum Anschluss" %><%= form.text_area :notes, maxlength: 4000 %><%= form.submit "Anschluss speichern" %><% end %>

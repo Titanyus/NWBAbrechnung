@@ -3,4 +3,4 @@
 <section class="panel"><h2>Stammdaten</h2><dl><dt>Anschrift</dt><dd class="address"><%= @plant.address %></dd>
 <dt>Technische Hinweise</dt><dd class="address"><%= @plant.technical_notes.presence || "Noch keine Angaben" %></dd>
 <dt>Stabile Anlagen-ID</dt><dd><code><%= @plant.id %></code></dd></dl></section>
-<section class="panel"><h2>Weitere Verwaltung</h2><p>Kunden, Anschlüsse, Tarife und Abrechnung folgen in den nächsten Entwicklungsschritten.</p></section>
+<section class="panel"><h2>Stammdaten verwalten</h2><%= render "master_data/navigation" %><p>Kunden, Verträge, Anschlüsse, Trassen, Zähler und Ablesungen dieser Anlage verwalten.</p></section>

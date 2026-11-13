@@ -1,0 +1,4 @@
+<details class="panel"><summary>Änderungsverlauf</summary>
+<% history.each do |event| %><article><h3><%= event.occurred_at.in_time_zone.strftime("%d.%m.%Y %H:%M") %> · <%= event.user.email_address %></h3>
+<pre class="history"><%= JSON.pretty_generate(event.changeset) %></pre></article><% end %>
+</details>

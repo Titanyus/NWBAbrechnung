@@ -7,3 +7,12 @@ body{background:var(--page);color:var(--text)}a{color:var(--link)}header{backgro
 :root[data-color-preset=billenhausen]{--page:#f7f8f5;--surface:#ffffff;--text:#15291f;--muted:#486453;--border:#879b8b;--header:#2b421f;--header-text:#ffffff;--notice:#e2ecdf;--alert:#f9e8d8}
 :root[data-color-preset=billenhausen][data-color-mode=dark]{--page:#0c1510;--surface:#14251b;--text:#f5f7f3;--muted:#bdcdbf;--border:#7c9380;--header:#2b421f;--notice:#25432c;--alert:#533b27}
 :root[data-color-preset=billenhausen] .brand{color:#cea449}
+
+/* Stammdaten: Karten und Formulare bleiben auch mobil innerhalb der Seite. */
+.section-nav{margin:1rem 0;padding:1rem 0;border-block:1px solid var(--border)}
+.record-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:1rem;margin-top:1.5rem}
+fieldset{border:1px solid var(--border);border-radius:6px;margin:1rem 0;padding:1rem;min-width:0}
+legend{font-weight:700;padding:0 .4rem}input[type=checkbox]{width:auto;display:inline-block}
+.history{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.85rem}
+.reading{border-top:1px solid var(--border);margin-top:1rem;padding-top:.5rem}
+.record-grid article,.form-panel{overflow-wrap:anywhere}details>summary{cursor:pointer}

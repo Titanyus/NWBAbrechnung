@@ -1,0 +1,12 @@
+<nav class="section-nav" aria-label="Anlagenverwaltung">
+  <%= link_to "Anlage", plant_path(@plant) %>
+  <%= link_to "Kunden", plant_customers_path(@plant) %>
+  <%= link_to "Anschlüsse", plant_connections_path(@plant) %>
+  <%= link_to "Zähler", plant_heat_meters_path(@plant) %>
+  <%= link_to "Verträge", plant_supply_contracts_path(@plant) %>
+  <%= link_to "Trassen", plant_route_sections_path(@plant) %>
+</nav>
+<p class="eyebrow"><%= @plant.name %></p>
+<% if respond_to?(:plant_navigation) %>
+  <details><summary>Anlage wechseln</summary><ul><% plant_navigation.each do |plant| %><li><%= link_to plant.name, plant_path(plant) %></li><% end %></ul></details>
+<% end %>

@@ -1,0 +1,7 @@
+<%= render "master_data/navigation" %><h1><%= @customer.display_name %></h1><%= link_to "Kunde bearbeiten", edit_plant_customer_path(@plant, @customer), class: "button" %>
+<section class="panel"><h2>Kundenstammdaten</h2><dl><dt>Kundennummer dieser Anlage</dt><dd><%= @membership.customer_number.presence || "nicht vergeben" %></dd>
+<dt>Anschrift</dt><dd class="address"><%= @customer.address %></dd><dt>Telefon</dt><dd><%= @customer.phone %></dd><dt>E-Mail</dt><dd><%= @customer.email %></dd>
+<dt>Zahlungsart</dt><dd><%= CustomerMembership::PAYMENT_METHODS.key(@membership.payment_method) %></dd><dt>Lastschriftvereinbarung</dt><dd><%= @membership.direct_debit_agreement? ? "Ja" : "Nein" %></dd>
+<dt>Status dieser Anlage</dt><dd><%= @membership.active? ? "Aktiv" : "Inaktiv" %></dd><dt>Interne Bemerkungen</dt><dd class="address"><%= @customer.notes %></dd><dt>Stabile Kunden-ID</dt><dd><code><%= @customer.id %></code></dd></dl></section>
+<section class="panel"><h2>Verträge und Verbrauchsstellen dieser Anlage</h2><%= link_to "Vertrag anlegen", new_plant_supply_contract_path(@plant) %>
+<% @contracts.each do |contract| %><p><%= link_to contract.number, plant_supply_contract_path(@plant, contract) %> · <%= link_to contract.connection.number, plant_connection_path(@plant, contract.connection) %> · <%= contract.starts_on %> bis <%= contract.ends_on || "offen" %></p><% end %></section>

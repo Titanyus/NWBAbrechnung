@@ -1,0 +1,5 @@
+<nav aria-label="Ergebnisseiten">
+<%= link_to "← Vorherige Seite", "?#{ { q: params[:q], state: params[:state], page: @page - 1 }.to_query }" if @page > 1 %>
+<span>Seite <%= @page %> · höchstens 100 Einträge pro Seite</span>
+<%= link_to "Nächste Seite →", "?#{ { q: params[:q], state: params[:state], page: @page + 1 }.to_query }" if records.length == 100 %>
+</nav>

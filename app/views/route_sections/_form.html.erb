@@ -1,0 +1,5 @@
+<%= render "master_data/errors", record: @route_section %>
+<%= form_with model: [@plant, @route_section] do |form| %>
+<%= form.label :name, "Bezeichnung" %><%= form.text_field :name, required: true, maxlength: 150 %>
+<%= form.label :code, "Interne Kennung (optional)" %><%= form.text_field :code, maxlength: 100 %>
+<%= form.label :description, "Beschreibung" %><%= form.text_area :description, maxlength: 4000 %><%= form.submit "Trasse speichern" %><% end %>

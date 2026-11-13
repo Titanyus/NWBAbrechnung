@@ -1,0 +1,9 @@
+<%= render "master_data/errors", record: @heat_meter %><%= form_with model: [@plant, @heat_meter] do |form| %>
+<%= form.label :serial_number, "Zählernummer" %><%= form.text_field :serial_number, required: true, maxlength: 100 %>
+<% if @heat_meter.new_record? %>
+<%= form.label :connection_id, "Anschluss" %><%= form.collection_select :connection_id, @plant.connections.order(:number), :id, :number, {include_blank: "Bitte wählen"}, required: true %>
+<%= form.label :installed_on, "Einbaudatum" %><%= form.date_field :installed_on, required: true %>
+<%= form.label :unit, "Einheit" %><%= form.select :unit, %w[kWh MWh] %>
+<%= label_tag :initial_value, "Anfangszählerstand" %><%= number_field_tag :initial_value, params[:initial_value], required: true, min: 0, step: "0.000001" %>
+<% else %><p>Einbautag, Anschluss und Einheit bleiben erhalten. Den Ausbau oder Wechsel über die Zählerdetailseite erfassen.</p><% end %>
+<%= form.label :notes, "Zählerkommentar" %><%= form.text_area :notes, maxlength: 4000 %><%= form.submit "Zähler speichern" %><% end %>

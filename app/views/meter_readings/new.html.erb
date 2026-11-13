@@ -1,0 +1,7 @@
+<%= render "master_data/navigation" %><h1><%= @supersedes ? "Ablesung korrigieren" : "Ablesung erfassen" %></h1><p>Zähler <%= @meter.serial_number %> · <%= @meter.unit %></p><section class="panel form-panel"><%= render "master_data/errors", record: @reading %>
+<%= form_with model: @reading, url: plant_heat_meter_meter_readings_path(@plant, @meter) do |form| %>
+<% if @supersedes %><p>Der alte Wert <%= @supersedes.value.to_s("F") %> bleibt in der Historie erhalten.</p><%= form.hidden_field :supersedes_id, value: @supersedes.id %><% end %>
+<%= form.label :read_on, "Ablesedatum" %><%= form.date_field :read_on, required: true, readonly: @supersedes.present? %>
+<%= form.label :value, "Kumulativer Zählerstand" %><%= form.number_field :value, required: true, min: 0, step: "0.000001" %>
+<%= form.label :kind, "Ableseart" %><%= form.select :kind, (@supersedes ? {"Korrektur" => "correction"} : MeterReading::KINDS.reject { |_label, value| %w[installation removal].include?(value) }).to_a %>
+<%= form.label :comment, "Kommentar / Begründung bei Korrektur oder Rückgang" %><%= form.text_area :comment, maxlength: 4000, required: @supersedes.present? %><%= form.submit "Ablesung speichern" %><% end %></section>

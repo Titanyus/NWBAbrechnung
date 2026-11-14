@@ -1,5 +1,10 @@
 # NWB Oberfläche in Figma
 
+[Fertiges Exportpaket als ZIP herunterladen](https://github.com/Titanyus/NWBAbrechnung/raw/refs/heads/main/design/figma/exports/NWB-Figma-Export.zip)
+
+Das ZIP enthält die 22 Ansichten, Theme- und Design-Token-Definitionen, Referenzbilder
+und das lokale Import-Plugin. Zum Import das gesamte ZIP entpacken.
+
 Dieses Paket erzeugt in Figma ein natives, bearbeitbares Dokument aus dem tatsächlichen
 Rails-/Hotwire-UI. Es ist selbst keine `.fig`-Datei. Nach dem Import kann Figma das
 Dokument normal speichern und über **File → Save local copy** als `.fig` ausgeben.

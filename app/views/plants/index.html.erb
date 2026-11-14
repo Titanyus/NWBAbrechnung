@@ -9,7 +9,7 @@
 <% @plants.each do |plant| %><tr>
 <td><%= link_to plant.name, current_user.administrator? ? edit_plant_path(plant) : plant_path(plant), data: {turbo_frame: "_top"} %></td><td class="address"><%= plant.address %></td>
 <td class="number"><%= @connection_counts.fetch(plant.id, 0) %></td><td class="number"><%= @route_counts.fetch(plant.id, 0) %></td><td class="number"><%= @contract_counts.fetch(plant.id, 0) %></td><td>nicht erfasst</td>
-<td><div class="actions"><%= link_to "Bearbeiten", current_user.administrator? ? edit_plant_path(plant) : plant_path(plant), aria: {label: "#{plant.name}: Bearbeiten"}, data: {turbo_frame: "_top"} %>
+<td><div class="actions"><%= link_to "Bearbeiten", current_user.administrator? ? edit_plant_path(plant) : plant_path(plant), class: "button", aria: {label: "#{plant.name}: Bearbeiten"}, data: {turbo_frame: "_top"} %>
 <%= form_with url: plant_selection_path, method: :patch, data: {turbo_frame: "_top"} do |form| %><%= form.hidden_field :selected_plant_id, value: plant.id, id: nil %><%= form.hidden_field :area, value: "contracts", id: nil %><%= form.submit "Anlage auswählen", aria: {label: "#{plant.name}: Anlage auswählen"} %><% end %></div></td>
 </tr><% end %><% end %>
 <%= render "master_data/pagination", records: @plants %>

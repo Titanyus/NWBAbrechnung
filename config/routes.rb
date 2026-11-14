@@ -10,7 +10,11 @@ Rails.application.routes.draw do
     end
     resources :route_sections, except: [ :destroy, :show ]
     resources :connections, except: :destroy
-    resources :supply_contracts, except: :destroy
+    resources :supply_contracts, except: :destroy do
+      get :draft_customers, on: :collection
+      get :draft_connections, on: :collection
+      get :draft_meter, on: :collection
+    end
     resources :heat_meters, except: :destroy do
       get :replacement, on: :member
       post :exchange, on: :member

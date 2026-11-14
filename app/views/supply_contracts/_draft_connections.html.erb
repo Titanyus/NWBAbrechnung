@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "draft_connections" do %>
+<div class="field-grid">
+<%= ui_field do %><%= label_tag :draft_connection_query, "Anschluss suchen" %><%= search_field_tag :q, (params[:q] if action_name == "draft_connections"), id: "draft_connection_query", form: "draft-connection-search", maxlength: 200, placeholder: "Nummer, Anschrift, Trasse" %><% end %>
+<%= ui_field(required: true) do %><%= label_tag :draft_connection_id, "Verbrauchsstelle / Anschluss" %><%= select_tag "contract_draft[connection_id]", options_for_select(@draft_connections.map { |connection| ["#{connection.number} · #{connection.address.tr("\n", ' ')} · #{connection.route_section&.name}", connection.id] }, @selected_connection_id), id: "draft_connection_id", include_blank: "Bitte wählen", required: true, data: {action: "change->contract-draft#connectionSelected"} %><% end %>
+</div>
+<% if @draft_connection_result_count.zero? %><p class="field-hint" role="status">Keine Suchtreffer. Eine vorhandene Auswahl bleibt erhalten.</p>
+<% elsif @draft_connection_result_count >= 20 %><p class="field-hint" role="status">Bis zu 20 Treffer – Suche bei Bedarf eingrenzen.</p><% end %>
+<% end %>

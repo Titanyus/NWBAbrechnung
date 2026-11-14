@@ -1,0 +1,25 @@
+<% cancel_path = @return_contract ? plant_supply_contract_path(@plant, @return_contract, **@browser.filters) : plant_supply_contracts_path(@plant, **@browser.filters) %>
+<div id="contract_draft_workspace" data-controller="contract-draft" data-contract-draft-meter-url-value="<%= draft_meter_plant_supply_contracts_path(@plant) %>" data-action="turbo:frame-load->contract-draft#loaded">
+<div class="section-heading"><h2>Neuen Vertrag anlegen</h2><%= link_to "Abbrechen", cancel_path, class: "button button--secondary", data: {turbo_frame: "contract_detail", turbo_action: "replace"} %></div>
+<%= render "shared/context_errors", record: @draft %>
+<%= form_with url: draft_customers_plant_supply_contracts_path(@plant), method: :get, id: "draft-customer-search", data: ui_search_data("draft_customers") do %><%= hidden_field_tag :selected_id, @selected_customer_id, id: "draft_customer_selected" %><% end %>
+<%= form_with url: draft_connections_plant_supply_contracts_path(@plant), method: :get, id: "draft-connection-search", data: ui_search_data("draft_connections") do %><%= hidden_field_tag :selected_id, @selected_connection_id, id: "draft_connection_selected" %><% end %>
+<%= form_with url: plant_supply_contracts_path(@plant, **@browser.filters, selected_contract_id: @return_contract&.id), scope: :contract_draft, id: "contract-draft-form", data: {turbo_frame: "contract_detail", turbo_action: "replace"} do |form| %>
+<section class="section section--compact"><div class="section-heading"><h3>Kunde / Rechnungsempfänger</h3>
+<div class="choice-group">
+<%= form.label :customer_mode_existing do %><%= form.radio_button :customer_mode, "existing", checked: @draft.customer_mode == "existing", data: {action: "change->contract-draft#modeChanged", group: "customer"} %> Vorhandenen Kunden auswählen<% end %>
+<%= form.label :customer_mode_new do %><%= form.radio_button :customer_mode, "new", checked: @draft.customer_mode == "new", data: {action: "change->contract-draft#modeChanged", group: "customer"} %> Neuen Kunden anlegen<% end %></div></div>
+<fieldset class="field-group" data-draft-group="customer" data-draft-choice="existing"><legend class="sr-only">Vorhandener Kunde</legend><%= render "draft_customers" %></fieldset>
+<fieldset class="field-group" data-draft-group="customer" data-draft-choice="new" hidden disabled><legend>Neue Kundendaten</legend><%= render "customers/fields" %><details><summary>Angaben für diese Anlage</summary><%= render "customers/membership_fields" %></details></fieldset>
+</section>
+<section class="section section--compact"><div class="section-heading"><h3>Verbrauchsstelle / Anschluss</h3>
+<div class="choice-group">
+<%= form.label :connection_mode_existing do %><%= form.radio_button :connection_mode, "existing", checked: @draft.connection_mode == "existing", data: {action: "change->contract-draft#modeChanged", group: "connection"} %> Vorhandenen Anschluss auswählen<% end %>
+<%= form.label :connection_mode_new do %><%= form.radio_button :connection_mode, "new", checked: @draft.connection_mode == "new", data: {action: "change->contract-draft#modeChanged", group: "connection"} %> Neuen Anschluss anlegen<% end %></div></div>
+<fieldset class="field-group" data-draft-group="connection" data-draft-choice="existing"><legend class="sr-only">Vorhandener Anschluss</legend><%= render "draft_connections" %></fieldset>
+<fieldset class="field-group" data-draft-group="connection" data-draft-choice="new" hidden disabled><legend>Neuer Hausanschluss</legend><%= render "connections/fields" %></fieldset>
+</section>
+<section class="section section--compact"><h3>Wärmezähler</h3><%= render "draft_meter" %></section>
+<section class="section section--compact"><h3>Vertragsdaten</h3><%= fields_for :supply_contract, @supply_contract do |contract_form| %><%= render "terms_fields", form: contract_form %><% end %></section>
+<div class="form-actions"><%= form.submit "Vertrag speichern" %><%= link_to "Abbrechen", cancel_path, data: {turbo_frame: "contract_detail", turbo_action: "replace"} %></div>
+<% end %></div>

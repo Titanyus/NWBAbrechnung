@@ -70,7 +70,15 @@ export default class extends Controller {
     root.dataset.colorPreset = this.state.preset
     const accent = this.state.accent || PRESETS[this.state.preset][this.state.mode]
     const text = contrast(accent, "#ffffff") >= contrast(accent, "#000000") ? "#ffffff" : "#000000"
-    const computed = getComputedStyle(root)
+    root.style.removeProperty("--page")
+    let computed = getComputedStyle(root)
+    if (this.state.mode === "light") {
+      const surface = rgb(computed.getPropertyValue("--surface").trim())
+      const ink = rgb(computed.getPropertyValue("--text").trim())
+      const page = "#" + surface.map((channel, index) => Math.round(channel * 0.92 + ink[index] * 0.08).toString(16).padStart(2, "0")).join("")
+      root.style.setProperty("--page", page)
+      computed = getComputedStyle(root)
+    }
     const backgrounds = ["--page", "--surface"].map((name) => computed.getPropertyValue(name).trim())
     const destination = this.state.mode === "dark" ? 255 : 0
     let link = accent

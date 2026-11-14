@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "draft_customers" do %>
+<div class="field-grid">
+<%= ui_field do %><%= label_tag :draft_customer_query, "Kunde suchen" %><%= search_field_tag :q, (params[:q] if action_name == "draft_customers"), id: "draft_customer_query", form: "draft-customer-search", maxlength: 200, placeholder: "Name, Kundennummer, Anschrift" %><% end %>
+<%= ui_field(required: true) do %><%= label_tag :draft_customer_id, "Kunde / Rechnungsempfänger" %><%= select_tag "contract_draft[customer_membership_id]", options_for_select(@draft_customers.map { |member| ["#{member.customer.display_name} · #{member.customer_number.presence || 'ohne Kundennummer'} · #{member.customer.address.tr("\n", ' ')}", member.id] }, @selected_customer_id), id: "draft_customer_id", include_blank: "Bitte wählen", required: true, data: {action: "change->contract-draft#customerSelected"} %><% end %>
+</div>
+<% if @draft_customer_result_count.zero? %><p class="field-hint" role="status">Keine Suchtreffer. Eine vorhandene Auswahl bleibt erhalten.</p>
+<% elsif @draft_customer_result_count >= 20 %><p class="field-hint" role="status">Bis zu 20 Treffer – Suche bei Bedarf eingrenzen.</p><% end %>
+<% end %>

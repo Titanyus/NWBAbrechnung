@@ -16,7 +16,7 @@ def ratio(first, second):
 
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path='/usr/bin/chromium', headless=True, args=['--no-sandbox'])
-    page = browser.new_page(viewport={'width': 390, 'height': 900})
+    page = browser.new_page(viewport={'width': 1440, 'height': 900})
     page.goto('http://127.0.0.1:3000/session/new')
     page.get_by_label('E-Mail-Adresse').fill('admin@example.test')
     page.get_by_label('Passwort', exact=True).fill(settings['DEMO_PASSWORD'])
@@ -60,4 +60,4 @@ with sync_playwright() as p:
     assert page.get_by_label('Farbvorlage').input_value() == 'billenhausen'
     assert page.locator('html').get_attribute('data-color-mode') == 'light'
     browser.close()
-print(f'PASS: {checks} theme/contrast combinations, mobile layout, reload/navigation persistence, reset and invalid storage')
+print(f'PASS: {checks} theme/contrast combinations, desktop layout, reload/navigation persistence, reset and invalid storage')

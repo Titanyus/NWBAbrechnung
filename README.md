@@ -227,3 +227,10 @@ Anlagen können zugeordnete Administratoren über „Anlage löschen“ nach aus
 Bestätigung entfernen, sofern keine Fachdaten zugeordnet sind. Das Audit bleibt
 bei der logischen Löschung erhalten. „Anlage speichern“ führt zur Übersicht zurück.
 [Prüfbericht und Screenshots](docs/ui-plant-removal/REVIEW.md).
+
+## Vertrag direkt im Arbeitsplatz anlegen
+
+„Vertrag anlegen“ öffnet die Erfassung rechts neben der Vertragsliste. Vorhandene
+oder neue Kunden und Anschlüsse sowie ein optionaler neuer Zähler werden in einem
+Ablauf atomar gespeichert. Helle Seitenhintergründe sind etwas dunkler, Kästen
+bleiben weiß. [Prüfbericht und Screenshots](docs/ui-contract-create/REVIEW.md).

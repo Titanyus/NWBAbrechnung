@@ -25,6 +25,15 @@ Aktuell ergänzt: „Anlage löschen“ rechts oben für zugeordnete Administrat
 nur nach ausdrücklicher Bestätigung und nur ohne Fachdaten. Audit erhalten,
 keine Löschkaskade. „Anlage speichern“ führt zur Übersicht zurück.
 
+Vertragserstellung jetzt rechts im bestehenden Arbeitsplatz: bewusst vorhandene
+oder neue Kunden/Anschlüsse wählen; gemeinsame Feldpartials und strukturierte
+Adressen verwenden. Suchergebnisse auf 20 plus ggf. die Auswahl begrenzen. Zähler
+nur im Anschlusskontext, kein automatischer Wechsel. Atomare Speicherung inkl.
+Audit, Fehlerwerte und linke Liste/Filter erhalten. Keine neue Nummerierungsregel.
+Alle Feld-IDs müssen auch neben globalen Filtern eindeutig sein.
+Helle Seitenfläche aus vorhandenen Theme-Tokens dunkler ableiten, weiße Kästen und
+bestehende Dunkelwerte erhalten; Kontrastberechnung muss beide Flächen beachten.
+
 Ursprüngliche Pilot-Abgrenzung (historischer Stand): zunächst nur die Vertragsverwaltung nach
 Bildreferenz als Master-Detail-Ansicht umsetzen und prüfen. Übrige Seiten nicht
 parallel umgestalten. Linke Liste begrenzt nachladen, Filter serverseitig, Akte

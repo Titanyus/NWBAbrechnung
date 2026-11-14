@@ -147,3 +147,26 @@ Die bestehenden atomaren Schreibdienste verwenden innerhalb der Anlagensperre
 savepoints (requires_new), damit im Controller behandelte Validierungsfehler
 weiterhin den gesamten jeweiligen Kunden-/Zähler-/Ablesevorgang zurückrollen.
 Die fachlichen Regeln und Berechtigungen werden dabei nicht verändert.
+
+## Vertragserstellung im Master-Detail-Arbeitsplatz
+
+CONTRACT_CREATION_BRIEF.md ist der aktuelle Auftrag. Neueingabe rechts als Turbo-
+Frame; Liste, Suchfilter und Anlagenkontext links bleiben bestehen. Bestehende
+Kunden nur über Kundenzuordnungen der aktuellen Anlage; bestehende Anschlüsse und
+Trassen ausschließlich im selben Anlagenscope. Suchauswahlen serverseitig begrenzt
+auf 20 Treffer, keine vollständigen Dropdown-Datenbestände im Browser.
+
+Ein Formularobjekt bündelt vorhandene Modelle und Dienste in einer Transaktion
+mit Savepoint: neuer Kunde, Zuordnung, Anschluss, optionaler Zähler samt belegtem
+Anfangswert und Vertrag einschließlich Audit. Fehler rollen alles zurück.
+Bestehende Objekte werden beim Wiederverwenden nicht überschrieben. Keine neuen
+Tabellen/Migrationen, keine Nummerierungs- oder Tarifregel. Vertragsnummer bleibt
+Pflichtfeld nach bestehendem Modell. Bei aktivem Zähler nur dessen Information;
+Zählerwechsel bleibt ein separater Vorgang. Neue Zähler immer über den gewählten
+Anschluss und vorhandene Einbau-/Ablesedienste. Nicht mehrere Formulare verschachteln:
+Suchformulare werden extern mit zugeordneten Eingabefeldern verwendet.
+
+Nachgereicht: Seitenhintergrund heller Themes dunkler als die weißen Kästen.
+Ableitung aus bestehenden Surface-/Text-Tokens (92 % Fläche, 8 % Text), keine neue
+unabhängige Farbpalette. Dunkelmodus behält seine vorhandenen Werte. Die vorhandene
+Kontrastberechnung für Links berücksichtigt den abgeleiteten Hintergrund.

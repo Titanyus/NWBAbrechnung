@@ -15,16 +15,21 @@ export default class extends Controller {
 
   loaded(event) {
     if (event.target.id === "contract_detail") {
+      this.deduplicate()
       this.detailTarget.scrollTop = 0
       this.syncSelection()
     } else if (event.target.id.startsWith("contracts_page_")) {
-      const seen = new Set()
-      this.listTarget.querySelectorAll("[data-contract-item]").forEach(item => {
-        if (seen.has(item.dataset.contractItem)) item.remove()
-        else seen.add(item.dataset.contractItem)
-      })
+      this.deduplicate()
       this.syncSelection()
     }
+  }
+
+  deduplicate() {
+    const seen = new Set()
+    this.listTarget.querySelectorAll("[data-contract-item]").forEach(item => {
+      if (seen.has(item.dataset.contractItem)) item.remove()
+      else seen.add(item.dataset.contractItem)
+    })
   }
 
   updated() { this.syncSelection() }
@@ -54,6 +59,10 @@ export default class extends Controller {
     const url = new URL(link.href, location.origin)
     if (url.origin !== location.origin) return
     Object.entries(this.queryValue).forEach(([key, value]) => url.searchParams.set(key, value))
+    if (url.pathname === this.urlValue + "/new") {
+      const selected = this.detailTarget.querySelector("[data-contract-id]")?.dataset.contractId
+      if (selected) url.searchParams.set("selected_contract_id", selected)
+    }
     link.href = url.href
   }
 

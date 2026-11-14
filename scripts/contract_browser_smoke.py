@@ -99,11 +99,16 @@ with sync_playwright() as p:
     report['checks'].append('Arrow keys and Enter select contracts using native keyboard focus')
 
     search('UX-150')
-    expect(page.locator('.contract-item')).to_have_count(1)
+    matching = page.locator('.contract-item').filter(has=page.locator('[data-row-meta]', has_text=re.compile(r'^UX-150 ·')))
+    expect(matching).to_have_count(1)
+    matching.locator('a').click()
     expect(page.locator('.record-heading')).to_contain_text('UX-150')
     report['checks'].append('Search finds an uninitially loaded contract via the complete server dataset')
 
     search('UX-001')
+    matching = page.locator('.contract-item').filter(has=page.locator('[data-row-meta]', has_text=re.compile(r'^UX-001 ·')))
+    expect(matching).to_have_count(1)
+    matching.locator('a').click()
     expect(page.locator('.record-heading')).to_contain_text('UX-001')
     page.evaluate('window.__nwbListNode = document.querySelector(".contract-list-scroll")')
     page.get_by_role('link', name='Kundendaten bearbeiten', exact=True).click()

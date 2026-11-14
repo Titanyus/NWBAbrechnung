@@ -1,1 +1,9 @@
-<%= turbo_frame_tag "contract_detail" do %><%= render "workspace", message: nil %><% end %>
+<%= turbo_frame_tag "contract_detail" do %>
+<%= render "workspace", message: (params[:created] == "1" ? "Vertrag gespeichert." : nil) %>
+<% if params[:created] == "1" %>
+<%= turbo_stream.update "contract_count", "#{@contract_count} Verträge" %>
+<% if @created_in_first_batch %>
+<% if @created_previous_contract %><%= turbo_stream.after dom_id(@created_previous_contract), partial: "browser_item", locals: {contract: @supply_contract} %>
+<% else %><%= turbo_stream.prepend "contract_primary_results", partial: "browser_item", locals: {contract: @supply_contract} %><% end %>
+<% end %><% end %>
+<% end %>

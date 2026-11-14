@@ -30,6 +30,24 @@ zusätzlich gespeichert. Keine Freitext-Adressmasken oder automatischen Parser.
 Die ausdrücklich entbehrlichen bisherigen Demoadressen werden bei der Migration
 durch strukturierte Beispielwerte ersetzt; der Betreiber hat dies freigegeben.
 
+## Vertragserstellung und Seitenhintergrund (aktueller Folgeauftrag)
+
+Verträge direkt rechts im Master-Detail-Arbeitsplatz anlegen. Kunde und Anschluss
+jeweils bewusst auswählen oder neu erfassen; dieselben Feldpartials wie bei der
+Bearbeitung nutzen. Strukturierte Anschriften bleiben Pflicht. Bestehende Daten
+bei Wiederverwendung nicht ändern. Suchauswahlen serverseitig auf 20 Treffer
+begrenzen; eine bereits ausgewählte gültige ID darf zusätzlich erhalten bleiben.
+Zähler an den gewählten Anschluss binden; kein impliziter Zählerwechsel.
+Alles inklusive Audit atomar speichern, Eingaben/Modes bei Fehlern erhalten.
+Liste und Filter links beim Öffnen/Speichern/Abbrechen beibehalten. Keine neue
+Nummerierungsregel: Vertragsnummer weiterhin nach bestehender Pflichtregel.
+
+Formularfelder erhalten eindeutige IDs auch neben globalen Filtern (insbesondere
+Anschlussnummer). Geteilte Felder werden über dieselben Partials definiert.
+Helle Seitenflächen werden aus vorhandenen Surface-/Text-Tokens etwas dunkler
+abgeleitet (92/8), weiße Kästen bleiben unverändert. Keine unabhängige neue Palette;
+Linkkontraste weiterhin gegen beide Flächen prüfen. Dunkelmodus unverändert.
+
 ## Ursprünglicher Vertrags-Pilot (historischer Stand)
 
 Zunächst ausschließlich Vertragsverwaltung: kompakte linke Hauptnavigation,

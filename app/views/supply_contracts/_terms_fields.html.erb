@@ -1,0 +1,9 @@
+<div class="field-grid field-grid--compact">
+<%= ui_field(required: true) do %><%= form.label :number, "Vertragsnummer" %><%= form.text_field :number, required: true, maxlength: 100 %><% end %>
+<%= ui_field(required: true) do %><%= form.label :starts_on, "Vertragsbeginn" %><%= form.date_field :starts_on, required: true %><% end %>
+<%= ui_field do %><%= form.label :ends_on, "Vertragsende (optional)" %><%= form.date_field :ends_on %><% end %>
+<%= ui_field(required: true) do %><%= form.label :status, "Vertragsstatus" %><%= form.select :status, SupplyContract::STATUSES.to_a %><% end %>
+<%= ui_field(full: true) do %><%= form.label :notes, "Vertragsbemerkungen" %><%= form.text_area :notes, maxlength: 4000, rows: 2 %><% end %>
+</div>
+
+<p class="field-hint">Vertragsbeginn und Vertragsende zählen jeweils einschließlich.</p>

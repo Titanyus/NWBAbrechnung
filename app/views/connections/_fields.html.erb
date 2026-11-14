@@ -1,4 +1,4 @@
-<%= fields_for :connection, @connection do |form| %><div class="field-grid">
+<%= fields_for :connection, @connection, namespace: "record" do |form| %><div class="field-grid">
 <%= ui_field(required: true) do %><%= form.label :number, "Anschlussnummer" %><%= form.text_field :number, required: true, maxlength: 100 %><% end %>
 <%= ui_field do %><%= form.label :route_section_id, "Trasse" %><%= form.collection_select :route_section_id, @plant.route_sections.order(:name), :id, :name, include_blank: "Keine Trasse zugeordnet" %><% end %>
 <%= render "shared/address_fields", form: form %>

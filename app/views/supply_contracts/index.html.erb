@@ -1,10 +1,10 @@
 <%= turbo_frame_tag "contract_browser", data: {turbo_action: "replace"} do %>
 <div data-controller="contract-browser" data-contract-browser-url-value="<%= plant_supply_contracts_path(@plant) %>" data-contract-browser-query-value="<%= @browser.filters.to_json %>" data-action="click->contract-browser#prepareLink turbo:frame-load->contract-browser#loaded workspace:changed->contract-browser#updated turbo:before-cache@document->contract-browser#remember" class="browser-root">
-<div class="page-heading browser-heading"><h1>Vertragsverwaltung</h1><%= link_to "Vertrag anlegen", new_plant_supply_contract_path(@plant), class: "button", data: {turbo_frame: "_top"} %></div>
+<div class="page-heading browser-heading"><h1>Vertragsverwaltung</h1><%= link_to "Vertrag anlegen", new_plant_supply_contract_path(@plant, **@browser.filters, selected_contract_id: @workspace_contract&.id), class: "button", data: {turbo_frame: "contract_detail", turbo_action: "replace"} %></div>
 <%= render "browser_filters" %>
 <div class="browser-columns">
 <section class="contract-list-pane" aria-label="Vertragsauswahl">
-<div class="contract-list-heading"><strong role="status"><%= @contract_count %> Verträge</strong>
+<div class="contract-list-heading"><strong role="status" id="contract_count"><%= @contract_count %> Verträge</strong>
 <%= label_tag :contract_sort, "Sortierung", class: "sr-only" %>
 <%= select_tag :sort, options_for_select([["Kunde (A–Z)", "customer"], ["Vertragsnummer", "number"], ["Anschluss", "connection"], ["Trasse", "route"], ["Status", "status"], ["Vertragsbeginn", "starts_on"]], @browser.sort), id: "contract_sort", form: "contract-search" %>
 </div>
@@ -14,7 +14,7 @@
 </div></section>
 <section class="contract-detail-scroll" aria-label="Vertragsakte" data-contract-browser-target="detail">
 <%= turbo_frame_tag "contract_detail" do %>
-<% if @workspace_contract %><%= render "workspace", message: nil %><% else %><p class="empty-browser">Vertrag suchen oder neu anlegen. Alle verfügbaren Treffer werden links angezeigt.</p><% end %>
+<% if @creating_contract %><%= render "draft" %><% elsif @workspace_contract %><%= render "workspace", message: nil %><% else %><p class="empty-browser">Vertrag suchen oder neu anlegen. Alle verfügbaren Treffer werden links angezeigt.</p><% end %>
 <% end %></section>
 </div></div>
 <% end %>

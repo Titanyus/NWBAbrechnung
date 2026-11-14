@@ -1,0 +1,15 @@
+<%= turbo_frame_tag "draft_meter" do %>
+<%= hidden_field_tag "contract_draft[meter_mode]", "none", id: nil %>
+<% if @active_draft_meter %>
+<dl class="detail-grid">
+<div><dt>Aktueller Zähler</dt><dd><%= @active_draft_meter.serial_number %></dd></div>
+<div><dt>Einbaudatum</dt><dd><%= ui_date(@active_draft_meter.installed_on) %></dd></div>
+<div><dt>Letzter Stand</dt><dd><%= @active_draft_reading ? ui_decimal(@active_draft_reading.value) : "–" %> <%= @active_draft_meter.unit %></dd></div>
+<div><dt>Ablesedatum</dt><dd><%= ui_date(@active_draft_reading&.read_on) %></dd></div>
+</dl><p class="field-hint">Dieser Zähler gehört zum Anschluss. Ein Zählerwechsel ist ein eigener Vorgang und wird hier nicht automatisch ausgeführt.</p>
+<% elsif @allow_meter %>
+<div class="checkbox-field"><%= label_tag :draft_new_meter do %><%= check_box_tag "contract_draft[meter_mode]", "new", @draft&.meter_mode == "new", id: "draft_new_meter", data: {action: "change->contract-draft#meterChanged"} %> Zähler anlegen<% end %></div>
+<p class="field-hint">Optional. Der Vertrag kann zunächst ohne Zähler gespeichert werden.</p>
+<fieldset class="field-group" data-meter-fields hidden disabled><legend>Neuer Wärmezähler am Anschluss</legend><%= fields_for :heat_meter, @heat_meter do |meter_form| %><%= render "heat_meters/fields", form: meter_form, without_connection: true %><% end %></fieldset>
+<% else %><p class="field-hint">Bitte zuerst einen vorhandenen Anschluss auswählen oder einen neuen Anschluss erfassen.</p><% end %>
+<% end %>

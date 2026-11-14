@@ -1,0 +1,8 @@
+[
+  "New/cancel change only right frame and preserve list DOM, scroll, filter and selected contract",
+  "Bounded full-dataset lookups find UX-150; active meter stays attached; existing record creates and inline edit still works",
+  "New customer/house/meter created inline; failed reading keeps modes/values and successful retry creates one coherent contract with exact initial value",
+  "Page background derives a darker tone from existing tokens; white panels and theme palette remain",
+  "Matching newly created row is inserted once and selected without replacing the list",
+  "No JavaScript errors"
+]

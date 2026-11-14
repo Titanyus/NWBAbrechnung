@@ -1,0 +1,10 @@
+<div class="field-grid">
+<%= ui_field(required: true) do %><%= form.label :serial_number, "Zählernummer" %><%= form.text_field :serial_number, required: true, maxlength: 100 %><% end %>
+<% if @heat_meter.new_record? %>
+<% unless local_assigns[:without_connection] %><%= ui_field(required: true) do %><%= form.label :connection_id, "Anschluss" %><%= form.collection_select :connection_id, (@contract_context ? @plant.connections.where(id: @contract_context.connection_id) : @plant.connections.order(:number)), :id, :number, {include_blank: "Bitte wählen"}, required: true %><% end %><% end %>
+<%= ui_field(required: true) do %><%= form.label :installed_on, "Einbaudatum" %><%= form.date_field :installed_on, required: true %><% end %>
+<%= ui_field do %><%= form.label :unit, "Einheit" %><%= form.select :unit, %w[kWh MWh] %><% end %>
+<%= ui_field(required: true) do %><%= label_tag :initial_value, "Anfangszählerstand" %><%= number_field_tag :initial_value, params[:initial_value], required: true, min: 0, step: "0.000001" %><% end %>
+<% else %><p class="field-hint field--full">Einbautag, Anschluss und Einheit bleiben erhalten. Ausbau oder Wechsel auf der Zählerdetailseite erfassen.</p><% end %>
+<%= ui_field(full: true) do %><%= form.label :notes, "Zählerkommentar" %><%= form.text_area :notes, maxlength: 4000, rows: 2 %><% end %>
+</div>

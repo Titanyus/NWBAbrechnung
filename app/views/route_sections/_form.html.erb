@@ -1,5 +1,10 @@
-<%= render "master_data/errors", record: @route_section %>
+<%= render "shared/context_errors", record: @route_section %>
 <%= form_with model: [@plant, @route_section] do |form| %>
-<%= form.label :name, "Bezeichnung" %><%= form.text_field :name, required: true, maxlength: 150 %>
-<%= form.label :code, "Interne Kennung (optional)" %><%= form.text_field :code, maxlength: 100 %>
-<%= form.label :description, "Beschreibung" %><%= form.text_area :description, maxlength: 4000 %><%= form.submit "Trasse speichern" %><% end %>
+<% if params[:within_plant] == "1" %><%= hidden_field_tag :within_plant, "1" %><%= hidden_field_tag :route_page, params[:route_page] %><% end %>
+<div class="field-grid">
+<%= ui_field do %><%= form.label :code, "Trassenkennung (optional)" %><%= form.text_field :code, maxlength: 100 %><% end %>
+<%= ui_field(required: true) do %><%= form.label :name, "Bezeichnung" %><%= form.text_field :name, required: true, maxlength: 150 %><% end %>
+<%= ui_field(full: true) do %><%= form.label :description, "Beschreibung (optional)" %><%= form.text_area :description, maxlength: 4000, rows: 2 %><% end %>
+</div><div class="form-actions"><%= form.submit "Trasse speichern" %>
+<%= link_to "Abbrechen", params[:within_plant] == "1" ? plant_path(@plant, route_page: params[:route_page]) : plant_route_sections_path(@plant), data: {turbo_frame: (params[:within_plant] == "1" ? "plant_routes" : "_top")} %></div>
+<% end %>

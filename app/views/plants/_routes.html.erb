@@ -1,0 +1,15 @@
+<%= turbo_frame_tag "plant_routes" do %>
+<section class="panel" aria-labelledby="plant-routes-title">
+<div class="section-heading"><h2 id="plant-routes-title">Trassen der Anlage</h2>
+<% if @plant.persisted? %><%= link_to "Neue Trasse", new_plant_route_section_path(@plant, within_plant: "1", route_page: @route_page), class: "button", data: {turbo_frame: "route_editor"} %><% end %></div>
+<% if local_assigns[:message] %><p class="flash" role="status"><%= message %></p><% end %>
+<% if @plant.new_record? %><p>Speichern Sie zuerst die Anlage. Anschließend können Sie hier die erste Trasse hinzufügen.</p>
+<% else %>
+<%= turbo_frame_tag "route_editor" %>
+<%= render layout: "shared/data_table", locals: {table_id: "plant-routes-table", caption: "Trassen dieser Anlage", headers: ["Kennung", "Bezeichnung", "Hausanschlüsse", "Verträge gesamt", "Aktionen"]} do %>
+<% if @routes.empty? %><tr><td colspan="5">Noch keine Trassen vorhanden. Über „Neue Trasse“ können Sie die erste hinzufügen.</td></tr><% end %>
+<% @routes.each do |route| %><tr data-route-id="<%= route.id %>"><td><%= route.code.presence || "–" %></td><td><%= route.name %></td><td class="number"><%= @route_connection_counts.fetch(route.id, 0) %></td><td class="number"><%= @route_contract_counts.fetch(route.id, 0) %></td><td><%= link_to "Bearbeiten", edit_plant_route_section_path(@plant, route, within_plant: "1", route_page: @route_page), aria: {label: "#{route.name}: Trasse bearbeiten"}, data: {turbo_frame: "route_editor"} %></td></tr><% end %>
+<% end %>
+<% if @route_total > 100 %><%= render "master_data/pagination", records: @routes, page: @route_page, page_key: "route_page", query: {} %><% end %>
+<% end %>
+</section><% end %>

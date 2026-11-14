@@ -99,3 +99,29 @@ Gemeinsame Layout-, Tabellen-, Feld- und Aktionskomponenten wiederverwenden.
 Keine Migration: Leistungsfelder existieren nicht, daher Gesamtleistung ausdrücklich
 „nicht erfasst“. Anlagenänderungen nur Administrator mit expliziter Zuordnung,
 Transaktion und bestehendes Audit. Keine neuen Fachregeln oder Rechte aus Formularen.
+
+## Anlagen und Trassen, strukturierte Anschriften (neuer Vorrang)
+
+Referenz: PLANT_ROUTES_BRIEF.md. Bestätigt: Kennzahlen zählen alle Verträge,
+auch Entwürfe/beendete/stornierte. Trassen-Verträge werden über die derzeitige
+Anschlusszuordnung gezählt; keine rückwirkende Änderung historischer Verträge.
+Direkte Bearbeitung statt Markierung. Anlage zuerst speichern, danach Trassen im
+selben Arbeitsplatz. Trassenrechte unverändert: zugeordnete Verwaltungsbenutzer;
+Anlagenstammdaten weiterhin nur zugeordnete Administratoren. Keine Löschfunktion.
+
+Zusatzauftrag: getrennte Pflichtfelder Straße/Hausnummer, PLZ, Ort bei Anlagen,
+Kunden und Hausanschlüssen, überall dieselbe Formularkomponente. Benutzer hat
+bestätigt, dass nur entbehrliche Demodaten vorliegen und nichts erhalten werden
+muss. Daher keine Freitext-Übergangslösung oder automatische Adresszerlegung.
+Die Migration benennt address in street um, ergänzt postal_code/city und ersetzt
+vorhandene Demoadressen ausdrücklich durch strukturierte Beispielwerte. Alle
+übrigen Fachobjekte, UUIDs und Beziehungen bleiben unverändert. Neue DB-Checks und
+Modellvalidierungen sichern vollständige Adressen. address ist anschließend nur
+noch eine berechnete Textdarstellung, kein zweiter Speicherort. Suche und Seeds
+werden auf die drei Spalten umgestellt. Kein Status-/Leistungsfeld, keine neue
+Farbpalette, Abrechnung oder API-Änderung. Für einen Bestand mit echten Adressen
+ist diese ausdrücklich für den aktuellen Demoaufbau bestimmte Migration ungeeignet.
+
+Letzte Präzisierung: Trassensuche und ihr Beschreibungstext entfallen ausdrücklich.
+Normale Trassenlisten zeigen keine Seitennavigation; nur bei mehr als 100 Trassen
+bleibt eine begrenzte Folgeseite erreichbar. Keine Datensätze still abschneiden.

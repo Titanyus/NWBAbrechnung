@@ -40,7 +40,7 @@ class IntegrityTest < ActiveSupport::TestCase
   test "non administrator service call cannot create" do
     assert_no_difference [ "Plant.count", "AuditEvent.count" ] do
       assert_raises(ActiveRecord::RecordNotFound) do
-        Plants::Create.call(user: @clerk, attributes: { name: "No", address: "No" })
+        Plants::Create.call(user: @clerk, attributes: { name: "No", street: "No", postal_code: "00000", city: "Testort" })
       end
     end
   end

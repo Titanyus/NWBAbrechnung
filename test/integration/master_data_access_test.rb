@@ -20,7 +20,7 @@ class MasterDataAccessTest < ActionDispatch::IntegrationTest
   test "all master data requires authentication" do
     get plant_customers_path(@plant)
     assert_redirected_to new_session_path
-    post plant_connections_path(@plant), params: { connection: { number: "x", address: "x" } }
+    post plant_connections_path(@plant), params: { connection: { number: "x", street: "x", postal_code: "00000", city: "Testort" } }
     assert_redirected_to new_session_path
   end
 
@@ -86,22 +86,22 @@ class MasterDataAccessTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_not_includes response.body, "HIDDEN-CONTRACT"
     assert_not_includes response.body, @foreign_connection.address
-    patch plant_customer_path(@plant, @customer), params: { customer: { address: "Manipulated" } }
+    patch plant_customer_path(@plant, @customer), params: { customer: { street: "Manipulated", postal_code: "00000", city: "Testort" } }
     assert_response :forbidden
-    assert_equal "Musterweg 3", @customer.reload.address
+    assert_equal "Musterweg 3", @customer.reload.street
     patch plant_customer_path(@plant, @customer), params: { customer_membership: { active: "0" } }
     assert_response :see_other
     assert_not @membership.reload.active?
     @clerk.plant_permissions.create!(plant: @other)
-    patch plant_customer_path(@plant, @customer), params: { customer: { address: "Neue synthetische Anschrift" } }
+    patch plant_customer_path(@plant, @customer), params: { customer: { street: "Neue synthetische Anschrift", postal_code: "00000", city: "Testort" } }
     assert_response :see_other
-    assert_equal "Neue synthetische Anschrift", @customer.reload.address
+    assert_equal "Neue synthetische Anschrift", @customer.reload.street
   end
 
   test "customer create update filters uuid and plant injection and escapes HTML" do
     sign_in
     assert_difference "Customer.count", 1 do
-      post plant_customers_path(@plant), params: { customer: { id: @foreign_customer.id, operator_id: -1, company_name: "<script>test</script>", address: "Testadresse" }, customer_membership: { plant_id: @other.id, customer_number: "NEW" } }
+      post plant_customers_path(@plant), params: { customer: { id: @foreign_customer.id, operator_id: -1, company_name: "<script>test</script>", street: "Testadresse", postal_code: "00000", city: "Testort" }, customer_membership: { plant_id: @other.id, customer_number: "NEW" } }
       assert_response :see_other
     end
     customer = Customer.find_by!(company_name: "<script>test</script>")
@@ -160,7 +160,7 @@ class MasterDataAccessTest < ActionDispatch::IntegrationTest
     capture.level = Logger::INFO
     Rails.logger.broadcast_to(capture)
     post session_path, params: { email_address: @clerk.email_address, password: "Synthetic-Password-2026" }
-    post plant_customers_path(@plant), params: { customer: { company_name: "PRIVATE-COMPANY-LOG-PROBE", address: "PRIVATE-ADDRESS-LOG-PROBE", email: "private-log-probe@example.test" } }
+    post plant_customers_path(@plant), params: { customer: { company_name: "PRIVATE-COMPANY-LOG-PROBE", street: "PRIVATE-ADDRESS-LOG-PROBE", postal_code: "00000", city: "Testort", email: "private-log-probe@example.test" } }
     assert_response :see_other
     get plant_customers_path(@plant), params: { q: "PRIVATE-QUERY-LOG-PROBE" }
     assert_response :success
@@ -176,10 +176,10 @@ class MasterDataAccessTest < ActionDispatch::IntegrationTest
     @plant.customer_memberships.create!(customer: @foreign_customer, customer_number: "OCCUPIED")
     sign_in
     assert_no_difference "AuditEvent.count" do
-      patch plant_customer_path(@plant, @customer), params: { customer: { address: "Must roll back" }, customer_membership: { customer_number: "OCCUPIED" } }
+      patch plant_customer_path(@plant, @customer), params: { customer: { street: "Must roll back", postal_code: "00000", city: "Testort" }, customer_membership: { customer_number: "OCCUPIED" } }
       assert_response :unprocessable_entity
     end
-    assert_equal "Musterweg 3", @customer.reload.address
+    assert_equal "Musterweg 3", @customer.reload.street
     assert_equal "100", @membership.reload.customer_number
   end
 

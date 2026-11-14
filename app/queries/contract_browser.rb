@@ -28,7 +28,7 @@ class ContractBrowser
     @scope ||= begin
       result = @plant.supply_contracts.joins(customer_membership: :customer).left_joins(connection: :route_section)
       if filters["q"].present?
-        result = result.where("supply_contracts.number ILIKE :q OR customers.company_name ILIKE :q OR concat_ws(' ', customers.first_name, customers.last_name) ILIKE :q OR customers.address ILIKE :q OR connections.address ILIKE :q OR connections.number ILIKE :q OR customer_memberships.customer_number ILIKE :q", q: term(filters["q"]))
+        result = result.where("supply_contracts.number ILIKE :q OR customers.company_name ILIKE :q OR concat_ws(' ', customers.first_name, customers.last_name) ILIKE :q OR concat_ws(' ', customers.street, customers.postal_code, customers.city) ILIKE :q OR concat_ws(' ', connections.street, connections.postal_code, connections.city) ILIKE :q OR connections.number ILIKE :q OR customer_memberships.customer_number ILIKE :q", q: term(filters["q"]))
       end
       result = result.where("customer_memberships.customer_number ILIKE ?", term(filters["customer_number"])) if filters["customer_number"]
       result = result.where("connections.number ILIKE ?", term(filters["connection_number"])) if filters["connection_number"]

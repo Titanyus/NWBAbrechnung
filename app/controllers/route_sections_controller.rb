@@ -1,8 +1,10 @@
 class RouteSectionsController < PlantScopedController
+  include PlantWorkspace
+  layout -> { action_name == "index" || params[:within_plant] == "1" ? "contracts" : "application" }
   before_action :load_record, only: [ :edit, :update ]
 
   def index
-    @route_sections = page(@plant.route_sections.order(:name, :id))
+    prepare_plant_workspace
   end
 
   def new
@@ -29,8 +31,20 @@ class RouteSectionsController < PlantScopedController
 
   def save
     MasterData::Change.save!(@route_section, attributes: params.require(:route_section).permit(:name, :code, :description), user: current_user)
-    redirect_to plant_route_sections_path(@plant), status: :see_other, notice: "Trasse gespeichert."
+    if params[:within_plant] == "1"
+      if turbo_frame_request? && request.format.turbo_stream?
+        prepare_plant_workspace
+        render turbo_stream: [
+          turbo_stream.replace("plant_routes", partial: "plants/routes", locals: { message: "Trasse #{@route_section.name} gespeichert." }),
+          turbo_stream.replace("plant_metrics", partial: "plants/metrics")
+        ]
+      else
+        redirect_to plant_path(@plant, anchor: "plant_routes"), status: :see_other, notice: "Trasse gespeichert."
+      end
+    else
+      redirect_to plant_route_sections_path(@plant), status: :see_other, notice: "Trasse gespeichert."
+    end
   rescue ActiveRecord::RecordInvalid
-    render(@route_section.persisted? ? :edit : :new, status: :unprocessable_entity)
+    render(@route_section.persisted? ? :edit : :new, status: :unprocessable_entity, formats: [ :html ])
   end
 end

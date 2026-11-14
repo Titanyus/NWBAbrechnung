@@ -1,0 +1,4 @@
+<%= turbo_frame_tag "route_editor", tabindex: -1 do %>
+<section class="section" aria-label="Trasse bearbeiten"><h3><%= @route_section.persisted? ? "Trasse bearbeiten" : "Neue Trasse" %></h3>
+<%= render "form" %></section>
+<% end %>

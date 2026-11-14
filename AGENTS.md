@@ -37,3 +37,8 @@ Neue Suchen verwenden die gemeinsame serverseitige Turbo-Live-Suche über
 `ui_search_data`: Text 300 ms, Auswahl sofort, alte Antworten abbrechen/verwerfen,
 Fokus und unabhängige Formulare erhalten. Gemeinsame UI-Bausteine statt einzelner
 Feld-/Button-/Rahmenvarianten. Farben ausschließlich aus vorhandenen Theme-Tokens.
+
+Anschriften bei Anlagen, Kunden und Hausanschlüssen immer als getrennte Pflichtfelder
+Straße/Hausnummer, PLZ und Ort über `shared/address_fields` erfassen. Gemeinsame
+Validierung `StructuredAddress`; PLZ als Text, vollständige Anschrift nur berechnet.
+Trassen: integrierte Tabelle ohne Suche; Vertragskennzahlen zählen alle Statuswerte.

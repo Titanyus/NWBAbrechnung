@@ -221,9 +221,13 @@ body.contract-desktop .contract-topbar .brand{color:var(--chrome-text);font-size
 
 /* Shared desktop components for both main workspaces. */
 .contract-desktop main.standard-main{overflow:auto;display:block}
-.contract-desktop .table-row-selectable{cursor:pointer}
-.contract-desktop .table-row-selectable[aria-selected=true]{background:var(--notice)}
 .contract-desktop input[type=radio]{width:16px;min-height:16px;accent-color:var(--link)}
 .contract-desktop .actions{display:flex;align-items:center;gap:var(--space-3)}
 .contract-desktop [aria-disabled=true]{opacity:.55;pointer-events:none}
-.contract-desktop .table-row-selectable:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
+/* Shared grouping patterns; colors and individual controls stay unchanged. */
+.contract-desktop .form-overview{display:grid;grid-template-columns:minmax(0,3fr) minmax(260px,1fr);gap:var(--space-4);align-items:start}
+.contract-desktop .metrics-list{display:grid;gap:var(--space-3);margin:0}
+.contract-desktop .metrics-list>div{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);padding-bottom:var(--space-2);border-bottom:1px solid var(--border)}
+.contract-desktop .metrics-list dd{font-weight:650;font-size:var(--font-section)}
+@media(max-width:1100px){.contract-desktop .form-overview{grid-template-columns:minmax(0,2fr) minmax(220px,1fr)}}
+@media(max-width:800px){.contract-desktop .form-overview{grid-template-columns:1fr}}

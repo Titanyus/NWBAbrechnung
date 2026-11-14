@@ -1,7 +1,7 @@
 <%= fields_for :connection, @connection do |form| %><div class="field-grid">
 <%= ui_field(required: true) do %><%= form.label :number, "Anschlussnummer" %><%= form.text_field :number, required: true, maxlength: 100 %><% end %>
 <%= ui_field do %><%= form.label :route_section_id, "Trasse" %><%= form.collection_select :route_section_id, @plant.route_sections.order(:name), :id, :name, include_blank: "Keine Trasse zugeordnet" %><% end %>
-<%= ui_field(full: true, required: true) do %><%= form.label :address, "Anschlussadresse" %><%= form.text_area :address, required: true, maxlength: 1000, rows: 2 %><% end %>
+<%= render "shared/address_fields", form: form %>
 <%= ui_field do %><%= form.label :commissioned_on, "Inbetriebnahme" %><%= form.date_field :commissioned_on %><% end %>
 <%= ui_field do %><%= form.label :technical_status, "Technischer Status" %><%= form.select :technical_status, Connection::STATUSES.to_a %><% end %>
 <%= ui_field(full: true) do %><%= form.label :notes, "Bemerkungen zum Anschluss" %><%= form.text_area :notes, maxlength: 4000, rows: 2 %><% end %>

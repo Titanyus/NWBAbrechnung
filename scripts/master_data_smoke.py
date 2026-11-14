@@ -3,7 +3,7 @@
 import argparse
 from pathlib import Path
 from uuid import uuid4
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--env-file', default='.env')
@@ -23,17 +23,19 @@ with sync_playwright() as p:
     page.get_by_label('Passwort', exact=True).fill(settings['DEMO_PASSWORD'])
     page.get_by_role('button', name='Anmelden', exact=True).click()
     page.get_by_role('link', name='Testanlage 01', exact=True).click()
-    page.get_by_role('heading', name='Testanlage 01', level=1, exact=True).wait_for()
-    plant_url = page.url
-    page.get_by_role('link', name='Trassen', exact=True).click()
-    page.get_by_role('link', name='Trasse anlegen', exact=True).click()
+    page.get_by_role('heading', name='Anlage: Testanlage 01', level=1, exact=True).wait_for()
+    plant_url = page.url.removesuffix("/edit")
+    page.get_by_role('link', name='Neue Trasse', exact=True).click()
     page.get_by_label('Bezeichnung', exact=True).fill(prefix + '-Trasse')
     page.get_by_role('button', name='Trasse speichern', exact=True).click()
-    page.get_by_role('heading', name='Trassen und Versorgungsabschnitte').wait_for()
+    page.get_by_role('cell', name=prefix + '-Trasse', exact=True).wait_for()
+    page.get_by_text('Weitere Anlageninformationen', exact=True).click()
     page.get_by_role('link', name='Anschlüsse', exact=True).click()
     page.get_by_role('link', name='Anschluss anlegen', exact=True).click()
     page.get_by_label('Anschlussnummer', exact=True).fill(prefix + '-Anschluss')
-    page.get_by_label('Anschlussadresse', exact=True).fill('Synthetischer Testweg 2\n00000 Testort')
+    page.get_by_label('Straße und Hausnummer', exact=True).fill('Synthetischer Testweg 2')
+    page.get_by_label('PLZ', exact=True).fill('00000')
+    page.get_by_label('Ort', exact=True).fill('Testort')
     page.get_by_label('Trasse', exact=True).select_option(label=prefix + '-Trasse')
     page.get_by_label('Inbetriebnahme', exact=True).fill('2026-01-01')
     page.get_by_role('button', name='Anschluss speichern', exact=True).click()
@@ -42,7 +44,9 @@ with sync_playwright() as p:
     page.get_by_role('link', name='Kunden', exact=True).click()
     page.get_by_role('link', name='Kunden anlegen oder zuordnen', exact=True).click()
     page.get_by_label('Firmenname (bei Unternehmen)', exact=True).fill(prefix + '-Firma')
-    page.get_by_label('Anschrift', exact=True).fill('Synthetischer Firmenweg 1\n00000 Testort')
+    page.get_by_label('Straße und Hausnummer', exact=True).fill('Synthetischer Firmenweg 1')
+    page.get_by_label('PLZ', exact=True).fill('00000')
+    page.get_by_label('Ort', exact=True).fill('Testort')
     page.get_by_label('Kundennummer (optional)', exact=True).fill(prefix)
     page.get_by_role('button', name='Kunde speichern', exact=True).click()
     page.get_by_role('heading', name=prefix + '-Firma', exact=True).wait_for()
@@ -59,7 +63,7 @@ with sync_playwright() as p:
     page.get_by_label('Vertragsbeginn (einschließlich)', exact=True).fill('2026-01-01')
     page.get_by_label('Vertragsstatus', exact=True).select_option('active')
     page.get_by_role('button', name='Vertrag speichern', exact=True).click()
-    page.get_by_role('heading', name='Vertrag ' + prefix + '-Vertrag', exact=True).wait_for()
+    page.get_by_role('heading', name='Vertragsakte ' + prefix + '-Vertrag', exact=True).wait_for()
     contract_url = page.url
     page.goto(connection_url)
     page.get_by_role('link', name='Zähler einbauen', exact=True).click()
@@ -90,14 +94,14 @@ with sync_playwright() as p:
     page.get_by_role('heading', name='Wärmezähler ' + prefix + '-NEU', exact=True).wait_for()
     new_meter_url = page.url
     page.goto(contract_url)
-    page.get_by_role('link', name='Vertrag bearbeiten', exact=True).click()
+    page.get_by_role('link', name='Vertragsdaten bearbeiten', exact=True).click()
     page.get_by_label('Vertragsende (einschließlich, optional)', exact=True).fill('2026-06-30')
     page.get_by_label('Vertragsstatus', exact=True).select_option('ended')
     page.get_by_role('button', name='Vertrag speichern', exact=True).click()
-    page.get_by_role('heading', name='Vertrag ' + prefix + '-Vertrag', exact=True).wait_for()
-    assert '2026-06-30' in page.locator('main').inner_text()
+    page.get_by_role('heading', name='Vertragsakte ' + prefix + '-Vertrag', exact=True).wait_for()
+    expect(page.locator('#contract_terms')).to_contain_text('30.06.2026')
     pages = [plant_url, customer_url, connection_url, contract_url, old_meter_url, new_meter_url, customer_url + '/edit', connection_url + '/edit', contract_url + '/edit', plant_url + '/customers/new', plant_url + '/connections/new', plant_url + '/route_sections/new', plant_url + '/heat_meters/new', new_meter_url + '/meter_readings/new']
-    for width in (1280, 390):
+    for width in (1280, 1440, 1920, 2560):
         page.set_viewport_size({'width': width, 'height': 950})
         for url in pages:
             page.goto(url)
@@ -109,4 +113,4 @@ with sync_playwright() as p:
     page.get_by_role('link', name=prefix + '-Firma', exact=True).wait_for()
     assert not errors, errors
     browser.close()
-print('PASS: synthetic customer/route/connection/contract/meter creation, edits, reading correction, atomic replacement, search, desktop/mobile and no JS errors')
+print('PASS: synthetic customer/route/connection/contract/meter creation, edits, reading correction, atomic replacement, search, desktop and no JS errors')

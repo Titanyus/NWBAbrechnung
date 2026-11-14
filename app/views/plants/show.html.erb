@@ -1,6 +1,1 @@
-<%= link_to "← Anlagen wechseln", plants_path %>
-<p class="eyebrow">Ausgewählte Nahwärmeanlage</p><h1><%= @plant.name %></h1>
-<section class="panel"><div class="section-heading"><h2>Stammdaten</h2><%= link_to "Anlage bearbeiten", edit_plant_path(@plant), class: "action-link" if current_user.administrator? %></div><dl><dt>Anschrift</dt><dd class="address"><%= @plant.address %></dd>
-<dt>Technische Hinweise</dt><dd class="address"><%= @plant.technical_notes.presence || "Noch keine Angaben" %></dd>
-<dt>Stabile Anlagen-ID</dt><dd><code><%= @plant.id %></code></dd></dl></section>
-<section class="panel"><h2>Stammdaten verwalten</h2><%= render "master_data/navigation" %><p>Kunden, Verträge, Anschlüsse, Trassen, Zähler und Ablesungen dieser Anlage verwalten.</p></section>
+<%= render "workspace" %>

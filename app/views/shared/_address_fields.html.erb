@@ -1,0 +1,5 @@
+<div class="address-fields field--full">
+<%= ui_field(required: true) do %><%= form.label :street, "Straße und Hausnummer" %><%= form.text_field :street, required: true, maxlength: 500, autocomplete: "address-line1" %><% end %>
+<%= ui_field(required: true) do %><%= form.label :postal_code, "PLZ" %><%= form.text_field :postal_code, required: true, maxlength: 20, autocomplete: "postal-code" %><% end %>
+<%= ui_field(required: true) do %><%= form.label :city, "Ort" %><%= form.text_field :city, required: true, maxlength: 200, autocomplete: "address-level2" %><% end %>
+</div>

@@ -1,0 +1,15 @@
+<% editable = @plant.new_record? || action_name == "edit" || action_name == "update" %>
+<% actions = capture do %><div class="actions">
+<%= link_to "Abbrechen", plants_path, class: "button button--secondary", data: {turbo_frame: "_top"} %>
+<% if editable %><%= button_tag "Anlage speichern", type: "submit", form: "plant-form" %>
+<% elsif current_user.administrator? %><%= link_to "Stammdaten bearbeiten", edit_plant_path(@plant), class: "button", data: {turbo_frame: "_top"} %><% end %>
+</div><% end %>
+<%= render "shared/page_heading", title: @plant.new_record? ? "Neue Nahwärmeanlage anlegen" : "Anlage: #{@plant.name}", actions: actions %>
+<p class="field-hint">Stammdaten und Trassen an einem Ort verwalten.</p>
+<div class="form-overview">
+<section class="panel" aria-labelledby="plant-data-title"><h2 id="plant-data-title">Stammdaten</h2>
+<% if editable %><%= render "plants/form" %><% else %><dl class="detail-grid"><div><dt>Anlagenname</dt><dd><%= @plant.name %></dd></div><div><dt>Anschrift</dt><dd class="address"><%= @plant.address %></dd></div><div class="span-all"><dt>Technische Hinweise</dt><dd><%= @plant.technical_notes.presence || "–" %></dd></div></dl><% end %>
+</section><%= render "plants/metrics" %>
+</div>
+<%= render "plants/routes" %>
+<% if @plant.persisted? %><details><summary>Weitere Anlageninformationen</summary><p>Stabile Anlagen-ID: <code><%= @plant.id %></code></p><%= render "master_data/navigation" %></details><% end %>

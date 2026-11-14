@@ -1,27 +1,17 @@
 <%= turbo_frame_tag "plants", data: {turbo_action: "replace"} do %>
-<div data-controller="row-selection" data-action="click->row-selection#select change->row-selection#select keydown->row-selection#keyboard">
-<% actions = capture do %>
-<div class="actions">
-<% if current_user.administrator? %>
-<%= link_to "Anlage bearbeiten", @selected_plant ? edit_plant_path(@selected_plant) : "#", class: "button", data: {row_selection_target: "edit", turbo_frame: "_top"}, aria: {disabled: @selected_plant.nil?}, tabindex: (@selected_plant ? 0 : -1) %>
-<%= link_to "Neue Anlage anlegen", new_plant_path, class: "button", data: {turbo_frame: "_top"} %>
-<% end %>
-</div><% end %>
-<%= render "shared/page_heading", title: "Ihre Nahwärmeanlagen", actions: actions %>
+<%= render "shared/page_heading", title: "Ihre Nahwärmeanlagen", action_label: "Neue Anlage anlegen", action_path: (new_plant_path if current_user.administrator?) %>
 <%= form_with url: plants_path, method: :get, id: "plant-search", data: ui_search_data("plants"), class: "toolbar" do |form| %>
 <%= ui_field do %><%= form.label :q, "Anlage oder Adresse suchen" %><%= form.search_field :q, value: params[:q], maxlength: 200 %><% end %>
 <%= ui_field do %><%= form.label :sort, "Sortierung" %><%= form.select :sort, [["Name (A–Z)", "name"], ["Adresse (A–Z)", "address"]], selected: @sort %><% end %>
-<%= hidden_field_tag :selected_plant_id, @selected_plant&.id, data: {row_selection_target: "selected"} %>
 <%= form.submit "Suchen" %><% end %>
 <p role="status"><strong><%= @total %></strong> berechtigte Anlagen<%= " – keine passenden Anlagen gefunden" if @plants.empty? %></p>
-<%= render layout: "shared/data_table", locals: {table_id: "plants-table", caption: "Berechtigte Nahwärmeanlagen", headers: ["Markieren", "Name", "Adresse", "Anschlüsse", "Trassen", "Verträge", "Gesamtleistung", "Aktion"]} do %>
-<% @plants.each do |plant| %>
-<tr class="table-row-selectable" data-row-selection-target="row" data-edit-url="<%= edit_plant_path(plant) %>" aria-selected="<%= @selected_plant == plant %>">
-<td><%= radio_button_tag :marked_plant, plant.id, @selected_plant == plant, aria: {label: "#{plant.name} markieren"} %></td>
-<td><%= link_to plant.name, plant_path(plant), data: {turbo_frame: "_top"} %></td><td class="address"><%= plant.address %></td>
+<%= render layout: "shared/data_table", locals: {table_id: "plants-table", caption: "Berechtigte Nahwärmeanlagen", headers: ["Name", "Anschrift", "Hausanschlüsse", "Trassen", "Verträge gesamt", "Gesamtleistung", "Aktionen"]} do %>
+<% @plants.each do |plant| %><tr>
+<td><%= link_to plant.name, current_user.administrator? ? edit_plant_path(plant) : plant_path(plant), data: {turbo_frame: "_top"} %></td><td class="address"><%= plant.address %></td>
 <td class="number"><%= @connection_counts.fetch(plant.id, 0) %></td><td class="number"><%= @route_counts.fetch(plant.id, 0) %></td><td class="number"><%= @contract_counts.fetch(plant.id, 0) %></td><td>nicht erfasst</td>
-<td><%= form_with url: plant_selection_path, method: :patch, data: {turbo_frame: "_top"} do |form| %><%= form.hidden_field :selected_plant_id, value: plant.id, id: nil %><%= form.hidden_field :area, value: "contracts", id: nil %><%= form.submit "Anlage auswählen", aria: {label: "#{plant.name}: Anlage auswählen"} %><% end %></td>
+<td><div class="actions"><%= link_to "Bearbeiten", current_user.administrator? ? edit_plant_path(plant) : plant_path(plant), aria: {label: "#{plant.name}: Bearbeiten"}, data: {turbo_frame: "_top"} %>
+<%= form_with url: plant_selection_path, method: :patch, data: {turbo_frame: "_top"} do |form| %><%= form.hidden_field :selected_plant_id, value: plant.id, id: nil %><%= form.hidden_field :area, value: "contracts", id: nil %><%= form.submit "Anlage auswählen", aria: {label: "#{plant.name}: Anlage auswählen"} %><% end %></div></td>
 </tr><% end %><% end %>
 <%= render "master_data/pagination", records: @plants %>
-<p class="field-hint">Eine Zeile markiert die Anlage zum Bearbeiten. „Anlage auswählen“ öffnet ihre Vertragsverwaltung. Leistungsdaten sind im aktuellen Datenmodell nicht erfasst.</p>
-</div><% end %>
+<p class="field-hint">„Bearbeiten“ öffnet Stammdaten und Trassen. „Anlage auswählen“ öffnet die Vertragsverwaltung. Verträge gesamt umfasst alle Statuswerte.</p>
+<% end %>

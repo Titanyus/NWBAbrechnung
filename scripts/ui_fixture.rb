@@ -2,17 +2,20 @@ require "json"
 abort "Nur ausdrücklich freigegebene synthetische UI-Prüfung" unless ENV["NWB_SYNTHETIC_UI"] == "1" && (Rails.env.development? || Rails.env.test?)
 abort "Synthetischer Betreiber erforderlich" unless Operator.sole.name.start_with?("Synthetische Nahwärme")
 plant = Plant.find_by!(name: "Testanlage 01")
+plant.update!(street: "Musterweg 1", postal_code: "00000", city: "Testort")
 user = User.find_by!(email_address: "admin@example.test")
 route = plant.route_sections.find_or_create_by!(code: "UX-REVIEW") { |r| r.name = "Beispieltrasse Nord"; r.description = "Ausschließlich synthetische UI-Prüfdaten" }
 150.times do |i|
   number = format("UX-%03d", i + 1)
   membership = plant.customer_memberships.find_by(customer_number: number)
   unless membership
-    customer = plant.operator.customers.create!(company_name: format("Beispielbetrieb %02d GmbH", i + 1), address: "Beispielstraße #{i + 1}\n00000 Musterort", phone: "0000-TEST", email: "beispiel#{i + 1}@example.test", notes: "Synthetische Daten für den UI-Vergleich")
+    customer = plant.operator.customers.create!(company_name: format("Beispielbetrieb %02d GmbH", i + 1), street: "Beispielstraße #{i + 1}", postal_code: "00000", city: "Musterort", phone: "0000-TEST", email: "beispiel#{i + 1}@example.test", notes: "Synthetische Daten für den UI-Vergleich")
     membership = plant.customer_memberships.create!(customer: customer, customer_number: number, active: i != 5)
   end
   abort "Vorhandene Kundennummer gehört nicht zur UI-Fixture" unless membership.customer.email == "beispiel#{i + 1}@example.test"
-  connection = plant.connections.find_or_create_by!(number: number) { |c| c.route_section = route; c.address = "Beispielstraße #{i + 1}\n00000 Musterort"; c.commissioned_on = Date.new(2025, 1, 1) }
+  membership.customer.update!(street: "Beispielstraße #{i + 1}", postal_code: "00000", city: "Musterort")
+  connection = plant.connections.find_or_create_by!(number: number) { |c| c.route_section = route; c.street = "Beispielstraße #{i + 1}"; c.postal_code = "00000"; c.city = "Musterort"; c.commissioned_on = Date.new(2025, 1, 1) }
+  connection.update!(street: "Beispielstraße #{i + 1}", postal_code: "00000", city: "Musterort")
   unless plant.supply_contracts.exists?(number: number)
     MasterData::Change.save!(plant.supply_contracts.new, attributes: { number: number, customer_membership: membership, connection: connection, starts_on: Date.new(2025, 1, 1), status: "active" }, user: user)
   end

@@ -13,7 +13,7 @@ class PlantWorkspaceTest < ActionDispatch::IntegrationTest
   test "table counts relationships without join multiplication and scopes search" do
     contract.save!
     route = @plant.route_sections.create!(name: "Zweite Trasse")
-    connection = @plant.connections.create!(number: "A-2", address: "Zweiter Anschluss", route_section: route)
+    connection = @plant.connections.create!(number: "A-2", street: "Zweiter Anschluss", postal_code: "00000", city: "Testort", route_section: route)
     contract(connection: connection).save!
     get plants_path, params: { q: @plant.name }
     assert_response :success
@@ -26,12 +26,12 @@ class PlantWorkspaceTest < ActionDispatch::IntegrationTest
     post session_path, params: { email_address: @clerk.email_address, password: "Synthetic-Password-2026" }
     get plants_path, params: { q: @other.name, selected_plant_id: @other.id }
     assert_select "#plants-table tbody tr", count: 0
-    assert_select "a", text: "Anlage bearbeiten", count: 0
+    assert_select "a", text: "Bearbeiten", count: 0
   end
 
   test "plant list is bounded but live query searches beyond first page" do
     101.times do |index|
-      Plants::Create.call(user: @admin, attributes: { name: format("Anlage %03d", index), address: "Testadresse" })
+      Plants::Create.call(user: @admin, attributes: { name: format("Anlage %03d", index), street: "Testadresse", postal_code: "00000", city: "Testort" })
     end
     get plants_path
     assert_select "#plants-table tbody tr", count: 100
@@ -41,8 +41,8 @@ class PlantWorkspaceTest < ActionDispatch::IntegrationTest
   end
 
   test "authorized administrator edits only permitted fields and produces audit" do
-    patch plant_path(@plant), params: { plant: { name: "Neu", address: "Neue Anschrift", technical_notes: "Technik", operator_id: "invalid", id: @other.id } }
-    assert_redirected_to plants_path(selected_plant_id: @plant.id)
+    patch plant_path(@plant), params: { plant: { name: "Neu", street: "Neue Anschrift", postal_code: "00000", city: "Testort", technical_notes: "Technik", operator_id: "invalid", id: @other.id } }
+    assert_redirected_to edit_plant_path(@plant)
     assert_equal "Neu", @plant.reload.name
     assert_equal @operator.id, @plant.operator_id
     event = AuditEvent.where(subject_type: "Plant", subject_id: @plant.id).last
@@ -52,10 +52,10 @@ class PlantWorkspaceTest < ActionDispatch::IntegrationTest
   end
 
   test "invalid edit keeps errors and values" do
-    patch plant_path(@plant), params: { plant: { name: "", address: "Eingabe bleibt" } }
+    patch plant_path(@plant), params: { plant: { name: "", street: "Eingabe bleibt", postal_code: "00000", city: "Testort" } }
     assert_response :unprocessable_entity
     assert_select "[role=alert]"
-    assert_select "textarea#plant_address", text: "Eingabe bleibt"
+    assert_select "input#plant_street[value=?]", "Eingabe bleibt"
     assert_not_equal "", @plant.reload.name
   end
 
@@ -78,7 +78,7 @@ class PlantWorkspaceTest < ActionDispatch::IntegrationTest
     patch plant_selection_path, params: { selected_plant_id: @plant.id, area: "contracts" }
     assert_redirected_to plant_supply_contracts_path(@plant)
     get plants_path
-    assert_select "#plants-table tr[aria-selected=true]", count: 1
-    assert_select "a[href=?]", edit_plant_path(@plant), text: "Anlage bearbeiten"
+    assert_select "#plants-table input[type=radio]", count: 0
+    assert_select "a[href=?]", edit_plant_path(@plant), text: "Bearbeiten"
   end
 end

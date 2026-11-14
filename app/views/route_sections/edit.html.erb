@@ -1,1 +1,3 @@
+<% if params[:within_plant] == "1" %><%= render "editor" %><% else %>
 <%= render "master_data/navigation" %><h1>Trasse bearbeiten</h1><section class="panel form-panel"><%= render "form" %></section>
+<% end %>

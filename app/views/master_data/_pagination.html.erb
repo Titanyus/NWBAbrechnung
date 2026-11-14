@@ -1,5 +1,6 @@
+<% current_page = local_assigns[:page] || @page; page_key = local_assigns[:page_key] || "page"; query = local_assigns[:query] || request.query_parameters.except(page_key) %>
 <nav aria-label="Ergebnisseiten">
-<%= link_to "← Vorherige Seite", "?#{ request.query_parameters.except("page").merge("page" => @page - 1).to_query }" if @page > 1 %>
-<span>Seite <%= @page %> · höchstens 100 Einträge pro Seite</span>
-<%= link_to "Nächste Seite →", "?#{ request.query_parameters.except("page").merge("page" => @page + 1).to_query }" if records.length == 100 %>
+<%= link_to "← Vorherige Seite", "?#{query.merge(page_key => current_page - 1).to_query}" if current_page > 1 %>
+<span>Seite <%= current_page %> · höchstens 100 Einträge pro Seite</span>
+<%= link_to "Nächste Seite →", "?#{query.merge(page_key => current_page + 1).to_query}" if records.length == 100 %>
 </nav>

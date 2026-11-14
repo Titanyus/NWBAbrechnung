@@ -16,7 +16,7 @@ else
     (size == "large" ? 50 : 3).times do |index|
       name = format("Testanlage %02d", index + 1)
       plant = Plant.find_by(name: name)
-      plant ||= Plants::Create.call(user: admin, attributes: { name: name, address: "Musterweg #{index + 1}\n00000 Testort", technical_notes: "Synthetische Testanlage" })
+      plant ||= Plants::Create.call(user: admin, attributes: { name: name, street: "Musterweg #{index + 1}", postal_code: "00000", city: "Testort", technical_notes: "Synthetische Testanlage" })
       PlantPermission.find_or_create_by!(user: clerk, plant: plant) if index.even?
     end
   end

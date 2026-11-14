@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "plant_metrics" do %>
+<section class="panel" aria-labelledby="plant-metrics-title"><h2 id="plant-metrics-title">Automatische Kennzahlen</h2>
+<dl class="metrics-list">
+<div><dt>Trassen</dt><dd data-metric="routes"><%= @plant_metrics[:routes] %></dd></div>
+<div><dt>Hausanschlüsse</dt><dd data-metric="connections"><%= @plant_metrics[:connections] %></dd></div>
+<div><dt>Verträge gesamt</dt><dd data-metric="contracts"><%= @plant_metrics[:contracts] %></dd></div>
+</dl><p class="field-hint">Aus den zugeordneten Datensätzen ermittelt. Verträge aller Statuswerte; keine manuelle Eingabe.</p></section>
+<% end %>

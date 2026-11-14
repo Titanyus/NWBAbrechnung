@@ -25,32 +25,28 @@ async def main():
             assert await page.evaluate('document.documentElement.scrollWidth <= innerWidth')
             colors = await page.evaluate('''() => {const root=getComputedStyle(document.documentElement);return [...document.querySelectorAll('.contract-topbar,.contract-sidebar')].map(el=>[getComputedStyle(el).backgroundColor,root.getPropertyValue('--header').trim()])}''')
             assert all(color[0]=='rgb(43, 66, 31)' for color in colors)
-            await page.screenshot(path=f'docs/ui-plants/screenshots/after/plants-{width}x{height}.png')
+            await page.screenshot(path=f'docs/ui-plant-routes/screenshots/after/plants-{width}x{height}.png')
         report.append('Four desktop sizes: green NWB header/sidebar from existing theme, no page overflow')
         await page.set_viewport_size({'width':1440,'height':900})
-        radios=page.locator('#plants-table input[type=radio]')
-        await radios.first.focus()
-        await radios.first.press('ArrowDown')
-        await expect(radios.nth(1)).to_be_checked()
-        report.append('Keyboard arrow selection marks the next plant and enables edit')
+        assert await page.locator('#plants-table input[type=radio]').count() == 0
+        report.append('Direct edit per row; no marking or radio step')
         q=page.get_by_label('Anlage oder Adresse suchen',exact=True)
         await q.fill('Testanlage 01')
         await expect(page.locator('#plants-table tbody tr')).to_have_count(1)
         await expect(q).to_be_focused()
         assert await q.input_value()=='Testanlage 01'
-        await page.locator('#plants-table tbody tr td.address').click()
-        await expect(page.get_by_role('link',name='Anlage bearbeiten',exact=True)).to_have_attribute('aria-disabled','false')
-        await page.get_by_role('link',name='Anlage bearbeiten',exact=True).click()
-        await page.get_by_label('Name',exact=True).wait_for()
-        await page.get_by_label('Name',exact=True).fill('')
-        await page.get_by_role('button',name='Änderungen speichern',exact=True).click()
+        await page.get_by_role('link',name='Testanlage 01: Bearbeiten',exact=True).click()
+        await page.get_by_label('Anlagenname',exact=True).fill('')
+        await page.get_by_role('button',name='Anlage speichern',exact=True).click()
         assert await page.locator('input#plant_name').evaluate('(el)=>!el.validity.valid')
-        await page.get_by_label('Name',exact=True).fill('Testanlage 01')
-        await page.get_by_role('button',name='Änderungen speichern',exact=True).click()
+        await page.get_by_label('Anlagenname',exact=True).fill('Testanlage 01')
+        await page.get_by_role('button',name='Anlage speichern',exact=True).click()
+        await page.locator('#plant-form').wait_for()
+        await page.get_by_role('link',name='Abbrechen',exact=True).click()
         await page.locator('#plants-table').wait_for()
         await page.get_by_role('button',name='Testanlage 01: Anlage auswählen',exact=True).click()
         await page.locator('#contract_browser').wait_for()
-        report.append('Plant search updates live with focus retained; row selection, edit validation/save and shared switch open contracts')
+        report.append('Plant search updates live with focus retained; direct edit validation/save and shared switch open contracts')
         # Debounce one request for a burst of keystrokes.
         requests=[]
         page.on('request', lambda request: requests.append(request.url) if request.headers.get('turbo-frame')=='contract_browser' else None)
@@ -98,7 +94,7 @@ async def main():
         report.append('Explicit filter reset supersedes pending debounced input')
         for width,height in [(1280,800),(1440,900),(1920,1080),(2560,1440)]:
             await page.set_viewport_size({'width':width,'height':height})
-            await page.screenshot(path=f'docs/ui-plants/screenshots/after/contracts-{width}x{height}.png')
+            await page.screenshot(path=f'docs/ui-plant-routes/screenshots/after/contracts-{width}x{height}.png')
         await page.set_viewport_size({'width':1440,'height':900})
         for preset in ['billenhausen','emerald','ocean','slate']:
             for mode in ['light','dark']:
@@ -131,7 +127,7 @@ async def main():
         assert not errors, errors
         report.append('No JavaScript errors')
         await browser.close()
-    Path('docs/ui-plants/browser-checks.json').write_text(json.dumps(report,indent=2)+'\n')
+    Path('docs/ui-plant-routes/browser-checks.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(report,indent=2))
 
 asyncio.run(main())

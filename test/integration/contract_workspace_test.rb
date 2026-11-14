@@ -81,11 +81,11 @@ class ContractWorkspaceTest < ActionDispatch::IntegrationTest
   end
 
   test "mismatching authorized resources cannot borrow a contract context" do
-    another = @operator.customers.create!(company_name: "Other customer", address: "Other address")
+    another = @operator.customers.create!(company_name: "Other customer", street: "Other address", postal_code: "00000", city: "Testort")
     @plant.customer_memberships.create!(customer: another)
     get edit_plant_customer_path(@plant, another), params: { contract_id: @record.id }
     assert_response :not_found
-    other_connection = @plant.connections.create!(number: "Other", address: "Other")
+    other_connection = @plant.connections.create!(number: "Other", street: "Other", postal_code: "00000", city: "Testort")
     other_meter = install(other_connection)
     get new_plant_heat_meter_meter_reading_path(@plant, other_meter), params: { contract_id: @record.id }
     assert_response :not_found
@@ -99,16 +99,16 @@ class ContractWorkspaceTest < ActionDispatch::IntegrationTest
     foreign = @other.supply_contracts.create!(number: "FOREIGN", connection: @foreign_connection, customer_membership: @foreign_membership, starts_on: "2026-01-01", status: "active")
     get plant_supply_contract_path(@plant, foreign)
     assert_response :not_found
-    patch plant_customer_path(@plant, @customer), params: { contract_id: foreign.id, customer: { address: "bad" } }
+    patch plant_customer_path(@plant, @customer), params: { contract_id: foreign.id, customer: { street: "bad", postal_code: "00000", city: "Testort" } }
     assert_response :not_found
-    assert_equal "Musterweg 3", @customer.reload.address
+    assert_equal "Musterweg 3", @customer.reload.street
   end
 
   test "shared customer permission rule remains effective in a frame" do
     @other.customer_memberships.create!(customer: @customer)
-    patch plant_customer_path(@plant, @customer), params: { contract_id: @record.id, customer: { address: "bad" } }, headers: stream_headers("contract_customer")
+    patch plant_customer_path(@plant, @customer), params: { contract_id: @record.id, customer: { street: "bad", postal_code: "00000", city: "Testort" } }, headers: stream_headers("contract_customer")
     assert_response :forbidden
-    assert_equal "Musterweg 3", @customer.reload.address
+    assert_equal "Musterweg 3", @customer.reload.street
   end
 
   test "global plant selection remains scoped" do

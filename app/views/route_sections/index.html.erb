@@ -1,2 +1,1 @@
-<%= render "master_data/navigation" %><h1>Trassen und Versorgungsabschnitte</h1><%= link_to "Trasse anlegen", new_plant_route_section_path(@plant), class: "button" %>
-<div class="record-grid"><% @route_sections.each do |route| %><article class="panel"><h2><%= route.name %></h2><p><%= route.code %></p><p class="address"><%= route.description %></p><%= link_to "Trasse bearbeiten", edit_plant_route_section_path(@plant, route) %></article><% end %></div><%= render "master_data/pagination", records: @route_sections %>
+<%= render "plants/workspace" %>

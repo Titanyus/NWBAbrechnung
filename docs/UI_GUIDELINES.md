@@ -10,7 +10,24 @@ aus vorhandenen Theme-Variablen; NWB-Header und Seitenleiste verwenden das beste
 Grün, Aktionen Gold, Flächen Weiß. Keine neuen unabhängigen Farbcodes.
 Leistungsdaten sind nicht modelliert: „nicht erfasst“ statt erfundener Berechnung.
 
-## Aktueller Pilot nach Bildreferenz (Vorrang)
+## Aktueller Anlagen-/Trassenauftrag
+
+Anlagen direkt pro Zeile bearbeiten; keine Markierung und keine Radiobuttons.
+Stammdaten links, automatisch ermittelte Kennzahlen rechts, Trassen als Tabelle
+unterhalb. Alle Vertragsstatus zählen; „Verträge gesamt“ eindeutig beschriften.
+Trassen direkt in diesem Arbeitsplatz anlegen/bearbeiten; keine Trassensuche und
+kein beschreibender Einführungstext dort (ausdrückliche Ausnahme zur Live-Suche).
+Keine Löschfunktion ergänzen. Bestehende Rechte erhalten.
+
+Straße/Hausnummer, PLZ und Ort sind bei jeder Anlage, jedem Kunden und jedem
+Hausanschluss getrennte Pflichtfelder. Gemeinsames Partial `shared/address_fields`
+und gemeinsame Modellvalidierung `StructuredAddress` verwenden. PLZ ist Text und
+behält führende Nullen. Anschrift für Anzeigen wird daraus zusammengesetzt, nicht
+zusätzlich gespeichert. Keine Freitext-Adressmasken oder automatischen Parser.
+Die ausdrücklich entbehrlichen bisherigen Demoadressen werden bei der Migration
+durch strukturierte Beispielwerte ersetzt; der Betreiber hat dies freigegeben.
+
+## Ursprünglicher Vertrags-Pilot (historischer Stand)
 
 Zunächst ausschließlich Vertragsverwaltung: kompakte linke Hauptnavigation,
 Anlagenwahl oben, horizontale Filter und ein Master-Detail-Arbeitsplatz. Linke
@@ -167,7 +184,7 @@ Anschluss, Trasse, Status, Beginn ab). Seltene Filter unter Weitere Filter.
 Die linke Vertragsauswahlliste verwendet eine beschriftete Sortierauswahl und
 zwei Informationszeilen mit ca. 52 px Höhe; Vergleichstabellen nutzen Tabellenköpfe. Filter und Sortierung bei Seitennavigation erhalten.
 
-## Anlagen und Trassen (künftiger Ausbau, im Pilot unverändert)
+## Anlagen und Trassen
 
 Vorhandene Anlagenfelder Name, Anschrift und technische Hinweise sind für
 zugeordnete Administratoren bearbeitbar. Keine UUID-Änderung und kein ungefragtes

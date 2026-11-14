@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_13_000200) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_14_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
   enable_extension "pg_catalog.plpgsql"
@@ -31,17 +31,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_000200) do
     t.uuid "plant_id", null: false
     t.uuid "route_section_id"
     t.string "number", null: false
-    t.text "address", null: false
+    t.text "street", null: false
     t.date "commissioned_on"
     t.string "technical_status", default: "active", null: false
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "postal_code", limit: 20, null: false
+    t.string "city", limit: 200, null: false
     t.index ["id", "plant_id"], name: "index_connections_on_id_and_plant_id", unique: true
     t.index ["plant_id", "number"], name: "index_connections_on_plant_id_and_number", unique: true
     t.index ["plant_id"], name: "index_connections_on_plant_id"
-    t.check_constraint "length(TRIM(BOTH FROM number)) > 0 AND length(TRIM(BOTH FROM address)) > 0", name: "connection_required_fields"
-    t.check_constraint "technical_status::text = ANY (ARRAY['planned'::character varying, 'active'::character varying, 'inactive'::character varying]::text[])", name: "connection_status"
+    t.check_constraint "length(TRIM(BOTH FROM number)) > 0 AND length(TRIM(BOTH FROM street)) > 0", name: "connection_required_fields"
+    t.check_constraint "length(TRIM(BOTH FROM street)) >= 1 AND length(TRIM(BOTH FROM street)) <= 500 AND length(TRIM(BOTH FROM postal_code)) >= 1 AND length(TRIM(BOTH FROM postal_code)) <= 20 AND length(TRIM(BOTH FROM city)) >= 1 AND length(TRIM(BOTH FROM city)) <= 200 AND POSITION((chr(10)) IN ((street || postal_code::text) || city::text)) = 0 AND POSITION((chr(13)) IN ((street || postal_code::text) || city::text)) = 0", name: "connections_structured_address"
+    t.check_constraint "technical_status::text = ANY (ARRAY['planned'::character varying::text, 'active'::character varying::text, 'inactive'::character varying::text])", name: "connection_status"
   end
 
   create_table "customer_memberships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -58,7 +61,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_000200) do
     t.index ["id", "plant_id"], name: "index_customer_memberships_on_id_and_plant_id", unique: true
     t.index ["plant_id", "customer_number"], name: "index_customer_memberships_on_plant_id_and_customer_number", unique: true, where: "(customer_number IS NOT NULL)"
     t.index ["plant_id"], name: "index_customer_memberships_on_plant_id"
-    t.check_constraint "payment_method::text = ANY (ARRAY['bank_transfer'::character varying, 'direct_debit'::character varying, 'cash'::character varying, 'other'::character varying]::text[])", name: "membership_payment_method"
+    t.check_constraint "payment_method::text = ANY (ARRAY['bank_transfer'::character varying::text, 'direct_debit'::character varying::text, 'cash'::character varying::text, 'other'::character varying::text])", name: "membership_payment_method"
   end
 
   create_table "customers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -66,15 +69,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_000200) do
     t.string "first_name"
     t.string "last_name"
     t.string "company_name"
-    t.text "address", null: false
+    t.text "street", null: false
     t.string "phone"
     t.string "email"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "postal_code", limit: 20, null: false
+    t.string "city", limit: 200, null: false
     t.index ["operator_id"], name: "index_customers_on_operator_id"
     t.check_constraint "length(TRIM(BOTH FROM COALESCE(company_name, ''::character varying))) > 0 OR length(TRIM(BOTH FROM COALESCE(first_name, ''::character varying))) > 0 AND length(TRIM(BOTH FROM COALESCE(last_name, ''::character varying))) > 0", name: "customer_identity_present"
-    t.check_constraint "length(TRIM(BOTH FROM address)) > 0", name: "customer_address_present"
+    t.check_constraint "length(TRIM(BOTH FROM street)) > 0", name: "customer_address_present"
+    t.check_constraint "length(TRIM(BOTH FROM street)) >= 1 AND length(TRIM(BOTH FROM street)) <= 500 AND length(TRIM(BOTH FROM postal_code)) >= 1 AND length(TRIM(BOTH FROM postal_code)) <= 20 AND length(TRIM(BOTH FROM city)) >= 1 AND length(TRIM(BOTH FROM city)) <= 200 AND POSITION((chr(10)) IN ((street || postal_code::text) || city::text)) = 0 AND POSITION((chr(13)) IN ((street || postal_code::text) || city::text)) = 0", name: "customers_structured_address"
   end
 
   create_table "heat_meters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -87,7 +93,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_000200) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["connection_id"], name: "index_heat_meters_on_connection_id"
-    t.check_constraint "(unit::text = ANY (ARRAY['kWh'::character varying, 'MWh'::character varying]::text[])) AND length(TRIM(BOTH FROM serial_number)) > 0", name: "meter_required_fields"
+    t.check_constraint "(unit::text = ANY (ARRAY['kWh'::character varying::text, 'MWh'::character varying::text])) AND length(TRIM(BOTH FROM serial_number)) > 0", name: "meter_required_fields"
     t.check_constraint "removed_on IS NULL OR removed_on > installed_on", name: "meter_date_order"
     t.exclusion_constraint "connection_id WITH =, daterange(installed_on, removed_on, '[)'::text) WITH &&", using: :gist, name: "no_overlapping_heat_meters"
   end
@@ -110,7 +116,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_000200) do
     t.index ["recorded_by_id"], name: "index_meter_readings_on_recorded_by_id"
     t.index ["supersedes_id"], name: "index_meter_readings_on_supersedes_id", unique: true
     t.check_constraint "kind::text <> 'correction'::text OR length(TRIM(BOTH FROM COALESCE(comment, ''::text))) > 0", name: "correction_requires_reason"
-    t.check_constraint "kind::text = ANY (ARRAY['annual'::character varying, 'interim'::character varying, 'installation'::character varying, 'removal'::character varying, 'correction'::character varying]::text[])", name: "reading_kind"
+    t.check_constraint "kind::text = ANY (ARRAY['annual'::character varying::text, 'interim'::character varying::text, 'installation'::character varying::text, 'removal'::character varying::text, 'correction'::character varying::text])", name: "reading_kind"
     t.check_constraint "value >= 0::numeric", name: "reading_nonnegative"
   end
 
@@ -139,12 +145,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_000200) do
   create_table "plants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "operator_id", null: false
     t.string "name", null: false
-    t.text "address", null: false
+    t.text "street", null: false
     t.text "technical_notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "postal_code", limit: 20, null: false
+    t.string "city", limit: 200, null: false
     t.index ["operator_id"], name: "index_plants_on_operator_id"
-    t.check_constraint "length(TRIM(BOTH FROM name)) > 0 AND length(TRIM(BOTH FROM address)) > 0", name: "plant_required_fields"
+    t.check_constraint "length(TRIM(BOTH FROM name)) > 0 AND length(TRIM(BOTH FROM street)) > 0", name: "plant_required_fields"
+    t.check_constraint "length(TRIM(BOTH FROM street)) >= 1 AND length(TRIM(BOTH FROM street)) <= 500 AND length(TRIM(BOTH FROM postal_code)) >= 1 AND length(TRIM(BOTH FROM postal_code)) <= 20 AND length(TRIM(BOTH FROM city)) >= 1 AND length(TRIM(BOTH FROM city)) <= 200 AND POSITION((chr(10)) IN ((street || postal_code::text) || city::text)) = 0 AND POSITION((chr(13)) IN ((street || postal_code::text) || city::text)) = 0", name: "plants_structured_address"
   end
 
   create_table "route_sections", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -180,10 +189,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_13_000200) do
     t.datetime "updated_at", null: false
     t.index ["plant_id", "number"], name: "index_supply_contracts_on_plant_id_and_number", unique: true
     t.index ["plant_id"], name: "index_supply_contracts_on_plant_id"
-    t.check_constraint "(status::text = ANY (ARRAY['draft'::character varying, 'active'::character varying, 'ended'::character varying, 'cancelled'::character varying]::text[])) AND (status::text <> 'ended'::text OR ends_on IS NOT NULL)", name: "contract_status"
+    t.check_constraint "(status::text = ANY (ARRAY['draft'::character varying::text, 'active'::character varying::text, 'ended'::character varying::text, 'cancelled'::character varying::text])) AND (status::text <> 'ended'::text OR ends_on IS NOT NULL)", name: "contract_status"
     t.check_constraint "ends_on IS NULL OR ends_on >= starts_on", name: "contract_date_order"
     t.check_constraint "length(TRIM(BOTH FROM number)) > 0", name: "contract_number_present"
-    t.exclusion_constraint "connection_id WITH =, daterange(starts_on, ends_on, '[]'::text) WITH &&", where: "(status)::text = ANY ((ARRAY['active'::character varying, 'ended'::character varying])::text[])", using: :gist, name: "no_overlapping_supply_contracts"
+    t.exclusion_constraint "connection_id WITH =, daterange(starts_on, ends_on, '[]'::text) WITH &&", where: "(status)::text = ANY (ARRAY[('active'::character varying)::text, ('ended'::character varying)::text])", using: :gist, name: "no_overlapping_supply_contracts"
   end
 
   create_table "users", force: :cascade do |t|

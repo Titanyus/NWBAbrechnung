@@ -5,7 +5,7 @@ class CustomersController < PlantScopedController
     scope = @plant.customer_memberships.includes(:customer).joins(:customer)
     if params[:q].present?
       query = "%#{Customer.sanitize_sql_like(params[:q].to_s.first(200))}%"
-      scope = scope.where("concat_ws(' ', customers.first_name, customers.last_name) ILIKE :q OR customers.first_name ILIKE :q OR customers.last_name ILIKE :q OR customers.company_name ILIKE :q OR customer_memberships.customer_number ILIKE :q", q: query)
+      scope = scope.where("concat_ws(' ', customers.first_name, customers.last_name) ILIKE :q OR customers.first_name ILIKE :q OR customers.last_name ILIKE :q OR customers.company_name ILIKE :q OR concat_ws(' ', customers.street, customers.postal_code, customers.city) ILIKE :q OR customer_memberships.customer_number ILIKE :q", q: query)
     end
     scope = scope.where(active: params[:state] == "active") if %w[active inactive].include?(params[:state])
     @memberships = page(scope.order("customers.company_name", "customers.last_name", "customers.first_name", "customer_memberships.id"))
@@ -97,7 +97,7 @@ class CustomersController < PlantScopedController
   end
 
   def customer_params
-    params.fetch(:customer, ActionController::Parameters.new).permit(:first_name, :last_name, :company_name, :address, :phone, :email, :notes)
+    params.fetch(:customer, ActionController::Parameters.new).permit(:first_name, :last_name, :company_name, :street, :postal_code, :city, :phone, :email, :notes)
   end
 
   def membership_params

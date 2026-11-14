@@ -13,7 +13,15 @@ aus vorhandenen Theme-Variablen; NWB-Header und Seitenleiste verwenden das beste
 Grün, Aktionen Gold, Flächen Weiß. Keine neuen unabhängigen Farbcodes.
 Leistungsdaten sind nicht modelliert: „nicht erfasst“ statt erfundener Berechnung.
 
-Aktuelle Pilot-Abgrenzung hat Vorrang: zunächst nur die Vertragsverwaltung nach
+Neuester Anlagen-/Trassenauftrag: direkte Bearbeitung statt Markierung; gemeinsame
+Anlagenmaske mit Kennzahlen und integrierter Trassentabelle. Trassensuche samt
+Einführungstext ausdrücklich entfernen. Verträge gesamt umfasst alle Statuswerte.
+Anschriften überall über `shared/address_fields` in Straße/Hausnummer, PLZ, Ort
+aufteilen; Pflichtfelder und gemeinsame Modell-/DB-Prüfung. PLZ immer Text.
+Keine zusätzliche Freitextadressquelle. Änderung der bisherigen Demodaten ist
+vom Betreiber ausdrücklich freigegeben. Keine neuen Status-/Leistungsfelder.
+
+Ursprüngliche Pilot-Abgrenzung (historischer Stand): zunächst nur die Vertragsverwaltung nach
 Bildreferenz als Master-Detail-Ansicht umsetzen und prüfen. Übrige Seiten nicht
 parallel umgestalten. Linke Liste begrenzt nachladen, Filter serverseitig, Akte
 rechts per Turbo aktualisieren und Listenscrollstand erhalten. Übersicht zeigt

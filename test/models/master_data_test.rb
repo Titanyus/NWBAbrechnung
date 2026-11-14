@@ -6,7 +6,7 @@ class MasterDataTest < ActiveSupport::TestCase
   setup { master_data }
 
   test "one customer has many connections and memberships without duplicated contact data" do
-    second = @plant.connections.create!(number: "A-2", address: "Testweg 2")
+    second = @plant.connections.create!(number: "A-2", street: "Testweg 2", postal_code: "00000", city: "Testort")
     other_membership = @other.customer_memberships.create!(customer: @customer, customer_number: "101")
     contract.save!
     contract(connection: second).save!
@@ -21,8 +21,8 @@ class MasterDataTest < ActiveSupport::TestCase
   end
 
   test "customer identities optional numbers and companies validate" do
-    assert_not @operator.customers.new(address: "x").valid?
-    assert @operator.customers.new(company_name: "Test GmbH", address: "x").valid?
+    assert_not @operator.customers.new(street: "x", postal_code: "00000", city: "Testort").valid?
+    assert @operator.customers.new(company_name: "Test GmbH", street: "x", postal_code: "00000", city: "Testort").valid?
     @membership.update!(customer_number: "  ")
     assert_nil @membership.reload.customer_number
     assert_not @plant.customer_memberships.new(customer: @foreign_customer, customer_number: @membership.update!(customer_number: "100") && "100").valid?

@@ -1,0 +1,12 @@
+[
+  "Four desktop sizes: green NWB header/sidebar from existing theme, no page overflow",
+  "Direct edit per row; no marking or radio step",
+  "Plant search updates live with focus retained; direct edit validation/save and shared switch open contracts",
+  "300 ms text debounce: one request for typing burst, full-dataset result and focus retained",
+  "Delayed earlier query cannot overwrite latest input; dropdown applies without submit",
+  "Explicit filter reset supersedes pending debounced input",
+  "All eight theme/mode combinations reuse existing header color in both chrome areas",
+  "Customer, connection and customer-assignment searches update live; unrelated unsaved creation fields survive",
+  "Expired login during a live query returns to the full login page",
+  "No JavaScript errors"
+]

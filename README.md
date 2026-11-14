@@ -213,3 +213,12 @@ Die freigegebene Fortsetzung ergänzt die Anlagenübersicht, Anlagen-Stammdatenb
 und gemeinsame Live-Suche in sämtlichen bestehenden Suchleisten. Details und
 Screenshots: [Anlagen und Live-Suche](docs/ui-plants/REVIEW.md).
 Die bestehende Vertragserstellung und sonstige Fachlogik bleiben erhalten.
+
+## Anlagen und strukturierte Anschriften
+
+Anlagen lassen sich direkt pro Zeile bearbeiten; Stammdaten, automatische
+Kennzahlen und Trassen stehen im selben Arbeitsplatz. Trassen haben keine Suche.
+Anlagen, Kunden und Hausanschlüsse verwenden getrennte Pflichtfelder für
+Straße/Hausnummer, PLZ und Ort. Die einmalige Migration ersetzt wie beauftragt
+bisherige Demoadressen durch Beispielwerte. Details, Tests und Screenshots:
+[Anlagen-/Trassen-Review](docs/ui-plant-routes/REVIEW.md).

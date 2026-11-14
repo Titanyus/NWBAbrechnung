@@ -1,0 +1,8 @@
+[
+  "Create plant with three separate required address fields; leading postal zero retained",
+  "Route validation/create/edit update only routes/metrics; unsaved plant draft survives",
+  "Customer and house creation use the same structured address fields and preserve postal strings",
+  "Automatic metrics count 1 house and all 4 contracts across active/draft/cancelled/ended without multiplying house count",
+  "Direct row edit, row plant selection and header switch remain distinct working actions",
+  "No JavaScript errors; existing green/gold theme unchanged"
+]

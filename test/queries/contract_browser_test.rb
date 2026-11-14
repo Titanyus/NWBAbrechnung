@@ -7,7 +7,7 @@ class ContractBrowserTest < ActiveSupport::TestCase
 
   def add_contracts(count)
     count.times do |index|
-      conn = @plant.connections.create!(number: "B-#{format('%03d', index)}", address: "Beispielweg #{index}", route_section: @route)
+      conn = @plant.connections.create!(number: "B-#{format('%03d', index)}", street: "Beispielweg #{index}", postal_code: "00000", city: "Testort", route_section: @route)
       @plant.supply_contracts.create!(number: "B-#{format('%03d', index)}", connection: conn, customer_membership: @membership, starts_on: "2026-01-01", status: index.even? ? "active" : "draft")
     end
   end

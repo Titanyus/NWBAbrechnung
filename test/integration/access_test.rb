@@ -14,7 +14,7 @@ class AccessTest < ActionDispatch::IntegrationTest
   test "anonymous access requires login" do
     get plants_path
     assert_redirected_to new_session_path
-    post plants_path, params: { plant: { name: "No", address: "No" } }
+    post plants_path, params: { plant: { name: "No", street: "No", postal_code: "00000", city: "Testort" } }
     assert_redirected_to new_session_path
   end
 
@@ -56,7 +56,7 @@ class AccessTest < ActionDispatch::IntegrationTest
     get new_plant_path
     assert_response :forbidden
     assert_no_difference "Plant.count" do
-      post plants_path, params: { administrator: true, plant: { name: "No", address: "No" } }
+      post plants_path, params: { administrator: true, plant: { name: "No", street: "No", postal_code: "00000", city: "Testort" } }
       assert_response :forbidden
     end
   end
@@ -64,7 +64,7 @@ class AccessTest < ActionDispatch::IntegrationTest
   test "creation grants creator only and audits atomically" do
     sign_in(@admin)
     assert_difference [ "Plant.count", "PlantPermission.count", "AuditEvent.count" ], 1 do
-      post plants_path, params: { plant: { name: "Neue Anlage", address: "Testweg", operator_id: 123, user_ids: [ @clerk.id ] } }
+      post plants_path, params: { plant: { name: "Neue Anlage", street: "Testweg", postal_code: "00000", city: "Testort", operator_id: 123, user_ids: [ @clerk.id ] } }
       assert_response :see_other
     end
     plant = Plant.find_by!(name: "Neue Anlage")
@@ -73,7 +73,7 @@ class AccessTest < ActionDispatch::IntegrationTest
     assert_not @clerk.plants.exists?(plant.id)
     assert_equal @admin, AuditEvent.last.user
     assert_no_difference [ "Plant.count", "PlantPermission.count", "AuditEvent.count" ] do
-      post plants_path, params: { plant: { name: "", address: "" } }
+      post plants_path, params: { plant: { name: "", street: "", postal_code: "00000", city: "Testort" } }
       assert_response :unprocessable_entity
     end
   end

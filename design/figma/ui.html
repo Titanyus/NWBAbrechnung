@@ -1,0 +1,11 @@
+<!doctype html><html lang="de"><meta charset="utf-8"><style>body{font:14px system-ui;margin:20px;color:#222}button,input{font:inherit;margin:8px 0}button{padding:8px 12px}label{display:block;margin:8px 0}#status{white-space:pre-wrap}</style>
+<h2>NWB Oberfläche importieren</h2><p>Wähle <b>nwb-ui.json</b> aus dem Exportpaket. Der Import erstellt neue Seiten, Variablen, Textstile und Komponenten.</p>
+<input id="file" type="file" accept=".json,application/json">
+<label><input id="fullhd" type="checkbox" checked> Auch Full-HD-Ansichten (1920 × 1080) importieren</label>
+<button id="start" disabled>In dieses Figma-Dokument importieren</button><p id="status" role="status"></p>
+<script>
+let data;const start=document.getElementById('start'),status=document.getElementById('status');
+document.getElementById('file').onchange=async e=>{try{data=JSON.parse(await e.target.files[0].text());if(data.format!=='nwb-figma-import'||data.version!==1)throw Error('Keine unterstützte NWB-Exportdatei.');start.disabled=false;status.textContent=data.screens.length+' Ansichten verfügbar.';}catch(e){start.disabled=true;status.textContent=e.message;}};
+start.onclick=()=>{start.disabled=true;parent.postMessage({pluginMessage:{type:'import',data,fullhd:document.getElementById('fullhd').checked}},'*');};
+onmessage=e=>{const m=e.data.pluginMessage;if(m?.status)status.textContent=m.status;if(m?.done)start.disabled=false;};
+</script></html>

@@ -1,4 +1,4 @@
-<%= render "shared/page_heading", level: 2, title: "Zählerwechsel für #{@heat_meter.serial_number}" %><section class="section form-panel"><%= render "master_data/errors", record: @heat_meter %>
+<% unless local_assigns[:hide_heading] %><%= render "shared/page_heading", level: 2, title: "Zählerwechsel für #{@heat_meter.serial_number}" %><% end %><section class="section form-panel"><%= render "master_data/errors", record: @heat_meter %>
 <%= form_with url: exchange_plant_heat_meter_path(@plant, @heat_meter) do |form| %><%= render "shared/context_fields" %><div class="field-grid">
 <%= ui_field(required: true) do %><%= form.label :exchange_on, "Wechseldatum" %><%= form.date_field :exchange_on, value: params[:exchange_on], required: true %><% end %>
 <%= ui_field(required: true) do %><%= form.label :closing_value, "Schlusszählerstand des alten Zählers" %><%= form.number_field :closing_value, value: params[:closing_value], required: true, min: 0, step: "0.000001" %><% end %>

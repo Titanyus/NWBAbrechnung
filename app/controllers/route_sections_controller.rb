@@ -1,6 +1,6 @@
 class RouteSectionsController < PlantScopedController
   include PlantWorkspace
-  layout -> { action_name == "index" || params[:within_plant] == "1" ? "contracts" : "application" }
+  layout "contracts"
   before_action :load_record, only: [ :edit, :update ]
 
   def index

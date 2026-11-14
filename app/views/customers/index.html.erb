@@ -1,5 +1,6 @@
-<%= render "master_data/navigation" %><h1>Kunden</h1>
-<%= link_to "Kunden anlegen oder zuordnen", new_plant_customer_path(@plant), class: "button" %>
+<%= render "shared/page_heading", title: "Kunden", action_label: "Kunden anlegen oder zuordnen", action_path: new_plant_customer_path(@plant) %>
+<%= render "master_data/navigation" %>
+
 <%= turbo_frame_tag "customer-results", data: {turbo_action: "replace"} do %>
 <%= form_with url: plant_customers_path(@plant), method: :get, id: "customers-search", data: ui_search_data("customer-results") do |form| %>
 <%= form.label :q, "Kunde oder Kundennummer suchen" %><%= form.search_field :q, value: params[:q], maxlength: 200 %>

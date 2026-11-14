@@ -34,6 +34,19 @@ Alle Feld-IDs müssen auch neben globalen Filtern eindeutig sein.
 Helle Seitenfläche aus vorhandenen Theme-Tokens dunkler ableiten, weiße Kästen und
 bestehende Dunkelwerte erhalten; Kontrastberechnung muss beide Flächen beachten.
 
+## Globale Abstände (aktueller Folgeauftrag)
+
+Alle angemeldeten Verwaltungsseiten verwenden die gemeinsame Desktop-Hülle und
+`shared/page_heading`; die Anmeldung bleibt eigenständig. Außenabstände wie bei
+Verträgen: oben/unten 12 px, links/rechts 16 px; Titelzeile mindestens 36 px,
+danach 8 px. Meldungen folgen dem Titel, damit dieser beim Speichern nicht springt.
+Innenabstände wie bei „Anlage anlegen“: Kästen 16 px, Abschnitte 16 px auseinander,
+Formularraster horizontal/vertikal 12 px, Aktionsgruppen 12 px. Werte zentral in
+`admin_contracts.css`, keine Modul- oder Feldvarianten. Rahmenlose Gruppen erhalten
+keine zusätzlichen Innenabstände. Ablesung und Zählerwechsel nutzen dieselben
+Formularpartials innerhalb und außerhalb der Vertragsakte. Tabellenzellen und
+zweizeilige Auswahllisten behalten ihre jeweiligen kompakten Maße (40/52 px).
+
 Ursprüngliche Pilot-Abgrenzung (historischer Stand): zunächst nur die Vertragsverwaltung nach
 Bildreferenz als Master-Detail-Ansicht umsetzen und prüfen. Übrige Seiten nicht
 parallel umgestalten. Linke Liste begrenzt nachladen, Filter serverseitig, Akte

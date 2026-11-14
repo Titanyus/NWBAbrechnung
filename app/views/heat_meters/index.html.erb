@@ -1,2 +1,4 @@
-<%= render "master_data/navigation" %><h1>Wärmezähler</h1><%= link_to "Zähler einbauen", new_plant_heat_meter_path(@plant), class: "button" %>
+<%= render "shared/page_heading", title: "Wärmezähler", action_label: "Zähler einbauen", action_path: new_plant_heat_meter_path(@plant) %>
+<%= render "master_data/navigation" %>
+
 <div class="record-grid"><% @meters.each do |meter| %><article class="panel"><h2><%= link_to meter.serial_number, plant_heat_meter_path(@plant, meter) %></h2><p>Anschluss <%= meter.connection.number %> · <%= meter.unit %></p><p><%= meter.installed_on %> bis <%= meter.removed_on || "eingebaut" %></p></article><% end %></div><%= render "master_data/pagination", records: @meters %>

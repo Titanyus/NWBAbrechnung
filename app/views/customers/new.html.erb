@@ -1,4 +1,6 @@
-<%= render "master_data/navigation" %><h1>Kunden anlegen</h1>
+<%= render "shared/page_heading", title: "Kunden anlegen" %>
+<%= render "master_data/navigation" %>
+
 <section class="panel form-panel"><%= render "form" %></section>
 <%= turbo_frame_tag "available-customers" do %>
 <section class="panel form-panel"><h2>Vorhandenen Kunden suchen</h2>

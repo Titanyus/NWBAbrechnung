@@ -1,4 +1,6 @@
-<%= render "master_data/navigation" %><h1>Anschlüsse und Verbrauchsstellen</h1><%= link_to "Anschluss anlegen", new_plant_connection_path(@plant), class: "button" %>
+<%= render "shared/page_heading", title: "Anschlüsse und Verbrauchsstellen", action_label: "Anschluss anlegen", action_path: new_plant_connection_path(@plant) %>
+<%= render "master_data/navigation" %>
+
 <%= turbo_frame_tag "connection-results", data: {turbo_action: "replace"} do %>
 <%= form_with url: plant_connections_path(@plant), method: :get, id: "connections-search", data: ui_search_data("connection-results") do |form| %><%= form.label :q, "Anschlussnummer oder Adresse suchen" %><%= form.search_field :q, value: params[:q], maxlength: 200 %><%= form.submit "Suchen" %><% end %>
 <p role="status"><%= @connections.empty? ? "Keine passenden Anschlüsse gefunden." : "#{@connections.length} Anschlüsse auf dieser Ergebnisseite" %></p>

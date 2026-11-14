@@ -170,3 +170,21 @@ Nachgereicht: Seitenhintergrund heller Themes dunkler als die weißen Kästen.
 Ableitung aus bestehenden Surface-/Text-Tokens (92 % Fläche, 8 % Text), keine neue
 unabhängige Farbpalette. Dunkelmodus behält seine vorhandenen Werte. Die vorhandene
 Kontrastberechnung für Links berücksichtigt den abgeleiteten Hintergrund.
+
+## Globale Inhaltsabstände nach Vertragsansicht
+
+Alle angemeldeten Verwaltungs-Unterseiten verwenden denselben Shell-/Inhaltsrahmen
+wie Verträge: oben/unten 12 px, links/rechts 16 px. Gemeinsamer Seitenkopf startet
+bei null Außenabstand im Inhaltsrahmen, Mindesthöhe 36 px und danach 8 px Abstand.
+Anlagen übernimmt diese Werte; keine modulbezogenen Rand-Overrides. Bestehende
+sekundäre Navigation folgt dem Seitentitel. Meldungen stehen unter dem Seitenkopf,
+damit sie dessen Position nicht verschieben. Anmeldung bleibt ein eigener Rahmen.
+Keine Fachlogik-, Datenmodell-, Berechtigungs- oder Farbänderung. Tabellenzeilen
+(40 px) und zweizeilige Vertragsauswahl (52 px) bleiben absichtlich verschieden.
+
+Nachgereicht: auch Innenabstände, Formularraster und Aktionsabstände vereinheitlichen.
+Referenz ist die Anlagen-Neuanlage: Kästen 16 px innen, Bereiche 16 px Abstand;
+das sichtbare dreispaltige Adressraster hat 12 px Spaltenabstand, daher alle
+Formularraster 12 px in beiden Achsen; Aktionsgruppen 12 px. Die bisherige engere
+Kastenvariante der Vertragsakte entfällt. Transparente Feldgruppen/Formhüllen
+bleiben ohne zusätzliche Innenrahmen, damit keine doppelten Abstände entstehen.

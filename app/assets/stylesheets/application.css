@@ -17,6 +17,6 @@ legend{font-weight:700;padding:0 .4rem}input[type=checkbox]{width:auto;display:i
 .reading{border-top:1px solid var(--border);margin-top:1rem;padding-top:.5rem}
 .record-grid article,.form-panel{overflow-wrap:anywhere}details>summary{cursor:pointer}
 /* Shared structured address fields; theme colors come from the existing variables. */
-.address-fields{display:grid;grid-template-columns:minmax(0,2fr) minmax(90px,.65fr) minmax(0,1fr);gap:var(--space-3,12px);min-width:0}
+.address-fields{display:grid;grid-template-columns:minmax(0,2fr) minmax(90px,.65fr) minmax(0,1fr);gap:var(--field-gap-block,12px) var(--field-gap-inline,12px);min-width:0}
 .address-fields .field{min-width:0}.address-fields .field-required{font-size:var(--font-small,12px);color:var(--muted)}
 @media(max-width:800px){.address-fields{grid-template-columns:1fr}}

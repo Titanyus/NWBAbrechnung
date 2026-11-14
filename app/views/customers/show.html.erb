@@ -1,4 +1,6 @@
-<%= render "master_data/navigation" %><h1><%= @customer.display_name %></h1><%= link_to "Kunde bearbeiten", edit_plant_customer_path(@plant, @customer), class: "button" %>
+<%= render "shared/page_heading", title: (@customer.display_name), action_label: "Kunde bearbeiten", action_path: edit_plant_customer_path(@plant, @customer) %>
+<%= render "master_data/navigation" %>
+
 <section class="panel"><h2>Kundenstammdaten</h2><dl><dt>Kundennummer dieser Anlage</dt><dd><%= @membership.customer_number.presence || "nicht vergeben" %></dd>
 <dt>Anschrift</dt><dd class="address"><%= @customer.address %></dd><dt>Telefon</dt><dd><%= @customer.phone %></dd><dt>E-Mail</dt><dd><%= @customer.email %></dd>
 <dt>Zahlungsart</dt><dd><%= CustomerMembership::PAYMENT_METHODS.key(@membership.payment_method) %></dd><dt>Lastschriftvereinbarung</dt><dd><%= @membership.direct_debit_agreement? ? "Ja" : "Nein" %></dd>

@@ -6,7 +6,7 @@
 <%= stylesheet_link_tag "admin_contracts", "data-turbo-track": "reload" %>
 <%= javascript_importmap_tags %>
 </head><body class="contract-desktop" <%= tag.attributes(data: ui_body_data) %>>
-<% shell_plant = ui_shell_plant || current_user.plants.find_by(id: session[:selected_plant_id]) || current_user.plants.order(:name).first; plants_area = %w[plants route_sections].include?(controller_name) %>
+<% shell_plant = ui_shell_plant || current_user.plants.find_by(id: session[:selected_plant_id]) || current_user.plants.order(:name).first; plants_area = %w[plants route_sections].include?(controller_name); contracts_area = %w[supply_contracts customers connections heat_meters meter_readings].include?(controller_name) %>
 <a class="skip" href="#content">Zum Inhalt</a>
 <div class="contract-shell">
 <header class="contract-topbar">
@@ -18,13 +18,12 @@
 </header>
 <aside class="contract-sidebar"><nav aria-label="Hauptnavigation">
 <%= link_to "Anlagen", plants_path, aria: {current: ("page" if plants_area)}, data: {turbo_frame: "_top"} %>
-<%= link_to "Verträge", plant_supply_contracts_path(shell_plant), aria: {current: ("page" unless plants_area)}, data: {turbo_frame: "_top"} if shell_plant %>
+<%= link_to "Verträge", plant_supply_contracts_path(shell_plant), aria: {current: ("page" if contracts_area)}, data: {turbo_frame: "_top"} if shell_plant %>
 </nav><div class="sidebar-footer"><% if shell_plant %><details><summary>Weitere Stammdaten</summary>
 <%= link_to "Kunden suchen", plant_customers_path(shell_plant), class: "secondary-link", data: {turbo_frame: "_top"} %>
 <%= link_to "Anschlüsse", plant_connections_path(shell_plant), class: "secondary-link", data: {turbo_frame: "_top"} %>
 <%= link_to "Zähler", plant_heat_meters_path(shell_plant), class: "secondary-link", data: {turbo_frame: "_top"} %>
 </details><% end %><%= link_to "Darstellung", appearance_path, class: "secondary-link", data: {turbo_frame: "_top"} %><%= button_to "Abmelden", session_path, method: :delete, form: {data: {turbo_frame: "_top"}} %></div></aside>
-<main id="content" class="contract-main <%= "standard-main" if plants_area %>" tabindex="-1">
-<% flash.each do |kind, message| %><p class="flash <%= kind %>" role="status"><%= message %></p><% end %>
+<main id="content" class="contract-main <%= "standard-main" unless ui_master_detail? %>" tabindex="-1">
 <%= yield %></main>
 </div></body></html>

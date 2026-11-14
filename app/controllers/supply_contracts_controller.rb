@@ -1,6 +1,6 @@
 class SupplyContractsController < PlantScopedController
   before_action :load_record, only: [ :show, :edit, :update ]
-  layout :contract_layout
+  layout "contracts"
   rescue_from ContractBrowser::InvalidCursor, with: :invalid_browser_cursor
 
   def index
@@ -151,10 +151,6 @@ class SupplyContractsController < PlantScopedController
   def load_record
     @supply_contract = @plant.supply_contracts.find(params[:id])
     raise ActiveRecord::RecordNotFound if @contract_context && @contract_context.id != @supply_contract.id
-  end
-
-  def contract_layout
-    %w[index show new].include?(action_name) ? "contracts" : "application"
   end
 
   def build_browser(selected: nil)

@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  layout -> { current_user ? "contracts" : "application" }
   before_action :require_authentication
   before_action :prevent_caching
   helper_method :current_user

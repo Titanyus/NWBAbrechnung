@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  layout "application"
   skip_before_action :require_authentication, only: [ :new, :create ]
   rate_limit to: 10, within: 3.minutes, only: :create,
     with: -> { render plain: "Zu viele Anmeldeversuche. Bitte später erneut versuchen.", status: :too_many_requests }

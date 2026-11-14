@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "contract_browser", data: {turbo_action: "replace"} do %>
 <div data-controller="contract-browser" data-contract-browser-url-value="<%= plant_supply_contracts_path(@plant) %>" data-contract-browser-query-value="<%= @browser.filters.to_json %>" data-action="click->contract-browser#prepareLink turbo:frame-load->contract-browser#loaded workspace:changed->contract-browser#updated turbo:before-cache@document->contract-browser#remember" class="browser-root">
-<div class="page-heading browser-heading"><h1>Vertragsverwaltung</h1><%= link_to "Vertrag anlegen", new_plant_supply_contract_path(@plant, **@browser.filters, selected_contract_id: @workspace_contract&.id), class: "button", data: {turbo_frame: "contract_detail", turbo_action: "replace"} %></div>
+<%= render "shared/page_heading", title: "Vertragsverwaltung", action_label: "Vertrag anlegen", action_path: new_plant_supply_contract_path(@plant, **@browser.filters, selected_contract_id: @workspace_contract&.id), action_data: {turbo_frame: "contract_detail", turbo_action: "replace"} %>
 <%= render "browser_filters" %>
 <div class="browser-columns">
 <section class="contract-list-pane" aria-label="Vertragsauswahl">

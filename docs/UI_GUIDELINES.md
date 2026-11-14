@@ -48,6 +48,19 @@ Helle Seitenflächen werden aus vorhandenen Surface-/Text-Tokens etwas dunkler
 abgeleitet (92/8), weiße Kästen bleiben unverändert. Keine unabhängige neue Palette;
 Linkkontraste weiterhin gegen beide Flächen prüfen. Dunkelmodus unverändert.
 
+## Globale Abstände (aktueller Folgeauftrag)
+
+Alle angemeldeten Verwaltungsseiten verwenden die gemeinsame Desktop-Hülle und
+`shared/page_heading`; die Anmeldung bleibt eigenständig. Außenabstände wie bei
+Verträgen: oben/unten 12 px, links/rechts 16 px; Titelzeile mindestens 36 px,
+danach 8 px. Meldungen folgen dem Titel, damit dieser beim Speichern nicht springt.
+Innenabstände wie bei „Anlage anlegen“: Kästen 16 px, Abschnitte 16 px auseinander,
+Formularraster horizontal/vertikal 12 px, Aktionsgruppen 12 px. Werte zentral in
+`admin_contracts.css`, keine Modul- oder Feldvarianten. Rahmenlose Gruppen erhalten
+keine zusätzlichen Innenabstände. Ablesung und Zählerwechsel nutzen dieselben
+Formularpartials innerhalb und außerhalb der Vertragsakte. Tabellenzellen und
+zweizeilige Auswahllisten behalten ihre jeweiligen kompakten Maße (40/52 px).
+
 ## Ursprünglicher Vertrags-Pilot (historischer Stand)
 
 Zunächst ausschließlich Vertragsverwaltung: kompakte linke Hauptnavigation,
@@ -91,8 +104,8 @@ keine externen CSS-, Font- oder CDN-Abhängigkeiten und kein Kopieren ganzer Sys
 
 ## Tokens und Typografie
 
-Im Pilot werden Maße zentral und lokal begrenzt in `admin_contracts.css` definiert.
-Bestehende Seiten behalten `application.css` unverändert.
+Maße aller angemeldeten Verwaltungsseiten werden zentral in
+`admin_contracts.css` definiert; keine seitenspezifischen Abstandskopien.
 
 | Token-Gruppe | Verbindlicher Standard |
 |---|---|

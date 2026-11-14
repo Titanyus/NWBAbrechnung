@@ -1,6 +1,8 @@
 <% if @contract_context %><%= turbo_frame_tag "contract_detail" do %><div id="contract_workspace" data-contract-id="<%= @contract_context.id %>"><p><%= link_to "Zur Vertragsakte", plant_supply_contract_path(@plant, @contract_context) %></p>
 <%= render "shared/page_heading", level: 2, title: "Zähler einbauen" %><%= render "context_form" %>
 </div><% end %><% else %>
-<%= render "master_data/navigation" %><h1>Wärmezähler anlegen</h1><section class="panel form-panel"><%= render "form" %></section>
+<%= render "shared/page_heading", title: "Wärmezähler anlegen" %>
+<%= render "master_data/navigation" %>
+<section class="panel form-panel"><%= render "form" %></section>
 
 <% end %>

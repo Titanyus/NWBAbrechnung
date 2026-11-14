@@ -34,4 +34,7 @@ module AdminUiHelper
   def ui_body_data
     { controller: "theme live-search", action: "input->live-search#input change->live-search#change compositionend->live-search#input turbo:before-fetch-request->live-search#request turbo:before-fetch-response->live-search#response turbo:before-frame-render->live-search#beforeRender turbo:frame-render->live-search#afterRender" }
   end
+  def ui_master_detail?
+    controller_name == "supply_contracts" && %w[index show new create].include?(action_name)
+  end
 end

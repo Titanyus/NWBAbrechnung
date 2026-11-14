@@ -24,4 +24,14 @@ module AdminUiHelper
   def ui_context_options
     @contract_context ? { contract_id: @contract_context.id } : {}
   end
+  def ui_shell_plant
+    @plant if @plant&.persisted?
+  end
+
+  def ui_search_data(frame)
+    { live_search: true, turbo_frame: frame }
+  end
+  def ui_body_data
+    { controller: "theme live-search", action: "input->live-search#input change->live-search#change compositionend->live-search#input turbo:before-fetch-request->live-search#request turbo:before-fetch-response->live-search#response turbo:before-frame-render->live-search#beforeRender turbo:frame-render->live-search#afterRender" }
+  end
 end

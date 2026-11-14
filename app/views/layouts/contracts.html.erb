@@ -1,27 +1,28 @@
 <!DOCTYPE html><html lang="de"><head>
-<title>NWB Verwaltung · Verträge</title><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NWB Verwaltung</title><meta name="viewport" content="width=device-width,initial-scale=1">
 <%= csrf_meta_tags %><%= csp_meta_tag %>
 <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 <%= stylesheet_link_tag "admin_contracts", "data-turbo-track": "reload" %>
 <%= javascript_importmap_tags %>
-</head><body class="contract-desktop" data-controller="theme">
-<a class="skip" href="#content">Zum Vertragsarbeitsplatz</a>
+</head><body class="contract-desktop" <%= tag.attributes(data: ui_body_data) %>>
+<% shell_plant = ui_shell_plant || current_user.plants.find_by(id: session[:selected_plant_id]) || current_user.plants.order(:name).first; plants_area = controller_name == "plants" %>
+<a class="skip" href="#content">Zum Inhalt</a>
 <div class="contract-shell">
 <header class="contract-topbar">
 <div class="brand"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M4 24C1 10 13 8 24 3c5 14-2 25-16 23l-5 4 7-10 10-9-12 7z"/></svg>NWB</div><span class="product-name">Nahwärmeverwaltung</span>
 <%= form_with url: plant_selection_path, method: :patch, class: "header-selection", id: "plant-selection", data: {turbo_frame: "_top"} do |form| %>
-<%= form.label :selected_plant_id, "Anlage" %><%= form.select :selected_plant_id, current_user.plants.order(:name).map { |plant| [plant.name, plant.id] }, selected: @plant.id %><%= form.hidden_field :area, value: "contracts" %><%= form.submit "Wechseln" %><% end %>
+<%= form.label :selected_plant_id, "Anlage" %><%= form.select :selected_plant_id, current_user.plants.order(:name).map { |plant| [plant.name, plant.id] }, selected: shell_plant&.id %><%= form.hidden_field :area, value: "contracts" %><%= form.submit "Wechseln" %><% end %>
 <span class="user-label"><%= current_user.email_address %></span>
 </header>
 <aside class="contract-sidebar"><nav aria-label="Hauptnavigation">
-<%= link_to "Anlagen", plant_path(@plant), data: {turbo_frame: "_top"} %>
-<%= link_to "Verträge", plant_supply_contracts_path(@plant), aria: {current: "page"}, data: {turbo_frame: "_top"} %>
-</nav><div class="sidebar-footer"><details><summary>Weitere Stammdaten</summary>
-<%= link_to "Kunden suchen", plant_customers_path(@plant), class: "secondary-link", data: {turbo_frame: "_top"} %>
-<%= link_to "Anschlüsse", plant_connections_path(@plant), class: "secondary-link", data: {turbo_frame: "_top"} %>
-<%= link_to "Zähler", plant_heat_meters_path(@plant), class: "secondary-link", data: {turbo_frame: "_top"} %>
-</details><%= link_to "Darstellung", appearance_path, class: "secondary-link", data: {turbo_frame: "_top"} %><%= button_to "Abmelden", session_path, method: :delete, form: {data: {turbo_frame: "_top"}} %></div></aside>
-<main class="contract-main" id="content" tabindex="-1">
+<%= link_to "Anlagen", plants_path, aria: {current: ("page" if plants_area)}, data: {turbo_frame: "_top"} %>
+<%= link_to "Verträge", plant_supply_contracts_path(shell_plant), aria: {current: ("page" unless plants_area)}, data: {turbo_frame: "_top"} if shell_plant %>
+</nav><div class="sidebar-footer"><% if shell_plant %><details><summary>Weitere Stammdaten</summary>
+<%= link_to "Kunden suchen", plant_customers_path(shell_plant), class: "secondary-link", data: {turbo_frame: "_top"} %>
+<%= link_to "Anschlüsse", plant_connections_path(shell_plant), class: "secondary-link", data: {turbo_frame: "_top"} %>
+<%= link_to "Zähler", plant_heat_meters_path(shell_plant), class: "secondary-link", data: {turbo_frame: "_top"} %>
+</details><% end %><%= link_to "Darstellung", appearance_path, class: "secondary-link", data: {turbo_frame: "_top"} %><%= button_to "Abmelden", session_path, method: :delete, form: {data: {turbo_frame: "_top"}} %></div></aside>
+<main id="content" class="contract-main <%= "standard-main" if plants_area %>" tabindex="-1">
 <% flash.each do |kind, message| %><p class="flash <%= kind %>" role="status"><%= message %></p><% end %>
 <%= yield %></main>
 </div></body></html>

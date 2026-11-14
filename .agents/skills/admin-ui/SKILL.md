@@ -3,6 +3,16 @@ name: admin-ui
 description: Verbindlicher Desktop-UI-Standard für neue und bestehende NWB-Verwaltungsansichten, Tabellen, Formulare und UI-Reviews.
 ---
 
+Aktueller Folgeauftrag hat Vorrang vor der ursprünglichen Pilotbegrenzung:
+Anlagenübersicht und Stammdatenbearbeitung verwenden dieselben Desktop-Komponenten
+wie die Vertragsverwaltung. Alle bestehenden Suchen reagieren live serverseitig:
+Text nach 300 ms, Dropdown sofort, alte Antworten verwerfen, Fokus erhalten.
+Keine einzelnen Komponenten/Styles pro Feld oder Button; gemeinsame Tabellen-,
+Feld-, Fehler-, Aktions- und Layoutbausteine wiederverwenden. Farben ausschließlich
+aus vorhandenen Theme-Variablen; NWB-Header und Seitenleiste verwenden das bestehende
+Grün, Aktionen Gold, Flächen Weiß. Keine neuen unabhängigen Farbcodes.
+Leistungsdaten sind nicht modelliert: „nicht erfasst“ statt erfundener Berechnung.
+
 Aktuelle Pilot-Abgrenzung hat Vorrang: zunächst nur die Vertragsverwaltung nach
 Bildreferenz als Master-Detail-Ansicht umsetzen und prüfen. Übrige Seiten nicht
 parallel umgestalten. Linke Liste begrenzt nachladen, Filter serverseitig, Akte

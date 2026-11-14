@@ -32,8 +32,8 @@ class AccessTest < ActionDispatch::IntegrationTest
     sign_in
     get plants_path
     assert_response :success
-    assert_select "h2", text: "Test Nord"
-    assert_select "h2", text: "Test Süd", count: 0
+    assert_select "#plants-table tbody td a", text: "Test Nord"
+    assert_select "#plants-table tbody td a", text: "Test Süd", count: 0
     get plant_path(@other)
     assert_response :not_found
     get plant_path(@plant)

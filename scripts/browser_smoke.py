@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Optional desktop/mobile browser checks against a synthetic installation."""
+"""Optional desktop browser checks against a synthetic installation."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 settings = dict(line.split('=', 1) for line in Path('.env').read_text().splitlines() if '=' in line)
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path='/usr/bin/chromium', headless=True, args=['--no-sandbox'])
-    for width in (1280, 390):
+    for width in (1280, 1440, 1920, 2560):
         page = browser.new_page(viewport={'width': width, 'height': 900})
         errors = []
         page.on('pageerror', lambda error: errors.append(str(error)))
@@ -23,4 +23,4 @@ with sync_playwright() as p:
         assert not errors, errors
         page.close()
     browser.close()
-print('PASS: Chromium desktop/mobile, Hotwire loaded, plant selection, logout, no JS errors or horizontal overflow')
+print('PASS: Chromium desktop, Hotwire loaded, plant selection, logout, no JS errors or horizontal overflow')

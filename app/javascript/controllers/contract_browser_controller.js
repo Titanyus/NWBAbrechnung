@@ -13,8 +13,6 @@ export default class extends Controller {
 
   remember() { this.listTarget.dataset.preservedScroll = String(this.listTarget.scrollTop) }
 
-  sort(event) { event.currentTarget.form.requestSubmit() }
-
   loaded(event) {
     if (event.target.id === "contract_detail") {
       this.detailTarget.scrollTop = 0

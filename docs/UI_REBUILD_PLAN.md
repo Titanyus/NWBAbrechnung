@@ -89,3 +89,13 @@ Akte und sind Teil dieses Pilots. Kein Kunden-Hauptmenü. Die Übersicht zeigt d
 wichtigen Daten gemeinsam; Details und komplexe Vorgänge dürfen eigene Ansichten
 innerhalb des rechten Arbeitsbereichs öffnen. Keine leeren Abrechnungs-/Auswertungs-
 Tabs aus der Referenz, solange die Funktionen nicht existieren.
+
+## Fortsetzung nach Freigabe des Vertrags-Pilots
+
+Beauftragt: gemeinsame Theme-Farben statt eigener Chrome-Farben; Anlagenübersicht
+als auswählbare Tabelle mit Stammdatenbearbeitung und Wechsel in Verträge; jede
+bestehende Suche als gemeinsame serverseitige Live-Suche (300 ms, Dropdown sofort).
+Gemeinsame Layout-, Tabellen-, Feld- und Aktionskomponenten wiederverwenden.
+Keine Migration: Leistungsfelder existieren nicht, daher Gesamtleistung ausdrücklich
+„nicht erfasst“. Anlagenänderungen nur Administrator mit expliziter Zuordnung,
+Transaktion und bestehendes Audit. Keine neuen Fachregeln oder Rechte aus Formularen.

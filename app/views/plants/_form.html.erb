@@ -1,0 +1,8 @@
+<%= render "shared/context_errors", record: @plant %>
+<%= form_with model: @plant, data: {turbo_frame: "_top"} do |form| %>
+<div class="field-grid">
+<%= ui_field(required: true) do %><%= form.label :name, "Name" %><%= form.text_field :name, required: true, maxlength: 150 %><% end %>
+<%= ui_field(required: true) do %><%= form.label :address, "Anschrift" %><%= form.text_area :address, required: true, maxlength: 1000, rows: 3 %><% end %>
+<%= ui_field(full: true) do %><%= form.label :technical_notes, "Technische Hinweise (optional)" %><%= form.text_area :technical_notes, maxlength: 4000, rows: 4 %><% end %>
+</div><div class="form-actions"><%= form.submit @plant.persisted? ? "Änderungen speichern" : "Anlage anlegen" %><%= link_to "Abbrechen", plants_path, data: {turbo_frame: "_top"} %></div>
+<% end %>

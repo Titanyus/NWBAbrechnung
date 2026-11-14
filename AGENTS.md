@@ -32,3 +32,8 @@ kaufmännischen Ablauf kurz erläutern. Anlagen und Verträge sind Hauptbereiche
 Trassen gehören zur Anlage, tägliche Kunden-/Anschluss-/Zählerarbeit in die Akte.
 Der neueste UI_REBUILD_BRIEF.md und UI_REBUILD_PLAN.md haben Vorrang vor älteren
 Layoutvorgaben. Berechtigungs- und Datenintegritätsregeln bleiben verbindlich.
+
+Neue Suchen verwenden die gemeinsame serverseitige Turbo-Live-Suche über
+`ui_search_data`: Text 300 ms, Auswahl sofort, alte Antworten abbrechen/verwerfen,
+Fokus und unabhängige Formulare erhalten. Gemeinsame UI-Bausteine statt einzelner
+Feld-/Button-/Rahmenvarianten. Farben ausschließlich aus vorhandenen Theme-Tokens.

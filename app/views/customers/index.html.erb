@@ -1,9 +1,13 @@
 <%= render "master_data/navigation" %><h1>Kunden</h1>
 <%= link_to "Kunden anlegen oder zuordnen", new_plant_customer_path(@plant), class: "button" %>
-<%= form_with url: plant_customers_path(@plant), method: :get do |form| %>
+<%= turbo_frame_tag "customer-results", data: {turbo_action: "replace"} do %>
+<%= form_with url: plant_customers_path(@plant), method: :get, id: "customers-search", data: ui_search_data("customer-results") do |form| %>
 <%= form.label :q, "Kunde oder Kundennummer suchen" %><%= form.search_field :q, value: params[:q], maxlength: 200 %>
 <%= form.label :state, "Kundenstatus" %><%= form.select :state, [["Alle", ""], ["Aktiv", "active"], ["Inaktiv", "inactive"]], selected: params[:state] %>
 <%= form.submit "Suchen" %><% end %>
-<div class="record-grid"><% @memberships.each do |membership| %><article class="panel"><h2><%= link_to membership.customer.display_name, plant_customer_path(@plant, membership.customer) %></h2>
+<p role="status"><%= @memberships.empty? ? "Keine passenden Kunden gefunden." : "#{@memberships.length} Kunden auf dieser Ergebnisseite" %></p>
+<div class="record-grid"><% @memberships.each do |membership| %><article class="panel"><h2><%= link_to membership.customer.display_name, plant_customer_path(@plant, membership.customer), data: {turbo_frame: "_top"} %></h2>
 <p>Kundennummer: <%= membership.customer_number.presence || "nicht vergeben" %> · <%= membership.active? ? "Aktiv" : "Inaktiv" %></p></article><% end %></div>
 <%= render "master_data/pagination", records: @memberships %>
+
+<% end %>

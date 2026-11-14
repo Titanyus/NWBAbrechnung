@@ -23,14 +23,14 @@ with sync_playwright() as p:
         page.get_by_role('button', name='Anmelden', exact=True).click()
         page.get_by_role('heading', name='Ihre Nahwärmeanlagen').wait_for()
     login(small, 3000, 'admin@example.test', password('.env'))
-    assert small.locator('.plant-grid article').count() == 3
+    assert small.locator('#plants-table tbody tr').count() == 3
     login(large, 3001, 'admin@example.test', password(args.large_env))
-    assert large.locator('.plant-grid article').count() == 50
+    assert large.locator('#plants-table tbody tr').count() == 50
     large.get_by_role('button', name='Abmelden', exact=True).click()
     login(large, 3001, 'verwaltung@example.test', password(args.large_env))
-    assert large.locator('.plant-grid article').count() == 25
+    assert large.locator('#plants-table tbody tr').count() == 25
     small.reload()
     small.get_by_role('heading', name='Ihre Nahwärmeanlagen').wait_for()
-    assert small.locator('.plant-grid article').count() == 3
+    assert small.locator('#plants-table tbody tr').count() == 3
     browser.close()
 print('PASS: separate installations with 3/50 plants, 25 authorized large plants, independent cookies on the same host')

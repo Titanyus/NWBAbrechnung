@@ -8,7 +8,7 @@
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
 </head>
-<body data-controller="theme">
+<body <%= tag.attributes(data: ui_body_data) %>>
   <a class="skip" href="#content">Zum Inhalt</a>
   <header><div class="brand">NWB <span>Verwaltung</span></div><nav aria-label="Hauptnavigation">
     <% if current_user %>

@@ -1,4 +1,4 @@
 <div class="page-heading">
   <%= content_tag(local_assigns[:level] == 2 ? :h2 : :h1, title) %>
-  <% if local_assigns[:action_path] %><%= link_to action_label, action_path, class: "button" %><% end %>
+  <% if local_assigns[:actions] %><%= actions %><% elsif local_assigns[:action_path] %><%= link_to action_label, action_path, class: "button" %><% end %>
 </div>

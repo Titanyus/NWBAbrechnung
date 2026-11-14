@@ -4,13 +4,10 @@
 <%= render "browser_filters" %>
 <div class="browser-columns">
 <section class="contract-list-pane" aria-label="Vertragsauswahl">
-<div class="contract-list-heading"><strong><%= @contract_count %> Verträge</strong>
-<%= form_with url: plant_supply_contracts_path(@plant), method: :get, data: {turbo_frame: "contract_browser"} do |form| %>
-<% @browser.filters.except("sort", "direction").each do |name, value| %><%= hidden_field_tag name, value %><% end %>
-<%= hidden_field_tag :selected_contract_id, @workspace_contract&.id %>
-<%= form.label :sort, "Sortierung", class: "sr-only" %><%= form.select :sort, [["Kunde (A–Z)", "customer"], ["Vertragsnummer", "number"], ["Anschluss", "connection"], ["Trasse", "route"], ["Status", "status"], ["Vertragsbeginn", "starts_on"]], selected: @browser.sort, data: {action: "change->contract-browser#sort"} %>
-<%= hidden_field_tag :direction, @browser.direction %><noscript><%= form.submit "Sortieren" %></noscript>
-<% end %></div>
+<div class="contract-list-heading"><strong role="status"><%= @contract_count %> Verträge</strong>
+<%= label_tag :contract_sort, "Sortierung", class: "sr-only" %>
+<%= select_tag :sort, options_for_select([["Kunde (A–Z)", "customer"], ["Vertragsnummer", "number"], ["Anschluss", "connection"], ["Trasse", "route"], ["Status", "status"], ["Vertragsbeginn", "starts_on"]], @browser.sort), id: "contract_sort", form: "contract-search" %>
+</div>
 <div class="contract-list-scroll" data-contract-browser-target="list" data-action="scroll->contract-browser#remember keydown->contract-browser#keyboard" tabindex="0" aria-label="Scrollbare Vertragsliste">
 <%= render "browser_items" %><%= render "browser_next" %>
 <% if @contracts.empty? %><p class="empty-browser">Keine passenden Verträge gefunden.</p><% end %>

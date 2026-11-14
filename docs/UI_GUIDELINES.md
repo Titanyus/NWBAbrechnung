@@ -1,5 +1,15 @@
 # Verbindlicher UI-Standard – NWB Verwaltung
 
+Aktueller Folgeauftrag hat Vorrang vor der ursprünglichen Pilotbegrenzung:
+Anlagenübersicht und Stammdatenbearbeitung verwenden dieselben Desktop-Komponenten
+wie die Vertragsverwaltung. Alle bestehenden Suchen reagieren live serverseitig:
+Text nach 300 ms, Dropdown sofort, alte Antworten verwerfen, Fokus erhalten.
+Keine einzelnen Komponenten/Styles pro Feld oder Button; gemeinsame Tabellen-,
+Feld-, Fehler-, Aktions- und Layoutbausteine wiederverwenden. Farben ausschließlich
+aus vorhandenen Theme-Variablen; NWB-Header und Seitenleiste verwenden das bestehende
+Grün, Aktionen Gold, Flächen Weiß. Keine neuen unabhängigen Farbcodes.
+Leistungsdaten sind nicht modelliert: „nicht erfasst“ statt erfundener Berechnung.
+
 ## Aktueller Pilot nach Bildreferenz (Vorrang)
 
 Zunächst ausschließlich Vertragsverwaltung: kompakte linke Hauptnavigation,
@@ -60,8 +70,8 @@ Bestehende Seiten behalten `application.css` unverändert.
 
 Keine individuellen Schrift-/Abstandswerte je View. Farbvariablen bleiben mit
 NWB Billenhausen, Smaragd, Ozean, Schiefer, Hell/Dunkel und eigenen Akzenten
-kompatibel. Statusfarben sind zusätzliche zentrale Tokens, keine fest codierten
-Farben in Views. Keine dekorativen Schatten oder verschachtelten Karten.
+kompatibel. Statusanzeigen verwenden dieselben vorhandenen Theme-Tokens, keine separaten
+Farbpaletten oder fest codierten Farben in Views. Keine dekorativen Schatten oder verschachtelten Karten.
 
 ## Listen und Tabellen
 

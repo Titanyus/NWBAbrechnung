@@ -4,13 +4,9 @@
   --font-body:14px;--font-small:12px;--font-title:24px;--font-section:18px;
   --line-body:1.45;--row-height:40px;--control-height:36px;--action-height:32px;
   --content-max:100%;--radius:4px;
-  --status-active-bg:#dcebe0;--status-active-text:#164329;
-  --status-neutral-bg:#e7e9ec;--status-neutral-text:#39424e;
-  --status-warning-bg:#fff0cc;--status-warning-text:#644500}
-html[data-color-mode=dark] .contract-desktop{
-  --status-active-bg:#234a34;--status-active-text:#d5f6df;
-  --status-neutral-bg:#34404b;--status-neutral-text:#edf1f6;
-  --status-warning-bg:#5b4520;--status-warning-text:#ffe3a3}
+  --status-active-bg:var(--notice);--status-active-text:var(--text);
+  --status-neutral-bg:var(--page);--status-neutral-text:var(--text);
+  --status-warning-bg:var(--alert);--status-warning-text:var(--text)}
 .contract-desktop *{box-sizing:border-box}
 .contract-desktop{margin:0;background:var(--page);color:var(--text);font:var(--font-body)/var(--line-body) system-ui,sans-serif}
 .contract-desktop a{color:var(--link);text-underline-offset:3px}
@@ -33,7 +29,7 @@ html[data-color-mode=dark] .contract-desktop{
 .contract-desktop .page-heading,.contract-desktop .section-heading{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);margin:var(--space-2) 0 var(--space-3)}
 .contract-desktop .page-heading h1,.contract-desktop .section-heading h2{margin:0}
 .contract-desktop .section-heading{margin-top:var(--space-4)}
-.contract-desktop .button,.contract-desktop button,.contract-desktop input[type=submit]{display:inline-flex;justify-content:center;align-items:center;min-height:var(--control-height);background:var(--accent);color:var(--accent-text);border:1px solid var(--link);border-radius:var(--radius);padding:var(--space-1) var(--space-3);font:inherit;font-weight:600;text-decoration:none;cursor:pointer;white-space:normal}
+.contract-desktop .button,.contract-desktop button,.contract-desktop input[type=submit]{margin:0;display:inline-flex;justify-content:center;align-items:center;min-height:var(--control-height);background:var(--accent);color:var(--accent-text);border:1px solid var(--link);border-radius:var(--radius);padding:var(--space-1) var(--space-3);font:inherit;font-weight:600;text-decoration:none;cursor:pointer;white-space:normal}
 .contract-desktop .button--secondary{background:var(--surface);color:var(--link)}
 .contract-desktop .action-link{display:inline-flex;align-items:center;min-height:var(--action-height);padding:var(--space-1) var(--space-2);white-space:nowrap}
 .contract-desktop .row-actions{white-space:nowrap}
@@ -81,7 +77,7 @@ html[data-color-mode=dark] .contract-desktop{
 .contract-desktop code{font-size:var(--font-small);overflow-wrap:anywhere}
 .contract-desktop form{margin:0}
 .contract-desktop label{display:block;font-weight:600;margin:0 0 var(--space-1)}
-.contract-desktop input:not([type=submit]):not([type=checkbox]),.contract-desktop textarea,.contract-desktop select{width:100%;min-height:var(--control-height);padding:var(--space-1) var(--space-2);border:1px solid var(--border);border-radius:var(--radius);font:inherit;color:var(--text);background:var(--surface);max-width:100%}
+.contract-desktop input:not([type=submit]):not([type=checkbox]):not([type=radio]),.contract-desktop textarea,.contract-desktop select{width:100%;min-height:var(--control-height);padding:var(--space-1) var(--space-2);border:1px solid var(--border);border-radius:var(--radius);font:inherit;color:var(--text);background:var(--surface);max-width:100%}
 .contract-desktop textarea{min-height:76px;resize:vertical;line-height:var(--line-body)}
 .contract-desktop input[type=checkbox]{width:16px;height:16px;margin:0 var(--space-2) 0 0;vertical-align:middle;accent-color:var(--link)}
 .contract-desktop input[type=color]{max-width:128px;height:var(--control-height)}
@@ -151,11 +147,11 @@ html[data-color-mode=dark] .contract-desktop{
 .contract-desktop .workspace-panel .field-grid--4{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:1100px){.contract-desktop .field-grid--4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* Reference-led master/detail shell. No global rollout outside this layout. */
-.contract-desktop{--chrome-bg:#193951;--chrome-side:#20374c;--chrome-text:#ffffff;--sidebar-width:184px;--selection-row-height:52px;height:100vh;overflow:hidden}
+.contract-desktop{--chrome-bg:var(--header);--chrome-side:var(--header);--chrome-text:var(--header-text);--sidebar-width:184px;--selection-row-height:52px;height:100vh;overflow:hidden}
 .contract-desktop .contract-shell{display:grid;grid-template-columns:var(--sidebar-width) minmax(0,1fr);grid-template-rows:56px minmax(0,1fr);height:100vh;min-width:0}
 .contract-desktop .contract-topbar{grid-column:1/-1;display:flex;align-items:center;gap:var(--space-6);padding:var(--space-2) var(--space-4);background:var(--chrome-bg);color:var(--chrome-text);min-height:0}
 body.contract-desktop .contract-topbar .brand{color:var(--chrome-text);font-size:24px;display:flex;align-items:center;gap:var(--space-2)}
-.contract-desktop .brand-mark{width:28px;height:28px;color:#66c84b;flex-shrink:0}
+.contract-desktop .brand-mark{width:28px;height:28px;color:var(--accent);flex-shrink:0}
 .contract-desktop .product-name{font-size:var(--font-body);font-weight:600}
 .contract-desktop .contract-topbar .header-selection{margin-left:auto}
 .contract-desktop .contract-topbar .header-selection select{width:270px}
@@ -165,7 +161,7 @@ body.contract-desktop .contract-topbar .brand{color:var(--chrome-text);font-size
 .contract-desktop .contract-sidebar a{color:var(--chrome-text);padding:var(--space-3);text-decoration:none;border-radius:var(--radius);font-weight:550;display:flex;align-items:center;gap:var(--space-3);min-height:44px}
 .contract-desktop .contract-sidebar a[aria-current=page]{background:var(--accent);color:var(--accent-text)}
 .contract-desktop .contract-sidebar a:focus-visible,.contract-desktop .contract-sidebar button:focus-visible{outline-color:var(--chrome-text)}
-.contract-desktop .sidebar-footer{margin-top:auto;border-top:1px solid #587083;padding-top:var(--space-2)}
+.contract-desktop .sidebar-footer{margin-top:auto;border-top:1px solid var(--header-text);padding-top:var(--space-2)}
 .contract-desktop .sidebar-footer summary{padding:var(--space-2);font-size:var(--font-small)}
 .contract-desktop .sidebar-footer .secondary-link{font-size:var(--font-small);min-height:var(--control-height);padding:var(--space-2)}
 .contract-desktop .sidebar-footer form{padding:var(--space-2)}
@@ -218,7 +214,16 @@ body.contract-desktop .contract-topbar .brand{color:var(--chrome-text);font-size
 .contract-desktop .browser-filter-form{flex-shrink:0}
 .contract-desktop dt{margin:0;padding:0}
 .contract-desktop .workspace-panel .detail-grid>div{grid-template-columns:145px minmax(0,1fr)}
-.contract-desktop .contract-topbar input[type=submit]{background:transparent;color:var(--chrome-text);border-color:#9bb0c1}
-.contract-desktop .sidebar-footer button{background:transparent;color:var(--chrome-text);border-color:#9bb0c1;min-height:var(--action-height)}
+.contract-desktop .contract-topbar input[type=submit]{background:transparent;color:var(--chrome-text);border-color:var(--header-text)}
+.contract-desktop .sidebar-footer button{background:transparent;color:var(--chrome-text);border-color:var(--header-text);min-height:var(--action-height)}
 @media(max-width:1100px){.contract-desktop .user-label{display:none}.contract-desktop .browser-columns{grid-template-columns:220px minmax(0,1fr)}}
 @container(max-width:450px){.contract-desktop .workspace-panel .detail-grid>div{grid-template-columns:1fr;gap:var(--space-1)}.contract-desktop .workspace-panel .field-grid{grid-template-columns:1fr}.contract-desktop .workspace-panel .section-heading{flex-wrap:wrap}}
+
+/* Shared desktop components for both main workspaces. */
+.contract-desktop main.standard-main{overflow:auto;display:block}
+.contract-desktop .table-row-selectable{cursor:pointer}
+.contract-desktop .table-row-selectable[aria-selected=true]{background:var(--notice)}
+.contract-desktop input[type=radio]{width:16px;min-height:16px;accent-color:var(--link)}
+.contract-desktop .actions{display:flex;align-items:center;gap:var(--space-3)}
+.contract-desktop [aria-disabled=true]{opacity:.55;pointer-events:none}
+.contract-desktop .table-row-selectable:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}

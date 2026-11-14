@@ -209,4 +209,7 @@ Die Vertragsverwaltung verwendet eine unabhängig scrollbare Vertragsliste und
 rechts eine per Turbo aktualisierte Akte. Suche/Filter gelten serverseitig für
 alle berechtigten Verträge; nachgeladen wird in begrenzten 30er-Schritten.
 Prüfergebnisse, Screenshots und bewusste Abgrenzungen: [Pilot-Review](docs/ui-contracts/REVIEW.md).
-Andere Fachseiten und die bestehende Vertragserstellung bleiben vorerst erhalten.
+Die freigegebene Fortsetzung ergänzt die Anlagenübersicht, Anlagen-Stammdatenbearbeitung
+und gemeinsame Live-Suche in sämtlichen bestehenden Suchleisten. Details und
+Screenshots: [Anlagen und Live-Suche](docs/ui-plants/REVIEW.md).
+Die bestehende Vertragserstellung und sonstige Fachlogik bleiben erhalten.

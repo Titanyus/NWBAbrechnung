@@ -1,0 +1,15 @@
+<%= render "shared/page_heading", title: "Anlage löschen" %>
+<section class="panel">
+<h2><%= @plant.name %> wirklich löschen?</h2>
+<p class="address"><%= @plant.address %></p>
+<% if @deletion_blocked %>
+<p class="flash alert" role="alert">Diese Anlage kann nicht gelöscht werden, solange Trassen, Kunden, Hausanschlüsse oder Verträge zugeordnet sind.</p>
+<%= link_to "Zurück zur Anlage", edit_plant_path(@plant), class: "button", data: {turbo_frame: "_top"} %>
+<% else %>
+<p>Die Anlage wird aus der Verwaltung und der Anlagenauswahl entfernt. Das Änderungsprotokoll bleibt erhalten.</p>
+<div class="form-actions">
+<%= link_to "Abbrechen", edit_plant_path(@plant), class: "button button--secondary", data: {turbo_frame: "_top"} %>
+<%= button_to "Löschen bestätigen", plant_path(@plant), method: :delete, params: {confirmation: @deletion_confirmation}, form: {data: {turbo_frame: "_top"}} %>
+</div>
+<% end %>
+</section>

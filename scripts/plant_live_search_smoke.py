@@ -41,8 +41,6 @@ async def main():
         assert await page.locator('input#plant_name').evaluate('(el)=>!el.validity.valid')
         await page.get_by_label('Anlagenname',exact=True).fill('Testanlage 01')
         await page.get_by_role('button',name='Anlage speichern',exact=True).click()
-        await page.locator('#plant-form').wait_for()
-        await page.get_by_role('link',name='Abbrechen',exact=True).click()
         await page.locator('#plants-table').wait_for()
         await page.get_by_role('button',name='Testanlage 01: Anlage auswählen',exact=True).click()
         await page.locator('#contract_browser').wait_for()

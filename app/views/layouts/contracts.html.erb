@@ -11,8 +11,9 @@
 <div class="contract-shell">
 <header class="contract-topbar">
 <div class="brand"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M4 24C1 10 13 8 24 3c5 14-2 25-16 23l-5 4 7-10 10-9-12 7z"/></svg>NWB</div><span class="product-name">Nahwärmeverwaltung</span>
-<%= form_with url: plant_selection_path, method: :patch, class: "header-selection", id: "plant-selection", data: {turbo_frame: "_top"} do |form| %>
+<% if shell_plant %><%= form_with url: plant_selection_path, method: :patch, class: "header-selection", id: "plant-selection", data: {turbo_frame: "_top"} do |form| %>
 <%= form.label :selected_plant_id, "Anlage" %><%= form.select :selected_plant_id, current_user.plants.order(:name).map { |plant| [plant.name, plant.id] }, selected: shell_plant&.id %><%= form.hidden_field :area, value: "contracts" %><%= form.submit "Wechseln" %><% end %>
+<% else %><span class="header-selection">Keine Anlage ausgewählt</span><% end %>
 <span class="user-label"><%= current_user.email_address %></span>
 </header>
 <aside class="contract-sidebar"><nav aria-label="Hauptnavigation">

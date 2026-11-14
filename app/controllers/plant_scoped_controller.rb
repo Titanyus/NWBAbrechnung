@@ -1,11 +1,23 @@
 class PlantScopedController < ApplicationController
   before_action :load_plant
   before_action :load_contract_context
+  around_action :keep_plant_active_for_write
   helper_method :plant_navigation, :contextual_path
   rescue_from ActiveRecord::RecordNotUnique, with: :conflicting_change
   rescue_from ActiveRecord::StatementInvalid, with: :database_conflict
 
   private
+
+  def keep_plant_active_for_write
+    if request.get? || request.head?
+      yield
+    else
+      @plant.with_lock do
+        raise ActiveRecord::RecordNotFound if @plant.deleted_at?
+        yield
+      end
+    end
+  end
 
   def load_plant
     @plant = current_user.plants.find(params[:plant_id])

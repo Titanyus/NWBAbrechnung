@@ -28,7 +28,7 @@ class PlantRoutesWorkspaceTest < ActionDispatch::IntegrationTest
     assert_select "#plant_metrics [data-metric=connections]", text: "1"
     assert_select "#plant-routes-table tr[data-route-id=?] td.number", @route.id, text: "1", count: 1
     assert_select "#plant-routes-table tr[data-route-id=?] td.number", @route.id, text: "4", count: 1
-    assert_select "a", text: /Löschen|Entfernen/, count: 0
+    assert_select "#plant_routes a", text: /Löschen|Entfernen/, count: 0
   end
 
   test "new plant has structured address and creates before routes" do
@@ -41,7 +41,7 @@ class PlantRoutesWorkspaceTest < ActionDispatch::IntegrationTest
     assert_select "#plant_metrics [data-metric=routes]", text: "0"
     post plants_path, params: { plant: { name: "Neue Anlage", street: "Neue Straße 1", postal_code: "01234", city: "Neustadt" } }
     created = Plant.find_by!(name: "Neue Anlage")
-    assert_redirected_to edit_plant_path(created)
+    assert_redirected_to plants_path
     assert_equal "01234", created.postal_code
     assert_equal "Neue Straße 1\n01234 Neustadt", created.address
   end

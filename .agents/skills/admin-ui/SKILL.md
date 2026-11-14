@@ -21,6 +21,10 @@ aufteilen; Pflichtfelder und gemeinsame Modell-/DB-Prüfung. PLZ immer Text.
 Keine zusätzliche Freitextadressquelle. Änderung der bisherigen Demodaten ist
 vom Betreiber ausdrücklich freigegeben. Keine neuen Status-/Leistungsfelder.
 
+Aktuell ergänzt: „Anlage löschen“ rechts oben für zugeordnete Administratoren,
+nur nach ausdrücklicher Bestätigung und nur ohne Fachdaten. Audit erhalten,
+keine Löschkaskade. „Anlage speichern“ führt zur Übersicht zurück.
+
 Ursprüngliche Pilot-Abgrenzung (historischer Stand): zunächst nur die Vertragsverwaltung nach
 Bildreferenz als Master-Detail-Ansicht umsetzen und prüfen. Übrige Seiten nicht
 parallel umgestalten. Linke Liste begrenzt nachladen, Filter serverseitig, Akte

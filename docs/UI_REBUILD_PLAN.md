@@ -125,3 +125,25 @@ ist diese ausdrücklich für den aktuellen Demoaufbau bestimmte Migration ungeei
 Letzte Präzisierung: Trassensuche und ihr Beschreibungstext entfallen ausdrücklich.
 Normale Trassenlisten zeigen keine Seitennavigation; nur bei mehr als 100 Trassen
 bleibt eine begrenzte Folgeseite erreichbar. Keine Datensätze still abschneiden.
+
+## Anlage löschen (beauftragt)
+
+Rechts oben in der bestehenden Anlagenansicht für zugeordnete Administratoren.
+Ausdrückliche Bestätigungsseite, danach DELETE mit kurzlebiger, an Benutzer,
+Anlage und Änderungsstand gebundener Bestätigung. Ohne diese keine Entfernung.
+Nur leere Anlagen: Trassen/Kundenzuordnungen/Anschlüsse/Verträge blockieren.
+Bestehende unveränderliche Audit-Ereignisse referenzieren die Anlage per FK;
+deshalb logische Löschung über deleted_at statt Löschen von Audit-Originalen.
+Berechtigungen bleiben historisch erhalten, aber current_user.plants schließt
+entfernte Anlagen aus. Alle Listen, Header, verschachtelte Ressourcen und direkten
+Zugriffe nutzen damit weiterhin denselben serverseitigen Anlagenscope.
+Keine neue Löschfarbe, kein neues JS-Framework, keine Kaskadenlöschung.
+
+Schreibzugriffe innerhalb einer Anlage halten während der Änderung dieselbe
+Anlagensperre wie die Löschung. So kann keine bereits gestartete Formularanfrage
+nach dem Entfernen noch Datensätze in die verschwundene Anlage schreiben.
+
+Die bestehenden atomaren Schreibdienste verwenden innerhalb der Anlagensperre
+savepoints (requires_new), damit im Controller behandelte Validierungsfehler
+weiterhin den gesamten jeweiligen Kunden-/Zähler-/Ablesevorgang zurückrollen.
+Die fachlichen Regeln und Berechtigungen werden dabei nicht verändert.

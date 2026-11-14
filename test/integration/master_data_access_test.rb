@@ -212,4 +212,17 @@ class MasterDataAccessTest < ActionDispatch::IntegrationTest
     get plant_customers_path(@plant), params: { q: "Synthetische Kundin", state: "inactive" }
     assert_select "a[href=?]", plant_customer_path(@plant, @customer), text: "Synthetische Kundin", count: 1
   end
+  test "failed replacement inside plant write lock rolls back meter readings and audit" do
+    sign_in
+    old_readings = @meter.meter_readings.count
+    assert_no_difference [ "HeatMeter.count", "MeterReading.count", "AuditEvent.count" ] do
+      post exchange_plant_heat_meter_path(@plant, @meter), params: {
+        exchange_on: "2026-07-01", closing_value: "100", initial_value: "not-a-number",
+        heat_meter: { serial_number: "NEW-INVALID", unit: "kWh" }
+      }
+      assert_response :unprocessable_entity
+    end
+    assert_nil @meter.reload.removed_on
+    assert_equal old_readings, @meter.meter_readings.count
+  end
 end

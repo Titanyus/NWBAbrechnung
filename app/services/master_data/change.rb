@@ -8,7 +8,7 @@ module MasterData
     end
 
     def self.save!(record, attributes:, user:)
-      record.class.transaction do
+      record.class.transaction(requires_new: true) do
         record.lock! if record.persisted?
         record.update!(attributes)
         audit!(record, user: user)

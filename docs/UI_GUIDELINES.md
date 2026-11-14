@@ -17,7 +17,10 @@ Stammdaten links, automatisch ermittelte Kennzahlen rechts, Trassen als Tabelle
 unterhalb. Alle Vertragsstatus zählen; „Verträge gesamt“ eindeutig beschriften.
 Trassen direkt in diesem Arbeitsplatz anlegen/bearbeiten; keine Trassensuche und
 kein beschreibender Einführungstext dort (ausdrückliche Ausnahme zur Live-Suche).
-Keine Löschfunktion ergänzen. Bestehende Rechte erhalten.
+Keine Trassenlöschung ergänzen. Anlagen dürfen zugeordnete Administratoren nach
+ausdrücklicher Bestätigung entfernen, sofern keine Fachdaten zugeordnet sind.
+Die Anlage wird logisch gelöscht, das Audit bleibt erhalten. Speichern von
+Anlagen führt anschließend zur Anlagenübersicht. Bestehende Rechte erhalten.
 
 Straße/Hausnummer, PLZ und Ort sind bei jeder Anlage, jedem Kunden und jedem
 Hausanschluss getrennte Pflichtfelder. Gemeinsames Partial `shared/address_fields`

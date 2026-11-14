@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   resource :session, only: [ :new, :create, :destroy ]
   resource :plant_selection, only: :update
   resource :appearance, only: :show
-  resources :plants, only: [ :index, :show, :new, :create, :edit, :update ] do
+  resources :plants, only: [ :index, :show, :new, :create, :edit, :update, :destroy ] do
+    get :delete_confirmation, on: :member
     resources :customers, except: :destroy do
       post :link, on: :collection
     end

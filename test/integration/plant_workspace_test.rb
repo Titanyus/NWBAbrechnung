@@ -42,7 +42,7 @@ class PlantWorkspaceTest < ActionDispatch::IntegrationTest
 
   test "authorized administrator edits only permitted fields and produces audit" do
     patch plant_path(@plant), params: { plant: { name: "Neu", street: "Neue Anschrift", postal_code: "00000", city: "Testort", technical_notes: "Technik", operator_id: "invalid", id: @other.id } }
-    assert_redirected_to edit_plant_path(@plant)
+    assert_redirected_to plants_path
     assert_equal "Neu", @plant.reload.name
     assert_equal @operator.id, @plant.operator_id
     event = AuditEvent.where(subject_type: "Plant", subject_id: @plant.id).last

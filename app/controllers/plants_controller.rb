@@ -1,7 +1,7 @@
 class PlantsController < ApplicationController
   include PlantWorkspace
-  before_action :require_administrator, only: [ :new, :create, :edit, :update ]
-  before_action :load_plant, only: [ :show, :edit, :update ]
+  before_action :require_administrator, only: [ :new, :create, :edit, :update, :delete_confirmation, :destroy ]
+  before_action :load_plant, only: [ :show, :edit, :update, :delete_confirmation, :destroy ]
   layout "contracts"
 
   def index
@@ -31,7 +31,7 @@ class PlantsController < ApplicationController
   def create
     @plant = Plants::Create.call(user: current_user, attributes: plant_params)
     session[:selected_plant_id] = @plant.id
-    redirect_to edit_plant_path(@plant), notice: "Anlage wurde angelegt.", status: :see_other
+    redirect_to plants_path, notice: "Anlage wurde angelegt.", status: :see_other
   rescue ActiveRecord::RecordInvalid => error
     @plant = error.record
     prepare_plant_workspace
@@ -45,13 +45,29 @@ class PlantsController < ApplicationController
   def update
     Plant.transaction do
       @plant.lock!
+      raise ActiveRecord::RecordNotFound if @plant.deleted_at?
       @plant.update!(plant_params)
       MasterData::Change.audit!(@plant, user: current_user, plant: @plant)
     end
-    redirect_to edit_plant_path(@plant), notice: "Anlage wurde gespeichert.", status: :see_other
+    redirect_to plants_path, notice: "Anlage wurde gespeichert.", status: :see_other
   rescue ActiveRecord::RecordInvalid
     prepare_plant_workspace
     render :edit, status: :unprocessable_entity, formats: [ :html ]
+  end
+
+  def delete_confirmation
+    @deletion_blocked = Plants::Remove.blocked?(@plant)
+    @deletion_confirmation = Plants::Remove.confirmation_for(plant: @plant, user: current_user)
+  end
+
+  def destroy
+    Plants::Remove.call(plant: @plant, user: current_user, confirmation: params[:confirmation])
+    session.delete(:selected_plant_id) if session[:selected_plant_id] == @plant.id
+    redirect_to plants_path, status: :see_other, notice: "Anlage wurde gelöscht."
+  rescue Plants::Remove::ConfirmationRequired
+    redirect_to delete_confirmation_plant_path(@plant), status: :see_other, alert: "Bitte bestätigen Sie das Löschen erneut."
+  rescue Plants::Remove::NotEmpty
+    redirect_to edit_plant_path(@plant), status: :see_other, alert: "Anlage kann nicht gelöscht werden: Es sind noch Trassen, Kunden, Hausanschlüsse oder Verträge zugeordnet."
   end
 
   private

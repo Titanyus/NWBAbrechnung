@@ -25,7 +25,7 @@ class CustomersController < PlantScopedController
   def create
     @customer = @plant.operator.customers.new(customer_params)
     @membership = @plant.customer_memberships.new(membership_params.merge(customer: @customer))
-    Customer.transaction do
+    Customer.transaction(requires_new: true) do
       @customer.save!
       @membership.save!
       MasterData::Change.audit!(@membership, user: current_user)
@@ -40,7 +40,7 @@ class CustomersController < PlantScopedController
 
   def link
     customer = visible_customers.find(params[:customer_id])
-    customer.with_lock do
+    customer.with_lock(requires_new: true) do
       membership = @plant.customer_memberships.create!(customer: customer)
       MasterData::Change.audit!(membership, user: current_user)
     end
@@ -53,7 +53,7 @@ class CustomersController < PlantScopedController
   end
 
   def update
-    @customer.with_lock do
+    @customer.with_lock(requires_new: true) do
       @can_edit_customer = editable_customer?
       if customer_params.present? && !@can_edit_customer
         head :forbidden

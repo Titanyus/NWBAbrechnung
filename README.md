@@ -222,3 +222,8 @@ Anlagen, Kunden und Hausanschlüsse verwenden getrennte Pflichtfelder für
 Straße/Hausnummer, PLZ und Ort. Die einmalige Migration ersetzt wie beauftragt
 bisherige Demoadressen durch Beispielwerte. Details, Tests und Screenshots:
 [Anlagen-/Trassen-Review](docs/ui-plant-routes/REVIEW.md).
+
+Anlagen können zugeordnete Administratoren über „Anlage löschen“ nach ausdrücklicher
+Bestätigung entfernen, sofern keine Fachdaten zugeordnet sind. Das Audit bleibt
+bei der logischen Löschung erhalten. „Anlage speichern“ führt zur Übersicht zurück.
+[Prüfbericht und Screenshots](docs/ui-plant-removal/REVIEW.md).

@@ -1,5 +1,6 @@
 <% editable = @plant.new_record? || action_name == "edit" || action_name == "update" %>
 <% actions = capture do %><div class="actions">
+<% if @plant.persisted? && current_user.administrator? %><%= link_to "Anlage löschen", delete_confirmation_plant_path(@plant), class: "button button--secondary", data: {turbo_frame: "_top"} %><% end %>
 <%= link_to "Abbrechen", plants_path, class: "button button--secondary", data: {turbo_frame: "_top"} %>
 <% if editable %><%= button_tag "Anlage speichern", type: "submit", form: "plant-form" %>
 <% elsif current_user.administrator? %><%= link_to "Stammdaten bearbeiten", edit_plant_path(@plant), class: "button", data: {turbo_frame: "_top"} %><% end %>

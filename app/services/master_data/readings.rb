@@ -1,7 +1,7 @@
 module MasterData
   class Readings
     def self.record!(meter:, attributes:, user:, supersedes: nil, boundary_event: false)
-      meter.with_lock do
+      meter.with_lock(requires_new: true) do
         if supersedes
           supersedes.lock!
           raise ActiveRecord::RecordNotFound unless supersedes.heat_meter_id == meter.id && supersedes.superseded_at.nil?

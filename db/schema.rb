@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_14_000100) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_14_000200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gist"
   enable_extension "pg_catalog.plpgsql"
@@ -151,6 +151,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_14_000100) do
     t.datetime "updated_at", null: false
     t.string "postal_code", limit: 20, null: false
     t.string "city", limit: 200, null: false
+    t.datetime "deleted_at"
     t.index ["operator_id"], name: "index_plants_on_operator_id"
     t.check_constraint "length(TRIM(BOTH FROM name)) > 0 AND length(TRIM(BOTH FROM street)) > 0", name: "plant_required_fields"
     t.check_constraint "length(TRIM(BOTH FROM street)) >= 1 AND length(TRIM(BOTH FROM street)) <= 500 AND length(TRIM(BOTH FROM postal_code)) >= 1 AND length(TRIM(BOTH FROM postal_code)) <= 20 AND length(TRIM(BOTH FROM city)) >= 1 AND length(TRIM(BOTH FROM city)) <= 200 AND POSITION((chr(10)) IN ((street || postal_code::text) || city::text)) = 0 AND POSITION((chr(13)) IN ((street || postal_code::text) || city::text)) = 0", name: "plants_structured_address"

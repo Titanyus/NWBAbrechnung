@@ -35,6 +35,8 @@ with sync_playwright() as p:
         page.screenshot(path=str(out/f'new-plant-{width}x{height}.png'))
     page.set_viewport_size({'width':1440,'height':900})
     page.get_by_role('button',name='Anlage speichern',exact=True).click()
+    page.locator('#plants-table').wait_for()
+    page.get_by_role('link',name=name+': Bearbeiten',exact=True).click()
     page.get_by_role('link',name='Neue Trasse',exact=True).wait_for()
     plant_url=page.url.removesuffix('/edit')
     expect(page.get_by_label('PLZ',exact=True)).to_have_value('01234')
@@ -62,7 +64,7 @@ with sync_playwright() as p:
     assert page.evaluate('window.__plantForm===document.querySelector("#plant-form")')
     expect(page.get_by_label('Technische Hinweise (optional)',exact=True)).to_have_value('UNSAVED-PLANT-DRAFT')
     page.get_by_role('button',name='Anlage speichern',exact=True).click()
-    page.locator('#plant-form').wait_for()
+    page.locator('#plants-table').wait_for()
     report.append('Route validation/create/edit update only routes/metrics; unsaved plant draft survives')
     # Use real UI forms for customer and house, each reusing the address partial.
     page.goto(plant_url+'/customers/new')

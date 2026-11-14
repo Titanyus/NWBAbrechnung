@@ -1,0 +1,8 @@
+[
+  "Saving a new plant returns to overview",
+  "Saving changes also returns to overview",
+  "Delete opens explicit confirmation; cancel preserves plant",
+  "Confirmed removal returns to overview, excludes plant from header/list and blocks its direct URL",
+  "Occupied plant shows explanation and offers no delete confirmation button",
+  "Four desktop sizes without horizontal overflow; no JavaScript errors"
+]

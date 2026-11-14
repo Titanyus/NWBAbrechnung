@@ -3,7 +3,7 @@ class User < ApplicationRecord
   normalizes :email_address, with: ->(email) { email.strip.downcase }
   has_many :sessions, dependent: :destroy
   has_many :plant_permissions, dependent: :restrict_with_exception
-  has_many :plants, through: :plant_permissions
+  has_many :plants, -> { where(plants: { deleted_at: nil }) }, through: :plant_permissions
   validates :email_address, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 14 }, allow_nil: true
   after_update :revoke_sessions, if: :saved_change_to_password_digest?
